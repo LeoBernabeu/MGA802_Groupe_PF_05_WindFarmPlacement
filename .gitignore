@@ -1,0 +1,8 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# All team members don't use Pycharm / the same IDE. After some research, It seems to me that the simplest is to
+# completely ignore .idea folder which is specific to Pycharm, and not really useful in our situation.
+.idea/
+
