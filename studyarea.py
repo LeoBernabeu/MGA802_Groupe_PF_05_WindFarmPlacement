@@ -1,14 +1,17 @@
 import numpy as np
 import pandas as pd
 from station import Station
+from windhistory import WindHistory
 
 
 class StudyArea:
 
+    stations = []
+    history = None
+
     def __init__(self, longitude_min, longitude_max, latitude_min, latitude_max):
         self.long_min, self.long_max = longitude_min, longitude_max
         self.lat_min, self.lat_max = latitude_min, latitude_max
-        self.stations = []
         self.find_stations()
 
     def find_stations(self):
@@ -21,3 +24,9 @@ class StudyArea:
                                                           "Latitude (Decimal Degrees)", "Elevation (m)"]]
             self.stations.append(Station(station_id, long, lat, elev))
 
+    def init_windhistory(self, period):
+        long_array = np.arange(self.long_min, self.long_max)
+        lat_array = np.arange(self.lat_min, self.lat_max)
+        self.history = WindHistory(long_array, lat_array, period)
+        for station in self.stations:
+            self.history.add_station_data(station)
