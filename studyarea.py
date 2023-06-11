@@ -7,6 +7,7 @@ from windhistory import WindHistory
 class StudyArea:
 
     stations = []
+    windmills = []
     history = None
 
     def __init__(self, longitude_min, longitude_max, latitude_min, latitude_max):
@@ -30,3 +31,6 @@ class StudyArea:
         self.history = WindHistory(long_array, lat_array, period)
         for station in self.stations:
             self.history.add_station_data(station)
+
+    def add_windmill(self, windmill):
+        self.windmills.append(windmill)
