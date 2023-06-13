@@ -16,7 +16,7 @@ class StudyArea:
         self.find_stations()
 
     def find_stations(self):
-        df = pd.read_csv("Station_Inventory_EN.csv", skiprows=3)
+        df = pd.read_csv("../Station_Inventory_EN.csv", skiprows=3)
         long_index = np.array(df.index[df["Longitude (Decimal Degrees)"].between(self.long_min, self.long_max)])
         lat_index = np.array(df.index[df["Latitude (Decimal Degrees)"].between(self.lat_min, self.lat_max)])
         good_index = np.intersect1d(long_index, lat_index)
