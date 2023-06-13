@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 class WindMean:
 
     def __init__(self, long_array, lat_array):
@@ -15,3 +16,7 @@ class WindMean:
         for latitude, longitude, wind_speed in df[["Lonitude", "Latitude", "wind_speed"]]:
             x, y = np.argwhere((xx == round(latitude, ndigits=4)) & (yy == round(latitude, ndigits=4)))[0]
             self.wind_matrix[x][y] = wind_speed
+
+    def interpolation_2D(self):
+        # A compléter
+        return
