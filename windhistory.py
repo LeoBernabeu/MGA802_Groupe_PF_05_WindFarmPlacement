@@ -24,8 +24,8 @@ class WindHistory:
             path = f"data/{station.id}/{year}"
             filename = glob.glob(path + "Daily*.csv")
             df = pd.read_csv(filename)
-            for wind_speed in np.array(df["Spd of Max Gust (km/h)"]):
-                self.windfields[i].add_station_data(x, y, wind_speed)
+            for wind_speed, wind_dir in np.array(df["Spd of Max Gust (km/h)", "Dir of Max Gust (10s deg)"]):
+                self.windfields[i].add_station_data(x, y, wind_speed, wind_dir)
                 i += 1
 
     def wind_mean(self):
