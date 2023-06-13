@@ -12,7 +12,7 @@ class WindHistory:
         self.period = period
         self.grid = np.meshgrid(long_array, lat_array)
         size = np.shape(self.grid)[1:]
-        self.windfields = np.array([WindField(size) for k in range(nb)])
+        self.wind_fields = np.array([WindField(size) for k in range(nb)])
 
     def add_station_data(self, station):
         # On part du principe qu'une vérif antérieur a été faite sur est-ce qu'il y a des mesures du vent
@@ -25,12 +25,12 @@ class WindHistory:
             filename = glob.glob(path + "Daily*.csv")
             df = pd.read_csv(filename)
             for wind_speed, wind_dir in np.array(df["Spd of Max Gust (km/h)", "Dir of Max Gust (10s deg)"]):
-                self.windfields[i].add_station_data(x, y, wind_speed, wind_dir)
+                self.wind_fields[i].add_station_data(x, y, wind_speed, wind_dir)
                 i += 1
 
     def wind_mean(self):
         # En vrai je ne sais pas si on garde en partie l'efficacité de numpy
-        return np.mean(self.windfields)
+        return np.mean(self.wind_fields)
 
     def find_area_of_interest(self):
         # A compléter
