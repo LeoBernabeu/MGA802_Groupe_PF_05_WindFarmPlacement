@@ -1,4 +1,5 @@
 import numpy as np
+import scipy as sp
 import pandas as pd
 
 
@@ -19,4 +20,5 @@ class WindMean:
 
     def interpolation_2D(self):
         # A compléter
+        sp.interpolate.intep
         return

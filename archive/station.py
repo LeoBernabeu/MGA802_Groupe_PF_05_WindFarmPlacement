@@ -11,6 +11,15 @@ class Station:
         self.lat = latitude
         self.elev = elevation
 
+    def contains_wind_hourly(self, year):
+        check_hourly_wind = False
+        for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
+            if "Hourly" in root:
+                for filename in filenames:
+                    if "_W" in filename:
+                        check_hourly_wind = True
+        return check_hourly_wind
+
     def contains_wind_measurements_year(self, year):
         check_wind = False
         for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):

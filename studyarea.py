@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-from station import Station
-from windhistory import WindHistory
+from archive.station import Station
+from archive.windhistory import WindHistory
 
 
 class StudyArea:
@@ -25,7 +25,7 @@ class StudyArea:
                                                           "Latitude (Decimal Degrees)", "Elevation (m)"]]
             self.stations.append(Station(station_id, long, lat, elev))
 
-    def init_windhistory(self, period):
+    def init_wind_history(self, period):
         long_array = np.arange(self.long_min, self.long_max)
         lat_array = np.arange(self.lat_min, self.lat_max)
         self.history = WindHistory(long_array, lat_array, period)
