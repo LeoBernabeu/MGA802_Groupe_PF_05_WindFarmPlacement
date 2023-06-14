@@ -11,6 +11,6 @@ class Topography:
         for x in range(len_x):
             for y in range(len_y):
                 elev = requests.get(f"https://epqs.nationalmap.gov/v1/json?x={lat_array[y]}&y={long_array[y]}"
-                                    f"&units=Meters&wkid=4326&includeDate=False/")
+                                    f"&units=Meters&wkid=4326&includeDate=False/").json()
                 print(long_array[x], lat_array[y], elev)
                 self.elev_matrix[x, y] = elev
