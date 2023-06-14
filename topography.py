@@ -10,7 +10,7 @@ class Topography:
         self.elev_matrix = np.zeros((len_x, len_y))
         for x in range(len_x):
             for y in range(len_y):
-                elev = requests.get(f"http://geogratis.gc.ca/services/elevation/cdem/"
-                                    f"altitude?lat={lat_array[y]}&lon={long_array[y]}").json()['altitude']
+                elev = requests.get(f"https://epqs.nationalmap.gov/v1/json?x={lat_array[y]}&y={long_array[y]}"
+                                    f"&units=Meters&wkid=4326&includeDate=False/")
                 print(long_array[x], lat_array[y], elev)
                 self.elev_matrix[x, y] = elev

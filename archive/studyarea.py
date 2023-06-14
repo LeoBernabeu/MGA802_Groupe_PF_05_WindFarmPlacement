@@ -11,6 +11,9 @@ class StudyArea:
     history = None
 
     def __init__(self, longitude_min, longitude_max, latitude_min, latitude_max):
+        #self.long_array
+        #self.lat_array
+        #self.windstudy
         self.long_min, self.long_max = longitude_min, longitude_max
         self.lat_min, self.lat_max = latitude_min, latitude_max
         self.find_stations()
@@ -34,3 +37,7 @@ class StudyArea:
 
     def add_windmill(self, windmill):
         self.windmills.append(windmill)
+
+    def find_adapted_zone(self):
+        for windmill in self.windmills:
+            power_matrix = windmill.power(self.windstudy.wind_matrix)
