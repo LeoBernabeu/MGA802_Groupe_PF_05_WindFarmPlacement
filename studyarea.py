@@ -1,10 +1,11 @@
 import numpy as np
 import pandas as pd
+from math import ceil
 
 from station import Station
 from windhistory import WindHistory
 
-from Wind.utils import gather
+from Wind.utils import gather, rectangle
 
 
 class StudyArea:
@@ -63,11 +64,14 @@ class StudyArea:
     def add_windmill(self, windmill):
         self.windmills.append(windmill)
 
-    def find_adapted_zone(self, power_goal):
+    def find_adapted_zone(self, power_goal, width=0.1, nb_area=1):
         """Fonction qui recherche les portions de la zone qui permettent d'atteindre l'objectif de puissance produite.
 
         :param power_goal:
         :type power_goal:
+        :param width: Taille des zones. Si max_width = 0.1, alors on cherche un ensemble de coordonnées qui forme un
+        rectangle de longueur 0.1 degré de latitude et de largeur 0.1 degré de longitude.
+        contigues.
         :return:
         :rtype:
         """
@@ -77,12 +81,42 @@ class StudyArea:
         for windmill in self.windmills:
             total_power += windmill.theoretical_power(self.wind_history)
 
-        # On filtre pour garder les coordonnées des puissances qui atteignent l'objectif
+        # On filtre pour garder les coordonnées des puissances qui atteignent l'objectif et on regarde celles contigues
         clusters = gather(total_power > power_goal)
 
-        # On convertit les coordonnées cartésiennes dans les latitudes et longitudes correspondantes
-        for i in range(len(clusters)):
-            cluster = np.array(clusters[i])
-            clusters[i] = (self.lat_array[cluster[:, 0]], self.long_array[cluster[:, 1]])
+        # On calcule le nombre de cases dans un rectangle qui correspond à la taille des zones recherchés.
+        width_lat = abs(self.lat_array[1] - self.lat_array[0])
+        width_long = abs(self.long_array[1] - self.long_array[0])
+        width_x, width_y = ceil(width / width_long), ceil(width / width_lat)
 
-        return total_power, clusters
+        # On cherche tous les rectangles
+        rects = []
+        for i in range(len(clusters)):
+            rects.extend(rectangle(clusters[i], width_x, width_y))
+
+        if len(rects) > nb_area:
+            # On trie les rectangles selon la puissance théorique max et on ne garde que les meilleurs selon nb_area
+            arg_sort = np.zeros(len(rects))
+            for i in range(len(rects)):
+                start, end = rects[i][0], rects[i][1]
+                columns = rects[i][2]
+                sub_power_matrix = total_power[start:end][:, columns]
+                arg_sort[i] = np.max(sub_power_matrix)
+            sort_index = np.argsort(arg_sort)
+            rects = [rects[sort_index[k]] for k in range(nb_area)]
+            print(rects)
+
+        # On a sélectionné les rectangles maintenant, on renvoie à la place des couples couples de longitude et latitude
+        area_of_interest_coordinates = np.zeros((len(rects), 2, 2))
+        columns = np.array([rects[k][2] for k in range(len(rects))])
+        limits = np.array([np.arange(rects[k][0],rects[k][1]) for k in range(len(rects))])
+        print(limits)
+
+        latitudes = np.array(self.lat_array[limits])
+        area_of_interest_coordinates[:, 0] = [np.min(latitudes), np.max(latitudes)]
+        longitudes = np.array(self.long_array[columns])
+        area_of_interest_coordinates[:, 1] = [np.min(longitudes), np.max(longitudes)]
+
+        print(area_of_interest_coordinates)
+
+        return total_power, area_of_interest_coordinates
