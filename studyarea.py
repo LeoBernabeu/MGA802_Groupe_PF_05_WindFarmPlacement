@@ -64,7 +64,7 @@ class StudyArea:
     def add_windmill(self, windmill):
         self.windmills.append(windmill)
 
-    def find_adapted_zone(self, power_goal, width=0.1, nb_area=1):
+    def find_adapted_zone(self, power_goal, width=0.1, nb_area=5):
         """Fonction qui recherche les portions de la zone qui permettent d'atteindre l'objectif de puissance produite.
 
         :param power_goal:
@@ -93,6 +93,7 @@ class StudyArea:
         rects = []
         for i in range(len(clusters)):
             rects.extend(rectangle(clusters[i], width_x, width_y))
+        print(rects)
 
         if len(rects) > nb_area:
             # On trie les rectangles selon la puissance théorique max et on ne garde que les meilleurs selon nb_area
@@ -104,18 +105,17 @@ class StudyArea:
                 arg_sort[i] = np.max(sub_power_matrix)
             sort_index = np.argsort(arg_sort)
             rects = [rects[sort_index[k]] for k in range(nb_area)]
-            print(rects)
 
         # On a sélectionné les rectangles maintenant, on renvoie à la place des couples couples de longitude et latitude
         area_of_interest_coordinates = np.zeros((len(rects), 2, 2))
         columns = np.array([rects[k][2] for k in range(len(rects))])
-        limits = np.array([np.arange(rects[k][0],rects[k][1]) for k in range(len(rects))])
-        print(limits)
+        print(columns)
+        limits = np.array([np.arange(rects[k][0], rects[k][1]) for k in range(len(rects))])
 
         latitudes = np.array(self.lat_array[limits])
-        area_of_interest_coordinates[:, 0] = [np.min(latitudes), np.max(latitudes)]
+        area_of_interest_coordinates[:, 0] = [np.min(latitudes, axis=1), np.max(latitudes, axis=1)]
         longitudes = np.array(self.long_array[columns])
-        area_of_interest_coordinates[:, 1] = [np.min(longitudes), np.max(longitudes)]
+        area_of_interest_coordinates[:, 1] = [np.min(longitudes, axis=1), np.max(longitudes, axis=1)]
 
         print(area_of_interest_coordinates)
 
