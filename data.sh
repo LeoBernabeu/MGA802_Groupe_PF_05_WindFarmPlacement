@@ -18,25 +18,16 @@ do
       do
         if [[ ! (-d data/${data[0]}/${year}) ]]; # Si le dossier de l'année existe déjà c'est qu'on la déjà traité
         then
-          mkdir -p data/${data[0]}/${year}/Daily
           mkdir -p data/${data[0]}/${year}/Hourly
           for month in `seq 1 12`;
           do
-            curl -# --get https://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv \
+            curl --get https://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv \
             -d stationID=${data[0]} \
             -d Year=${year} \
             -d Month=${month} \
             -d timeframe=1 \
             -d submit=Download+Data \
             --output data/${data[0]}/${year}/Hourly/${month}.csv
-
-            curl --get https://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv \
-            -d stationID=${data[0]} \
-            -d Year=${year} \
-            -d Month=${month} \
-            -d timeframe=2 \
-            -d submit=Download+Data \
-            --output data/${data[0]}/${year}/Daily/${month}.csv
           done
         fi
       done
