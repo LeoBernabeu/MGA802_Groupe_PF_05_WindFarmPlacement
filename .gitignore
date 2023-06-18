@@ -8,4 +8,3 @@ __pycache__/
 
 # Ignore dataset present on team local repo. (Too big for a commit prefer zip)
 heavy_data/
-data/
