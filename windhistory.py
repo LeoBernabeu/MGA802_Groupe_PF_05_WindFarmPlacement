@@ -69,7 +69,7 @@ class WindHistory:
 
             # À chaque instant, on récupère toutes les données disponibles auprès des stations
             wind_values = np.array([[wind_value, station.lat, station.long] for station in self.stations
-                                    if (wind_value := station.get_data_timestamp(time))])
+                                    if (wind_value := station.get_wind_data_timestamp(time))])
 
             # On effectue l'interpolation du champ de vent, si on a au moins 2 données (reste faible)
             if len(wind_values) > 2:
