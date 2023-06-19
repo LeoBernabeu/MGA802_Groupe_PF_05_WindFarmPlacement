@@ -6,7 +6,7 @@ from math import pi
 
 class Windmill:
 
-    def __init__(self, height, blade_length, cut_in_speed=0, cut_out_speed=0):
+    def __init__(self, height, blade_length, cut_in_speed=3, cut_out_speed=25):
         self.height = height
         self.blade_length = blade_length
         self.cut_in = cut_in_speed

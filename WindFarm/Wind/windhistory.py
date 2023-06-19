@@ -7,10 +7,10 @@ from WindFarm.Wind.utils import interp_grid, number_days_for_month
 class WindHistory:
     """Historique du vent (année ou mois)"""
 
-    def __init__(self, lat_array, long_array, year=None):
+    def __init__(self, long_array, lat_array, year=None):
         self.lat_array, self.long_array = lat_array, long_array
-        self.grid = np.meshgrid(lat_array, long_array)
-        size_x, size_y = len(lat_array), len(long_array)
+        self.grid = np.meshgrid(long_array, lat_array)
+        size_x, size_y = len(long_array), len(lat_array)
         self.wind_mean = np.zeros((size_x, size_y))
         self.wind_histo = np.zeros((size_x, size_y, 30))
         self.wind_histo = np.zeros((size_x, size_y, 30))
@@ -18,7 +18,7 @@ class WindHistory:
         self.stations = []
 
     def __add__(self, other):
-        new_wind_history = WindHistory(self.lat_array, self.long_array, self.year)
+        new_wind_history = WindHistory(self.long_array, self.lat_array, self.year)
         new_wind_history.wind_mean = self.wind_mean + other.wind_mean
         new_wind_history.wind_histo = self.wind_histo + other.wind_histo
         return new_wind_history
@@ -45,7 +45,7 @@ class WindHistory:
         :rtype :
         """
 
-        size_x, size_y = len(self.lat_array), len(self.long_array)
+        size_x, size_y = len(self.long_array), len(self.lat_array)
         for x in range(size_x):
             self.wind_histo[x, np.arange(size_y), wind_field.astype(int)[x, :]] += 1
 
@@ -74,7 +74,7 @@ class WindHistory:
         for time in range(24*number_days_for_month(month)):  # On multiplie par 24 pour les heures d'une journée
 
             # À chaque instant, on récupère toutes les données disponibles auprès des stations
-            wind_values = np.array([[wind_value, station.lat, station.long] for station in self.stations
+            wind_values = np.array([[wind_value, station.long, station.lat] for station in self.stations
                                     if (wind_value := station.get_wind_data_timestamp(time))])
 
             # Si on dispose d'au moins 4 valeurs de vent on effectue l'interpolation du champ.
@@ -112,7 +112,7 @@ class WindHistory:
         :rtype : numpy.array
         """
 
-        size_x, size_y = len(self.lat_array), len(self.long_array)
+        size_x, size_y = len(self.long_array), len(self.lat_array)
         weibull = np.zeros((size_x, size_y, 2))
         for x in range(size_x):
             for y in range(size_y):

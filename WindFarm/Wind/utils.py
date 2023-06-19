@@ -78,8 +78,8 @@ def rectangle(group, width_x, width_y):
     """Fonction qui renvoie les coordonnées permettant de faire un rectangle"""
 
     array = np.array(group)
-    x = array[:, 0]
-    y = array[:, 1]
+    x = array[:, 1]
+    y = array[:, 0]
 
     lines = []
 

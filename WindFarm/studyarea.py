@@ -10,11 +10,11 @@ from WindFarm.Wind.utils import gather, rectangle
 
 class StudyArea:
 
-    def __init__(self, lat_min, lat_max, long_min, long_max, nb_lat, nb_long):
-        self.lat_array = np.linspace(lat_min, lat_max, nb_lat).round(3)
+    def __init__(self, long_min, long_max, lat_min, lat_max, nb_lat, nb_long):
         self.long_array = np.linspace(long_min, long_max, nb_long).round(3)
+        self.lat_array = np.linspace(lat_min, lat_max, nb_lat).round(3)
         self.near_stations = self.find_near_stations(1)
-        self.wind_history = WindHistory(self.lat_array, self.long_array)
+        self.wind_history = WindHistory(self.long_array, self.lat_array)
         self.windmills = []
 
     def find_near_stations(self, radius, required_stations=100):
@@ -63,7 +63,7 @@ class StudyArea:
         """
 
         # On crée un nouveau WindHistory pour l'année d'étude
-        wind_history = WindHistory(self.lat_array, self.long_array, year)
+        wind_history = WindHistory(self.long_array, self.lat_array, year)
 
         # On ajoute les stations proches de la zone d'étude qui possèdent des données sur cette année.
         for station in self.near_stations:
@@ -86,6 +86,13 @@ class StudyArea:
 
         self.windmills.append(windmill)
 
+    def windfarm_theoric_power(self):
+        # On commence par calculer la puissance théorique pouvant être produite
+        total_power = np.zeros((len(self.long_array), len(self.lat_array)))
+        for windmill in self.windmills:
+            total_power += windmill.theoretical_power(self.wind_history)
+        return total_power
+
     def find_adapted_zone(self, power_goal, width=0.1, nb_area=5):
         """Fonction qui recherche les portions de la zone qui permettent d'atteindre l'objectif de puissance produite.
 
@@ -101,14 +108,13 @@ class StudyArea:
         """
 
         # On commence par calculer la puissance théorique pouvant être produite
-        total_power = np.zeros((len(self.lat_array), len(self.long_array)))
-        for windmill in self.windmills:
-            total_power += windmill.theoretical_power(self.wind_history)
+        total_power = self.windfarm_theoric_power()
 
         # On filtre pour garder les coordonnées des puissances qui atteignent l'objectif et on regarde celles contiguës
         clusters = gather(total_power > power_goal)
 
-        # S('il y a des ensembles de cellules qui respectent l'objectif de puissance
+        area_of_interest_coordinates = None
+        # S'il y a des ensembles de cellules qui respectent l'objectif de puissance
         if clusters:
             # On calcule le nombre de cases dans un rectangle qui correspond à la taille des zones recherchées.
             width_lat = (self.lat_array[1] - self.lat_array[0]).round(3)
@@ -143,4 +149,4 @@ class StudyArea:
             lon_limits = [np.min(longitudes, axis=1), np.max(longitudes, axis=1)]
             area_of_interest_coordinates[:, 1] = np.reshape(lon_limits, (len(rectangular_areas), 2))
 
-        return total_power, area_of_interest_coordinates
+        return area_of_interest_coordinates
