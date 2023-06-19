@@ -1,9 +1,7 @@
 import numpy as np
 import scipy as sp
 
-from Wind.utils import interp_grid
-
-days = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
+from .utils import interp_grid, number_days_for_month
 
 
 class WindHistory:
@@ -14,6 +12,7 @@ class WindHistory:
         self.grid = np.meshgrid(lat_array, long_array)
         size_x, size_y = len(lat_array), len(long_array)
         self.wind_mean = np.zeros((size_x, size_y))
+        self.wind_histo = np.zeros((size_x, size_y, 30))
         self.wind_histo = np.zeros((size_x, size_y, 30))
         self.year = year
         self.stations = []
@@ -28,18 +27,25 @@ class WindHistory:
         return self + other
 
     def add_station(self, station):
+        """Fonction qui ajoute une station à la liste de celles utilisées pour calculer l'historique sur les vents.
+
+        :param station : Une station météorologique.
+        :type station : Station
+        :return:
+        :rtype :
+        """
         self.stations.append(station)
 
     def update_stats(self, wind_field):
-        """Fonction qui met les statistiques sur les classes de vent à partir des données d'un champ de vent.
+        """Fonction qui met à jour les statistiques sur les classes de vent à partir des données d'un champ de vent.
 
-        :param wind_field : Un champ de vent
-        :type wind_field :
+        :param wind_field : Une matrice 2D représentant un champ de vent
+        :type wind_field : numpy.array
         :return:
-        :rtype:
+        :rtype :
         """
 
-        size_x, size_y = np.shape(self.wind_histo)[:-1]
+        size_x, size_y = len(self.lat_array), len(self.long_array)
         for x in range(size_x):
             self.wind_histo[x, np.arange(size_y), wind_field.astype(int)[x, :]] += 1
 
@@ -65,19 +71,26 @@ class WindHistory:
 
         counter_div = 0
         xx, yy = self.grid
-        for time in range(24*days[month]):  # On multiplie par 24 pour les heures d'une journée
+        for time in range(24*number_days_for_month(month)):  # On multiplie par 24 pour les heures d'une journée
 
             # À chaque instant, on récupère toutes les données disponibles auprès des stations
             wind_values = np.array([[wind_value, station.lat, station.long] for station in self.stations
                                     if (wind_value := station.get_wind_data_timestamp(time))])
 
-            # On effectue l'interpolation du champ de vent, si on a au moins 2 données (reste faible)
-            if len(wind_values) > 2:
+            # Si on dispose d'au moins 4 valeurs de vent on effectue l'interpolation du champ.
+            # (Arbitraire et reste très faible)
+            if len(wind_values) > 4:
                 counter_div += 1
+
+                # Interpolation
                 wind_field = interp_grid(xx, yy, wind_values)
+
+                # Mise à jour des statistiques et de la moyenne
                 self.update_stats(wind_field)
                 self.wind_mean += wind_field
+
         if counter_div != 0:
+            # Calcul du champ de vent moyen
             self.wind_mean = self.wind_mean/counter_div
 
     def compute_history_year(self):
@@ -90,24 +103,24 @@ class WindHistory:
 
         for month in range(1, 13):
             self.compute_history_month(month)
-        return
 
     def weibull(self):
         """Fonction qui approxime les facteurs de forme et d'échelle de la distribution de Weibull du vent pour chaque
         coordonnée. Pour cela on utilise la méthode de scipy weibull_min.fit().
 
-        :return:
-        :rtype:
+        :return: Retourne une matrice 2D contenant les facteurs de forme et d'échelle
+        :rtype : numpy.array
         """
 
-        size_x, size_y = np.shape(self.wind_histo)[:-1]
+        size_x, size_y = len(self.lat_array), len(self.long_array)
         weibull = np.zeros((size_x, size_y, 2))
         for x in range(size_x):
             for y in range(size_y):
                 # On récupère les données de l'histogramme pour la cellule étudiée
                 histogram = self.wind_histo[x, y]
 
-                # Problème la méthode fit utilise les "données brutes" et pas un histogramme
+                # La méthode fit utilise des "données brutes" et pas un histogramme. On perd en précision, mais on gagne
+                # en gestion de la mémoire.
                 raw_data = np.array([k for k in range(len(histogram)) for i in range(int(histogram[k]))])
 
                 # On effectue l'approximation des facteurs de forme et d'échelle
