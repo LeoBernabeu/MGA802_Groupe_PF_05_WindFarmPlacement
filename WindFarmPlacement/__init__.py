@@ -1,1 +1,1 @@
-from .studyarea import StudyArea
+from .WindFarmPlacement import StudyArea
