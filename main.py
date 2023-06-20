@@ -1,5 +1,6 @@
 from WindFarm.studyarea import StudyArea
 from WindFarm.Wind.windmill import Windmill
+from flat_zone_finder import FlatZoneFinder
 import matplotlib.pyplot as plt
 
 # Paramètres de test pour la Study Area qui sont pas mal, i.e : début de résultat avec temps de calcul assez court.
@@ -28,3 +29,27 @@ plt.show()
 
 area_of_interest = study_area.find_adapted_zone(2e5, width=0.05)
 print(area_of_interest)
+
+
+# Création de l'objet FlatZoneFinder
+elevation_data = study_area.topography.elevation_data
+flat_zone_finder = FlatZoneFinder(elevation_data)
+
+# Trouver les zones plates
+flat_zone_finder.find_flat_zones(lat_min, lat_max, lon_min, lon_max)
+
+# Vérifier la planéité des zones
+for zone in flat_zone_finder.flat_zones:
+    lat, lon = zone
+    if flat_zone_finder.is_flat_zone(lat, lon):
+        print(f"Zone plate : Latitude = {lat}, Longitude = {lon}")
+
+# Vérifier l'espacement des zones
+turbine_diam = windmill.diameter
+flat_zone_finder.check_spacing(lat_min, lat_max, lon_min, lon_max, num_windmills=5, turbine_diam=turbine_diam)
+for zone in flat_zone_finder.good_zones:
+    lat, lon = zone
+    print(f"Zone suffisamment grande : Latitude = {lat}, Longitude = {lon}")
+
+# Afficher les éoliennes sur le graphique 3D
+flat_zone_finder.plot_windmills_on_3d_map(num_windmills=5)
