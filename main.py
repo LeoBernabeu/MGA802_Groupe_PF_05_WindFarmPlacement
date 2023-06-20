@@ -41,6 +41,8 @@ plt.show()
 # Placer les éoliennes dans la zone d'intérêt
 for i in range(len(area_of_interest)):
     windmill_coordinates = wind_farm.place_windmills(area_of_interest[i])
+    print("Localisation des éoliennes")
+    print(windmill_coordinates)
 
 # # Création de l'objet FlatZoneFinder
 # elevation_data = study_area.topography.elevation_data
