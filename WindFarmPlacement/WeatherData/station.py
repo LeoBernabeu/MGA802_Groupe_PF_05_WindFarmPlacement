@@ -75,7 +75,7 @@ class Station:
         :rtype :
         """
 
-        path = f"heavy_data/{self.id}/{year}"
+        path = f"data/{self.id}/{year}"
 
         # glob : Retourne la liste des fichiers dont le name respecte le schéma passé en paramètre
         filename = glob.glob(path + "/" + f"{month}*.csv")[0]
