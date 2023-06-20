@@ -101,7 +101,6 @@ flatness_score = elevation_data.flatness_score
 
 # Plot elevation data
 elevation_data.plot_3d_surface_map()
-
 # Print results
 print(f"Flatness score = ",flatness_score)
 
