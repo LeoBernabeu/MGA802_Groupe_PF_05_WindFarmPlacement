@@ -11,8 +11,32 @@ class Windmill:
         self.blade_length = blade_length
         self.cut_in = cut_in_speed
         self.cut_out = cut_out_speed
+        self.lat, self.lon = None, None
+        self.work_state = False
 
-    def theoretical_power(self, wind_data):
+    def produced_power(self, wind):
+        # Dans un premier temps on simplifie en considérant les paramètres atmosphériques constants et identiques en
+        # tout point. Des mesures sur ses paramètres permettraient d'améliorer l'estimation.
+        To = 288.15  # Kelvin
+        Po = 101.3e3  # Pascal
+        R = 287  # J/kg.K
+        rho = Po/(R*To)  # kg/m^3
+
+        # Calcul de la surface couvert par l'éolienne
+        surface = pi*self.blade_length**2
+
+        power = (0.5 * rho * surface * wind ** 3)
+
+        # Limite de Bertz sur le rendement éolien. Le vent conserve de l'énergie et n'est pas stoppé par l'éolienne.
+        bertz_coefficient = 16 / 27
+        power *= bertz_coefficient
+
+        # Limite supplémentaire liés rendements des transformations d'énergie
+        power *= 0.7
+
+        return power
+
+    def theoretical_power(self, weibull):
         """Fonction qui calcule la puissance théorique du vent qu'une éolienne doit pouvoir atteindre pour chaque
         coordonnée d'une grille en fonction des mesures du vent passées en paramètre. Les formules, méthodes et
         hypothèses proviennent de la source suivante : https://eolienne.f4jr.org/eolienne_etude_theorique
@@ -24,21 +48,8 @@ class Windmill:
         :rtype : numpy.array
         """
 
-        # Dans un premier temps on simplifie en considérant les paramètres atmosphériques constants et identiques en
-        # tout point. Des mesures sur ses paramètres permettraient d'améliorer l'estimation.
-        To = 288.15  # Kelvin
-        Po = 101.3e3  # Pascal
-        R = 287  # J/kg.K
-        rho = Po/(R*To)  # kg/m^3
-
-        # Calcul de la surface couvert par l'éolienne
-        surface = pi*self.blade_length**2
-
-        # Calcul des facteurs de forme et d'échelle de la distribution de Weibull pour les vitesses du vent.
-        weibull = wind_data.weibull()
         size_x, size_y = np.shape(weibull)[:-1]
         power_matrix = np.zeros((size_x, size_y))
-
         # On crée un échantillonnage à utiliser pour la suite avec la fonction de répartition de Weibull
         winds = np.arange(0, 30.01, 0.01)
 
@@ -56,13 +67,6 @@ class Windmill:
                 proba = np.array([cdf[k]-cdf[k-1] for k in range(len(winds))])
 
                 # Enfin on calcule la puissance maximale pouvant être produite
-                power_matrix[x, y] = np.sum((0.5*rho*surface*winds**3)*proba)
-
-        # Limite de Bertz sur le rendement éolien. Le vent conserve de l'énergie et n'est pas stoppé par l'éolienne.
-        bertz_coefficient = 16 / 27
-        power_matrix *= bertz_coefficient
-
-        # Limite supplémentaire liés rendements des transformations d'énergie
-        power_matrix *= 0.7
+                power_matrix[x, y] = np.sum(self.produced_power(winds)*proba)
 
         return power_matrix

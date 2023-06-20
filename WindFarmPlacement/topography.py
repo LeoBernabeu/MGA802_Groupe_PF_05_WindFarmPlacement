@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+
 class ElevationData:
     def __init__(self, lon_min, lon_max, lat_min, lat_max, num_lon_points, num_lat_points):
         self.lon_min = lon_min
@@ -84,6 +85,7 @@ class ElevationData:
 # num_lon_points = 10
 # num_lat_points = 10
 
+"""
 # Example usage in ocean s=100
 lon_min, lon_max = -127.0, -126.0
 lat_min, lat_max = 47.0, 48.0
@@ -103,6 +105,6 @@ flatness_score = elevation_data.flatness_score
 elevation_data.plot_3d_surface_map()
 # Print results
 print(f"Flatness score = ",flatness_score)
-
+"""
 
 

@@ -2,10 +2,10 @@ import numpy as np
 import pandas as pd
 from math import ceil
 
-from WindFarm.Wind import Station
-from WindFarm.Wind.windhistory import WindHistory
+from WindFarmPlacement.WeatherData import Station
+from WindFarmPlacement.WeatherData import WindHistory
 
-from WindFarm.Wind.utils import gather, rectangle
+from WindFarmPlacement.utils import gather, rectangle
 
 
 class StudyArea:
@@ -15,7 +15,6 @@ class StudyArea:
         self.lat_array = np.linspace(lat_min, lat_max, nb_lat).round(3)
         self.near_stations = self.find_near_stations(1)
         self.wind_history = WindHistory(self.long_array, self.lat_array)
-        self.windmills = []
 
     def find_near_stations(self, radius, required_stations=100):
         """Fonction qui recherche les stations les plus proches de la zone d'étude à partir des données contenues dans
@@ -53,7 +52,7 @@ class StudyArea:
                 stations.append(Station(int(station_id), lat, long, elev))
         return stations
 
-    def get_wind_history_data(self, year):
+    def get_wind_history_data(self, year, altitude):
         """Fonction qui récupère les données historiques de la zone d'étude pour une année donnée.
 
         :param year : L'année à étudier.
@@ -63,37 +62,19 @@ class StudyArea:
         """
 
         # On crée un nouveau WindHistory pour l'année d'étude
-        wind_history = WindHistory(self.long_array, self.lat_array, year)
+        wind_history = WindHistory(self.long_array, self.lat_array, altitude)
 
         # On ajoute les stations proches de la zone d'étude qui possèdent des données sur cette année.
         for station in self.near_stations:
             if station.contains_wind_measurements_year(year):
                 wind_history.add_station(station)
         # On lance le calcul des données historiques.
-        wind_history.compute_history_year()
+        wind_history.compute_history_year(year)
 
         # On ajoute ces données au WindHistory neutre de la zone d'étude.
         self.wind_history += wind_history
 
-    def add_windmill(self, windmill):
-        """Fonction qui ajoute une éolienne à la zone d'étude
-
-        :param windmill : Une éolienne.
-        :type windmill : Windmill
-        :return:
-        :rtype:
-        """
-
-        self.windmills.append(windmill)
-
-    def windfarm_theoric_power(self):
-        # On commence par calculer la puissance théorique pouvant être produite
-        total_power = np.zeros((len(self.long_array), len(self.lat_array)))
-        for windmill in self.windmills:
-            total_power += windmill.theoretical_power(self.wind_history)
-        return total_power
-
-    def find_adapted_zone(self, power_goal, width=0.1, nb_area=5):
+    def find_adapted_zone(self, windfarm, power_goal, width=0.1, nb_area=5):
         """Fonction qui recherche les portions de la zone qui permettent d'atteindre l'objectif de puissance produite.
 
         :param power_goal : Production de puissance visée par le champ éolien
@@ -107,8 +88,11 @@ class StudyArea:
         :rtype :
         """
 
-        # On commence par calculer la puissance théorique pouvant être produite
-        total_power = self.windfarm_theoric_power()
+        # On commence par calculer les facteurs de la distribution de Weibull
+        weibull_factors = self.wind_history.get_fit_weibull_factors()
+
+        # On calcule ensuite la puissance théorique pouvant être produite
+        total_power = windfarm.total_theoretical_produced_power(weibull_factors)
 
         # On filtre pour garder les coordonnées des puissances qui atteignent l'objectif et on regarde celles contiguës
         clusters = gather(total_power > power_goal)
@@ -143,10 +127,10 @@ class StudyArea:
             limits = np.array([np.arange(rectangular_areas[k][0], rectangular_areas[k][1])
                                for k in range(len(rectangular_areas))])
             latitudes = np.array(self.lat_array[limits])
-            lat_limits = [np.min(latitudes, axis=1), np.max(latitudes, axis=1)]
+            lat_limits = [np.min(latitudes, axis=1)-width/2, np.max(latitudes, axis=1)+width/2]
             area_of_interest_coordinates[:, 0] = np.reshape(lat_limits, (len(rectangular_areas), 2))
             longitudes = np.array(self.long_array[columns])
-            lon_limits = [np.min(longitudes, axis=1), np.max(longitudes, axis=1)]
+            lon_limits = [np.min(longitudes, axis=1)-width/2, np.max(longitudes, axis=1)+width/2]
             area_of_interest_coordinates[:, 1] = np.reshape(lon_limits, (len(rectangular_areas), 2))
 
         return area_of_interest_coordinates
