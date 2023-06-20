@@ -1,5 +1,6 @@
 from matplotlib import pyplot as plt
 
+
 class FlatZoneFinder:
     def __init__(self, elevation_data):
         self.elevation_data = elevation_data

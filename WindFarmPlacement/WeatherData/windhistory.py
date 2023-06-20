@@ -7,13 +7,13 @@ from WindFarmPlacement.utils import interp_grid, number_days_for_month
 class WindHistory:
     """Historique du vent (année ou mois)"""
 
-    def __init__(self, long_array, lat_array, altitude=None):
+    def __init__(self, long_array, lat_array, stations=None, altitude=None):
         size_x, size_y = len(long_array), len(lat_array)
         self.grid = np.meshgrid(long_array, lat_array)
         self.wind_mean = np.zeros((size_x, size_y))
         self.wind_histogram = np.zeros((size_x, size_y, 40))
         self.altitude = altitude
-        self.stations = []
+        self.stations = stations
 
     def __add__(self, other):
         xx, yy = self.grid

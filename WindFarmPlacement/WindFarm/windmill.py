@@ -14,6 +14,10 @@ class Windmill:
         self.lat, self.lon = None, None
         self.work_state = False
 
+    def set_coordinates(self, lat, lon):
+        self.lat = lat
+        self.lon = lon
+
     def produced_power(self, wind):
         # Dans un premier temps on simplifie en considérant les paramètres atmosphériques constants et identiques en
         # tout point. Des mesures sur ses paramètres permettraient d'améliorer l'estimation.
