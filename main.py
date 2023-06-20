@@ -1,44 +1,51 @@
-from WindFarm.studyarea import StudyArea
-from WindFarm.Wind.windmill import Windmill
+from WindFarmPlacement.studyarea import StudyArea
+from WindFarmPlacement.WindFarm.windmill import Windmill
 #from flat_zone_finder import FlatZoneFinder
 import numpy as np
 import matplotlib.pyplot as plt
 
 def place_windmills(area_of_interest, num_windmills):
+    rotor_diameter = 50  # Diamètre du rotor d'une éolienne (en mètres)
+    distance = 5 * rotor_diameter  # Distance d'espacement entre les éoliennes
+
     lat_min, lat_max = area_of_interest[0]
     lon_min, lon_max = area_of_interest[1]
 
-    # Calculer le pas en latitude et en longitude pour les sections
-    lat_step = (lat_max - lat_min) / num_windmills
-    lon_step = (lon_max - lon_min) / num_windmills
+    latitudes = []
+    longitudes = []
 
-    # Tableau pour stocker les coordonnées des éoliennes
-    windmill_coordinates = np.zeros((num_windmills, 2))
+    # Calcul du centre de la petite section
+    lat_center = (lat_min + lat_max) / 2
+    lon_center = (lon_min + lon_max) / 2
+
+    # Placer une éolienne au centre de la petite section
+    latitudes.append(lat_center)
+    longitudes.append(lon_center)
+
+    # Espacement des éoliennes autour de l'éolienne centrale
+    angle = 2 * np.pi / num_windmills  # Angle entre chaque éolienne
 
     # Placer les éoliennes dans chaque petite section
-    for i in range(num_windmills):
-        # Coordonnées de l'éolienne au milieu de la section
-        lat_center = lat_min + (i + 0.5) * lat_step
-        lon_center = lon_min + (i + 0.5) * lon_step
-        windmill_coordinates[i] = [lat_center, lon_center]
+    for i in range(1, num_windmills + 1):
+        # Calcul des coordonnées polaires pour chaque éolienne
+        lat_offset = np.sin(i * angle) * (distance / 111000)  # Conversion en latitude (~111000 mètres par degré)
+        lon_offset = np.cos(i * angle) * (distance / (111000 * np.cos(np.radians(lat_center))))  # Conversion en longitude (~111000 mètres par degré, ajusté par la latitude)
 
-        rotor_diameter = 45 # Espacement de 5 fois le diamètre (à définir par l'utilisateur)
+        # Calcul des nouvelles latitudes et longitudes
+        new_latitude = lat_center + lat_offset
+        new_longitude = lon_center + lon_offset
 
-        # Convertir l'espacement en mètres en coordonnées en lat/long
-        distance = 5 * rotor_diameter
-        lat_offset = distance / 111000  # Conversion en latitude (~111000 mètres par degré)
-        lon_offset = distance / (111000 * np.cos(np.radians(lat_center)))  # Conversion en longitude (~111000 mètres par degré, ajusté par la latitude)
+        latitudes.append(new_latitude)
+        longitudes.append(new_longitude)
 
-        # Coordonnées de la prochaine éolienne
-        lat_center += lat_offset
-        lon_center += lon_offset
-        windmill_coordinates[i + 1] = [lat_center, lon_center]
+    # Convertir les listes de latitudes et longitudes en un tableau numpy
+    windmill_coordinates = np.vstack((latitudes, longitudes)).T
 
     # Display windmill locations on a 2D plot
     plt.scatter(windmill_coordinates[:, 1], windmill_coordinates[:, 0], color='red', marker='x')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
-    plt.title('Windmill Locations')
+    plt.title('Localisation de chaque éoliennes dans le parc éolien')
     plt.show()
 
     return windmill_coordinates
@@ -78,7 +85,7 @@ num_windmills = 10  # Nombre d'éoliennes (à définir par l'utilisateur)
 windmill_coordinates = place_windmills(area_of_interest, num_windmills)
 
 # Get the windmill coordinates
-print("Windmill Locations:")
+print("Localisation des éoliennes:")
 print(windmill_coordinates)
 
 # # Création de l'objet FlatZoneFinder
