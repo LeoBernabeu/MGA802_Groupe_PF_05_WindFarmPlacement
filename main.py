@@ -22,21 +22,27 @@ def place_windmills(area_of_interest, num_windmills):
     latitudes.append(lat_center)
     longitudes.append(lon_center)
 
-    # Espacement des éoliennes autour de l'éolienne centrale
-    angle = 2 * np.pi / num_windmills  # Angle entre chaque éolienne
+    # Calculer le nombre de lignes et de colonnes pour le quadrillage
+    num_rows = int(np.sqrt(num_windmills))
+    num_cols = num_windmills // num_rows
 
-    # Placer les éoliennes dans chaque petite section
-    for i in range(1, num_windmills + 1):
-        # Calcul des coordonnées polaires pour chaque éolienne
-        lat_offset = np.sin(i * angle) * (distance / 111000)  # Conversion en latitude (~111000 mètres par degré)
-        lon_offset = np.cos(i * angle) * (distance / (111000 * np.cos(np.radians(lat_center))))  # Conversion en longitude (~111000 mètres par degré, ajusté par la latitude)
+    # Espacement des éoliennes autour de l'éolienne centrale sous forme de quadrillage
+    row_spacing = distance / 111000  # Conversion en latitude (~111000 mètres par degré)
+    col_spacing = distance / (111000 * np.cos(np.radians(lat_center)))  # Conversion en longitude (~111000 mètres par degré, ajusté par la latitude)
 
-        # Calcul des nouvelles latitudes et longitudes
-        new_latitude = lat_center + lat_offset
-        new_longitude = lon_center + lon_offset
+    # Calculer les nouvelles latitudes et longitudes pour chaque éolienne du parc
+    for row in range(num_rows):
+        for col in range(num_cols):
+            # Calcul des coordonnées pour chaque éolienne
+            lat_offset = (row - (num_rows - 1) / 2) * row_spacing
+            lon_offset = (col - (num_cols - 1) / 2) * col_spacing
 
-        latitudes.append(new_latitude)
-        longitudes.append(new_longitude)
+            # Calcul des nouvelles latitudes et longitudes
+            new_latitude = lat_center + lat_offset
+            new_longitude = lon_center + lon_offset
+
+            latitudes.append(new_latitude)
+            longitudes.append(new_longitude)
 
     # Convertir les listes de latitudes et longitudes en un tableau numpy
     windmill_coordinates = np.vstack((latitudes, longitudes)).T
