@@ -1,6 +1,7 @@
 from WindFarmPlacement.WindFarmPlacement import StudyArea
 from WindFarmPlacement.WindFarm.windmill import Windmill
 from WindFarmPlacement.WindFarm.windfarm import WindFarm
+from WindFarmPlacement.topography import ElevationData
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +11,7 @@ import matplotlib.pyplot as plt
 lon_min, lon_max = -123.5, -122.5
 lat_min, lat_max = 48, 49
 
-study_area = StudyArea(lon_min, lon_max, lat_min, lat_max, 50, 50)
+study_area = StudyArea(lon_min, lon_max, lat_min, lat_max, 20, 20)
 study_area.get_wind_history_data([2018], 30)
 
 # Affichage des vitesses moyennes du vent
@@ -22,8 +23,8 @@ plt.ylabel("Latitude (°)")
 plt.show()
 
 wind_farm = WindFarm(10*2e5)
-num_windmills = 10  # Nombre d'éoliennes (à définir par l'utilisateur)
-for i in range(10):
+num_windmills = 9  # Nombre d'éoliennes (à définir par l'utilisateur)
+for i in range(9):
     wind_farm.add_windmill(Windmill(50, 45))
 
 area_of_interest, power_matrix = study_area.find_adapted_zone(wind_farm, width=0.02)
@@ -36,13 +37,27 @@ plt.xlabel("Longitude (°)")
 plt.ylabel("Latitude (°)")
 plt.show()
 
+# Retreive elevation data and calculate score
+elevation_data = ElevationData(area_of_interest[0][1][0], area_of_interest[0][1][1], area_of_interest[0][0][0], area_of_interest[0][0][1], 10, 10)
+elevation_data.retrieve_elevation_data()
+elevation_data.calculate_flatness_score()
+
+# Store elevation data and score
+elevation_array = elevation_data.get_elevation_array()
+flatness_score = elevation_data.flatness_score
+
+# Plot elevation data
+elevation_data.plot_3d_surface_map()
+# Print results
+print(f"Flatness score = ",flatness_score)
+
+
 # Define the area of interest as a 2D numpy array
 
 # Placer les éoliennes dans la zone d'intérêt
-for i in range(len(area_of_interest)):
-    windmill_coordinates = wind_farm.place_windmills(area_of_interest[i])
-    print("Localisation des éoliennes")
-    print(windmill_coordinates)
+windmill_coordinates = wind_farm.place_windmills(area_of_interest[0])
+print("Localisation des éoliennes")
+print(windmill_coordinates)
 
 # # Création de l'objet FlatZoneFinder
 # elevation_data = study_area.topography.elevation_data
