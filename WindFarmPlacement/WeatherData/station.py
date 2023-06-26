@@ -11,7 +11,7 @@ class Station:
         self.lat = latitude
         self.long = longitude
         self.elev = elevation
-        self.df_wind_data = None
+        self.df_wind_data = {}  # Un dico, on associe à la df
 
     def contains_wind_measurements_year(self, year):
         """Fonction qui vérifie si la station dispose de mesure sur le vent pour une année donnée.
@@ -88,17 +88,34 @@ class Station:
         df_data = df["Wind Spd (m/s)"].loc[df_null]
 
         # Sauvegarde sous la forme d'un dictionnaire.
-        self.df_wind_data = df_data
+        self.df_wind_data[month] = df_data
 
-    def reset_data(self):
+    def load_all_year_data(self, year):
+
+        path = f"data/{self.id}/{year}"
+
+        # glob : Retourne la liste des fichiers dont le name respecte le schéma passé en paramètre
+        all_files = glob.glob(os.path.join(path, "*.csv"))
+        # On doit trier les noms de fichier car l'ordre lexicographique utilisé par os place les chiffres avant les
+        # autres caractères donc 10_ avant 1_ (dépend de l'OS de la machine, mais ça doit être la même sur Linux).
+        sorted_all_files = sorted(all_files, key=lambda x: int(x.split('_')[0].split('\\')[-1]))
+        df = pd.concat((pd.read_csv(f, usecols=[19]) for f in all_files), ignore_index=False)
+        # Conversion en m/s des vitesses
+        df["Wind Spd (m/s)"] = df["Wind Spd (km/h)"] * 1000 / 3600
+        # Je garde même les valeurs qui sont nan, car sinon je pourrai pas m'y retrouver dans les mois.
+
+        # Sauvegarde sous la forme d'un dictionnaire.
+        self.df_wind_data = df["Wind Spd (m/s)"]
+
+    def reset_data(self, month):
         """Fonction qui réinitialise l'attribut wind_data de la station pour oublier les données chargées précédemment.
 
         :return:
         :rtype :
         """
-        self.df_wind_data = None
+        self.df_wind_data[month] = {}
 
-    def get_wind_data_timestamp(self, time_index):
+    def get_wind_data_timestamp(self, month, time_index):
         """Fonction qui renvoie la valeur de vitesse du vent à un instant précis (Heure : Jour) indiqué par son indice.
         L'indice correspond à la ligne correspondante du fichier csv. Lorsque pl
 
@@ -109,8 +126,8 @@ class Station:
         """
 
         try:
-            wind_speed = self.df_wind_data.iloc[time_index]
-        except (AttributeError, IndexError):
+            wind_speed = self.df_wind_data[month].loc[time_index]
+        except (AttributeError, KeyError):
             # AttributeError s'il n'y a pas de données sur le mois ; IndexError s'il n'y a pas de données à time_index
             wind_speed = None
         return wind_speed
