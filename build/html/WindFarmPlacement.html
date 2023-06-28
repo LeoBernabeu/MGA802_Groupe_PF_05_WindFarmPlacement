@@ -104,6 +104,19 @@
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.WindFarmPlacement">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WindFarmPlacement.</span></span><span class="sig-name descname"><span class="pre">WindFarmPlacement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">long_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_long</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.WindFarmPlacement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialise une instance de la classe WindFarmPlacement avec les paramètres spécifiés.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>long_min</strong> (<em>float</em>) – La longitude minimale de la zone d’étude.</p></li>
+<li><p><strong>long_max</strong> (<em>float</em>) – La longitude maximale de la zone d’étude.</p></li>
+<li><p><strong>lat_min</strong> (<em>float</em>) – La latitude minimale de la zone d’étude.</p></li>
+<li><p><strong>lat_max</strong> (<em>float</em>) – La latitude maximale de la zone d’étude.</p></li>
+<li><p><strong>nb_lat</strong> (<em>int</em>) – Le nombre de points de latitude pour l’échantillonnage de la zone.</p></li>
+<li><p><strong>nb_long</strong> (<em>int</em>) – Le nombre de points de longitude pour l’échantillonnage de la zone.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.find_adapted_zone">
 <span class="sig-name descname"><span class="pre">find_adapted_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">windfarm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.find_adapted_zone" title="Permalink to this definition">¶</a></dt>
@@ -112,16 +125,17 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>power_goal</strong> (<em>float</em>) – Production de puissance visée par le champ éolien</p></li>
-<li><p><strong>width</strong> – Taille des zones. Si max_width = 0.1, alors on cherche un ensemble de coordonnées contiguës qui</p></li>
+<li><p><strong>width</strong> (<em>float</em>) – Taille des zones. Si max_width = 0.1, alors on cherche un ensemble de coordonnées contiguës qui forme un rectangle de longueur 0.1 degré de latitude et de largeur 0.1 degré de longitude.</p></li>
+<li><p><strong>nb_area</strong> (<em>int</em>) – Nombre de zones maximum à renvoyer.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Les coordonnées des zones intéressantes et la puissance totale produite.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[np.ndarray, np.ndarray]</p>
+</dd>
 </dl>
-<p>forme un rectangle de longueur 0.1 degré de latitude et de largeur 0.1 degré de longitude.
-:type width: float
-:param nb_area: Nombre de zones maximum à renvoyer.
-:type nb_area: int
-:return: Les coordonnées des zones intéressantes et la puissance totale produite.
-:rtype: tuple[np.ndarray, np.ndarray]</p>
 </dd></dl>
 
 <dl class="py method">
@@ -167,10 +181,15 @@ incrémenté jusqu’à trouver un minimum de 100 stations par défaut.</p>
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.get_wind_history_data_full_threaded">
 <span class="sig-name descname"><span class="pre">get_wind_history_data_full_threaded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altitude</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.get_wind_history_data_full_threaded" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui récupère les données historiques de la zone d’étude pour une année et une altitude données.
-en utilisant des thread
-:param year: L’année à étudier.
-:type year: int
-:return: None</p>
+en utilisant des thread</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>year</strong> (<em>int</em>) – L’année à étudier.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -182,6 +201,19 @@ en utilisant des thread
 <dt class="sig sig-object py" id="WindFarmPlacement.topography.ElevationData">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.topography.</span></span><span class="sig-name descname"><span class="pre">ElevationData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lon_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_lon_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_lat_points</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.topography.ElevationData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialise une instance de la classe ElevationData avec les paramètres spécifiés.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lon_min</strong> (<em>float</em>) – La longitude minimale de la zone d’intérêt.</p></li>
+<li><p><strong>lon_max</strong> (<em>float</em>) – La longitude maximale de la zone d’intérêt.</p></li>
+<li><p><strong>lat_min</strong> (<em>float</em>) – La latitude minimale de la zone d’intérêt.</p></li>
+<li><p><strong>lat_max</strong> (<em>float</em>) – La latitude maximale de la zone d’intérêt.</p></li>
+<li><p><strong>num_lon_points</strong> (<em>int</em>) – Le nombre de points de longitude pour l’échantillonnage de la zone.</p></li>
+<li><p><strong>num_lat_points</strong> (<em>int</em>) – Le nombre de points de latitude pour l’échantillonnage de la zone.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.topography.ElevationData.calculate_flatness_score">
 <span class="sig-name descname"><span class="pre">calculate_flatness_score</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.topography.ElevationData.calculate_flatness_score" title="Permalink to this definition">¶</a></dt>

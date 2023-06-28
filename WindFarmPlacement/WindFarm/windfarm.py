@@ -3,18 +3,17 @@ import numpy as np
 
 
 class WindFarm:
+    """Initialise un parc éolien avec la puissance cible spécifiée.
+
+    :param target_power: Puissance cible du parc éolien.
+    :type target_power: float
+    :param windmills: Liste des éoliennes du parc éolien (facultatif).
+    :type windmills: list, optional
+    :param topography: Topographie de la zone d'implantation du parc éolien (facultatif).
+    :type topography: np.ndarray, optional
+    """
 
     def __init__(self, target_power, windmills=None, topography=None):
-        """Initialise un parc éolien avec la puissance cible spécifiée.
-
-        :param target_power: Puissance cible du parc éolien.
-        :type target_power: float
-        :param windmills: Liste des éoliennes du parc éolien (facultatif).
-        :type windmills: list, optional
-        :param topography: Topographie de la zone d'implantation du parc éolien (facultatif).
-        :type topography: np.ndarray, optional
-        """
-
         self.target_power = target_power
         if windmills is None:
             # Apparemment Pycharm dit que c'est mieux d'écrire comme ça
@@ -36,6 +35,7 @@ class WindFarm:
         :param topography: Topographie de la zone d'implantation.
         :type topography: np.ndarray
         """
+
         self.topography = topography
 
     def total_produced_power(self, wind_field):
@@ -46,6 +46,7 @@ class WindFarm:
         :return: Puissance totale produite par le parc éolien.
         :rtype: float
         """
+
         total_power = 0
         for windmill in self.windmills:
             total_power += windmill.produced_power(wind_field[windmill.lat, windmill.lon])
@@ -59,6 +60,7 @@ class WindFarm:
         :return: Puissance théorique totale pouvant être produite par le parc éolien.
         :rtype: float
         """
+
         total_theoric_power = 0
         for windmill in self.windmills:
             total_theoric_power += windmill.theoretical_power(weibull_factors)
@@ -72,6 +74,7 @@ class WindFarm:
         :return: Coordonnées des éoliennes du parc éolien.
         :rtype: np.ndarray
         """
+
         windmill = self.windmills[0]
         rotor_diameter = windmill.blade_length  # Espacement de 5 fois le diamètre (à définir par l'utilisateur)
         distance = 5 * rotor_diameter

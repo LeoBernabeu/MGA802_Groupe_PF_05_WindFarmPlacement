@@ -42,6 +42,17 @@
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WeatherData.station.</span></span><span class="sig-name descname"><span class="pre">Station</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialise un objet Station avec les attributs spécifiés.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>station_id</strong> (<em>str</em>) – L’ID de la station météorologique.</p></li>
+<li><p><strong>latitude</strong> (<em>float</em>) – La latitude de la station météorologique.</p></li>
+<li><p><strong>longitude</strong> (<em>float</em>) – La longitude de la station météorologique.</p></li>
+<li><p><strong>elevation</strong> (<em>float</em>) – L’altitude de la station météorologique.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.contains_temperature_measurements_period">
 <span class="sig-name descname"><span class="pre">contains_temperature_measurements_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.contains_temperature_measurements_period" title="Permalink to this definition">¶</a></dt>
@@ -175,7 +186,17 @@ Les données sont accessibles via l’attribut wind_data de la station.</p>
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WeatherData.windhistory.</span></span><span class="sig-name descname"><span class="pre">WindHistory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">long_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Historique du vent (année ou mois)</p>
+<p>Initialise un objet WindHistory pour l’historique du vent (année ou mois).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>long_array</strong> (<em>numpy.array</em>) – Un tableau de longitudes.</p></li>
+<li><p><strong>lat_array</strong> (<em>numpy.array</em>) – Un tableau de latitudes.</p></li>
+<li><p><strong>stations</strong> (<em>list</em><em>, </em><em>optional</em>) – Une liste des stations météorologiques, par défaut None.</p></li>
+<li><p><strong>altitude</strong> (<em>float</em><em>, </em><em>optional</em>) – L’altitude, par défaut None.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.add_station">
 <span class="sig-name descname"><span class="pre">add_station</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.add_station" title="Permalink to this definition">¶</a></dt>

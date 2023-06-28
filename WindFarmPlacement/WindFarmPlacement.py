@@ -10,23 +10,23 @@ from WindFarmPlacement.utils import gather, rectangle
 
 
 class WindFarmPlacement:
+    """Initialise une instance de la classe WindFarmPlacement avec les paramètres spécifiés.
+
+    :param long_min: La longitude minimale de la zone d'étude.
+    :type long_min: float
+    :param long_max: La longitude maximale de la zone d'étude.
+    :type long_max: float
+    :param lat_min: La latitude minimale de la zone d'étude.
+    :type lat_min: float
+    :param lat_max: La latitude maximale de la zone d'étude.
+    :type lat_max: float
+    :param nb_lat: Le nombre de points de latitude pour l'échantillonnage de la zone.
+    :type nb_lat: int
+    :param nb_long: Le nombre de points de longitude pour l'échantillonnage de la zone.
+    :type nb_long: int
+    """
 
     def __init__(self, long_min, long_max, lat_min, lat_max, nb_lat, nb_long):
-        """Initialise une instance de la classe WindFarmPlacement avec les paramètres spécifiés.
-
-        :param long_min: La longitude minimale de la zone d'étude.
-        :type long_min: float
-        :param long_max: La longitude maximale de la zone d'étude.
-        :type long_max: float
-        :param lat_min: La latitude minimale de la zone d'étude.
-        :type lat_min: float
-        :param lat_max: La latitude maximale de la zone d'étude.
-        :type lat_max: float
-        :param nb_lat: Le nombre de points de latitude pour l'échantillonnage de la zone.
-        :type nb_lat: int
-        :param nb_long: Le nombre de points de longitude pour l'échantillonnage de la zone.
-        :type nb_long: int
-        """
         self.long_array = np.linspace(long_min, long_max, nb_long).round(3)
         self.lat_array = np.linspace(lat_min, lat_max, nb_lat).round(3)
         self.wind_history = WindHistory(self.long_array, self.lat_array)
@@ -95,6 +95,7 @@ class WindFarmPlacement:
     def get_wind_history_data_full_threaded(self, period, altitude):
         """Fonction qui récupère les données historiques de la zone d'étude pour une année et une altitude données.
         en utilisant des thread
+
         :param year: L'année à étudier.
         :type year: int
         :return: None
@@ -117,8 +118,7 @@ class WindFarmPlacement:
 
         :param power_goal: Production de puissance visée par le champ éolien
         :type power_goal: float
-        :param width: Taille des zones. Si max_width = 0.1, alors on cherche un ensemble de coordonnées contiguës qui
-        forme un rectangle de longueur 0.1 degré de latitude et de largeur 0.1 degré de longitude.
+        :param width: Taille des zones. Si max_width = 0.1, alors on cherche un ensemble de coordonnées contiguës qui forme un rectangle de longueur 0.1 degré de latitude et de largeur 0.1 degré de longitude.
         :type width: float
         :param nb_area: Nombre de zones maximum à renvoyer.
         :type nb_area: int

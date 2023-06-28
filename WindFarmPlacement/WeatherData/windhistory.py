@@ -9,20 +9,19 @@ from WindFarmPlacement.WeatherData.fasthistorymonthprocess import FastHistoryMon
 
 
 class WindHistory:
-    """Historique du vent (année ou mois)"""
+    """Initialise un objet WindHistory pour l'historique du vent (année ou mois).
+
+    :param long_array: Un tableau de longitudes.
+    :type long_array: numpy.array
+    :param lat_array: Un tableau de latitudes.
+    :type lat_array: numpy.array
+    :param stations: Une liste des stations météorologiques, par défaut None.
+    :type stations: list, optional
+    :param altitude: L'altitude, par défaut None.
+    :type altitude: float, optional
+    """
 
     def __init__(self, long_array, lat_array, stations=None, altitude=None):
-        """Initialise un objet WindHistory.
-
-        :param long_array: Un tableau de longitudes.
-        :type long_array: numpy.array
-        :param lat_array: Un tableau de latitudes.
-        :type lat_array: numpy.array
-        :param stations: Une liste des stations météorologiques, par défaut None.
-        :type stations: list, optional
-        :param altitude: L'altitude, par défaut None.
-        :type altitude: float, optional
-        """
         size_x, size_y = len(long_array), len(lat_array)
         self.grid = np.meshgrid(long_array, lat_array)
         self.wind_mean = np.zeros((size_x, size_y))
@@ -38,6 +37,7 @@ class WindHistory:
         :return: Un nouvel objet WindHistory résultant de l'addition.
         :rtype: WindHistory
         """
+
         xx, yy = self.grid
         new_wind_history = WindHistory(xx[0], yy[:, 0])
         if np.all(self.wind_mean == np.zeros_like(self.wind_mean)):
@@ -55,6 +55,7 @@ class WindHistory:
         :return: L'objet WindHistory actuel après l'addition.
         :rtype: WindHistory
         """
+
         return self + other
 
     def add_station(self, station):
@@ -63,6 +64,7 @@ class WindHistory:
         :param station: Une station météorologique.
         :type station: Station
         """
+
         self.stations.append(station)
 
     def compute_history_year(self, year):
@@ -114,6 +116,7 @@ class WindHistory:
         :param period: Période.
         :type period: list
         """
+
         follow_threads = []
         for year in period:
             threaded_q = multiprocessing.Queue()

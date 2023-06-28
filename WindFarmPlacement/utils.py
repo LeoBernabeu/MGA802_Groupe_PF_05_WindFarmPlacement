@@ -75,6 +75,7 @@ def interpolation(xx, yy, data):
     :return: La matrice interpolée des points d'intérêt.
     :rtype: np.ndarray
     """
+
     vfunc = np.vectorize(interp_point, excluded=['data'])
     interp_matrix = vfunc(xx, yy, data=data)
     return interp_matrix

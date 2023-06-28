@@ -42,6 +42,16 @@
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WindFarm.windfarm.</span></span><span class="sig-name descname"><span class="pre">WindFarm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_power</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windmills</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topography</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialise un parc éolien avec la puissance cible spécifiée.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_power</strong> (<em>float</em>) – Puissance cible du parc éolien.</p></li>
+<li><p><strong>windmills</strong> (<em>list</em><em>, </em><em>optional</em>) – Liste des éoliennes du parc éolien (facultatif).</p></li>
+<li><p><strong>topography</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Topographie de la zone d’implantation du parc éolien (facultatif).</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm.add_windmill">
 <span class="sig-name descname"><span class="pre">add_windmill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">windmill</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.add_windmill" title="Permalink to this definition">¶</a></dt>
@@ -124,6 +134,17 @@
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windmill.Windmill">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WindFarm.windmill.</span></span><span class="sig-name descname"><span class="pre">Windmill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blade_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cut_in_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cut_out_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windmill.Windmill" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialise une éolienne avec les paramètres spécifiés.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>height</strong> (<em>float</em>) – Hauteur de l’éolienne.</p></li>
+<li><p><strong>blade_length</strong> (<em>float</em>) – Longueur des pales de l’éolienne.</p></li>
+<li><p><strong>cut_in_speed</strong> (<em>float</em>) – Vitesse de démarrage de l’éolienne (vitesse minimale pour laquelle elle produit de l’énergie).</p></li>
+<li><p><strong>cut_out_speed</strong> (<em>float</em>) – Vitesse de coupure de l’éolienne (vitesse maximale à laquelle elle cesse de produire de l’énergie).</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windmill.Windmill.produced_power">
 <span class="sig-name descname"><span class="pre">produced_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wind</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windmill.Windmill.produced_power" title="Permalink to this definition">¶</a></dt>
@@ -163,13 +184,15 @@ coordonnée d’une grille en fonction des mesures du vent passées en paramètr
 hypothèses proviennent de la source suivante : <a class="reference external" href="https://eolienne.f4jr.org/eolienne_etude_theorique">https://eolienne.f4jr.org/eolienne_etude_theorique</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>wind_data</strong> – Objet WindHistory qui contient les données sur les mesures historiques du vent de la zone</p>
+<dd class="field-odd"><p><strong>wind_data</strong> (<a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory" title="WindFarmPlacement.WeatherData.windhistory.WindHistory"><em>WindHistory</em></a>) – Objet WindHistory qui contient les données sur les mesures historiques du vent de la zone d’étude. Contient, la valeur moyenne du vent et la distribution des classes de vent (histogramme).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Retourne une matrice contenant la puissance théorique pouvant être produite</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
 </dd>
 </dl>
-<p>d’étude. Contient, la valeur moyenne du vent et la distribution des classes de vent (histogramme).
-:type wind_data: WindHistory
-:return: Retourne une matrice contenant la puissance théorique pouvant être produite
-:rtype: numpy.array</p>
 </dd></dl>
 
 </dd></dl>

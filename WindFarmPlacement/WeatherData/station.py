@@ -5,19 +5,19 @@ import re
 
 
 class Station:
+    """Initialise un objet Station avec les attributs spécifiés.
+
+    :param station_id: L'ID de la station météorologique.
+    :type station_id: str
+    :param latitude: La latitude de la station météorologique.
+    :type latitude: float
+    :param longitude: La longitude de la station météorologique.
+    :type longitude: float
+    :param elevation: L'altitude de la station météorologique.
+    :type elevation: float
+    """
 
     def __init__(self, station_id, latitude, longitude, elevation):
-        """Initialise un objet Station avec les attributs spécifiés.
-
-        :param station_id: L'ID de la station météorologique.
-        :type station_id: str
-        :param latitude: La latitude de la station météorologique.
-        :type latitude: float
-        :param longitude: La longitude de la station météorologique.
-        :type longitude: float
-        :param elevation: L'altitude de la station météorologique.
-        :type elevation: float
-        """
         self.id = station_id
         self.lat = latitude
         self.long = longitude

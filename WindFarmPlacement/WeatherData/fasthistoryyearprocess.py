@@ -6,21 +6,21 @@ from WindFarmPlacement.WeatherData.fasthistorymonthprocess import FastHistoryMon
 
 
 class FastHistoryYearProcess(multiprocessing.Process):
+    """Initialise un processus de calcul rapide de l'historique sur une année spécifique.
+
+    :param grid: La grille du parc éolien.
+    :type grid: tuple[np.ndarray, np.ndarray]
+    :param stations: La liste des stations météorologiques.
+    :type stations: list[Station]
+    :param year: L'année à traiter.
+    :type year: int
+    :param altitude: L'altitude de référence pour l'interpolation des données.
+    :type altitude: float
+    :param queue: La file d'attente pour le résultat du processus.
+    :type queue: multiprocessing.Queue
+    """
 
     def __init__(self, grid, stations, year, altitude, queue):
-        """Initialise un processus de calcul rapide de l'historique sur une année spécifique.
-
-        :param grid: La grille du parc éolien.
-        :type grid: tuple[np.ndarray, np.ndarray]
-        :param stations: La liste des stations météorologiques.
-        :type stations: list[Station]
-        :param year: L'année à traiter.
-        :type year: int
-        :param altitude: L'altitude de référence pour l'interpolation des données.
-        :type altitude: float
-        :param queue: La file d'attente pour le résultat du processus.
-        :type queue: multiprocessing.Queue
-        """
         super().__init__()
         self.grid = grid
         self.stations = stations
