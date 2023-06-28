@@ -5,6 +5,22 @@ import multiprocessing
 
 
 class FastHistoryMonthProcess(multiprocessing.Process):
+    """Initialise un processus de calcul rapide de l'historique pour un mois spécifique.
+
+    :param grid: La grille du parc éolien.
+    :type grid: tuple[np.ndarray, np.ndarray]
+    :param stations: La liste des stations météorologiques.
+    :type stations: list[Station]
+    :param year: L'année correspondante au mois à traiter.
+    :type year: int
+    :param month: Le mois à traiter.
+    :type month: int
+    :param altitude: L'altitude de référence pour l'interpolation des données.
+    :type altitude: float
+    :param queue: La file d'attente pour le résultat du processus.
+    :type queue: multiprocessing.Queue
+    """
+
     """En vrai avec multiprocessing, utiliser correctement il y a un résultat intéressant.
     Pour du 20x20, on divise par un peu plus que 2 le temps d'exécution.
     Test sur 50x50 : Méthode classique -> 380-420 sec
@@ -25,6 +41,9 @@ class FastHistoryMonthProcess(multiprocessing.Process):
         logging.debug(f'FastHistoryMonth - Threaded class {month} created')
 
     def run(self) -> None:
+        """
+        Exécute le processus de calcul rapide de l'historique pour un mois spécifique.
+        """
 
         logging.debug(f'FastHistoryMonth - Threaded class {self.month} just started')
 
@@ -66,6 +85,11 @@ class FastHistoryMonthProcess(multiprocessing.Process):
     def estimate_wind_speed_for_altitude(self, wind):
         """Fonction qui estime la vitesse du vent à une altitude donnée en utilisant le profil vertical de la vitesse
         du vent
+
+        :param wind: Le champ de vent initial.
+        :type wind: np.ndarray
+        :return: Le champ de vent estimé à l'altitude spécifiée.
+        :rtype: np.ndarray
         """
 
         altitude_measures = 10  # Les capteurs des stations sont à 10 m du sol

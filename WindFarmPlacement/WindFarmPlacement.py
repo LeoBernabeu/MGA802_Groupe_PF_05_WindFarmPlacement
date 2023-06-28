@@ -12,6 +12,21 @@ from WindFarmPlacement.utils import gather, rectangle
 class WindFarmPlacement:
 
     def __init__(self, long_min, long_max, lat_min, lat_max, nb_lat, nb_long):
+        """Initialise une instance de la classe WindFarmPlacement avec les paramètres spécifiés.
+
+        :param long_min: La longitude minimale de la zone d'étude.
+        :type long_min: float
+        :param long_max: La longitude maximale de la zone d'étude.
+        :type long_max: float
+        :param lat_min: La latitude minimale de la zone d'étude.
+        :type lat_min: float
+        :param lat_max: La latitude maximale de la zone d'étude.
+        :type lat_max: float
+        :param nb_lat: Le nombre de points de latitude pour l'échantillonnage de la zone.
+        :type nb_lat: int
+        :param nb_long: Le nombre de points de longitude pour l'échantillonnage de la zone.
+        :type nb_long: int
+        """
         self.long_array = np.linspace(long_min, long_max, nb_long).round(3)
         self.lat_array = np.linspace(lat_min, lat_max, nb_lat).round(3)
         self.wind_history = WindHistory(self.long_array, self.lat_array)
@@ -21,12 +36,12 @@ class WindFarmPlacement:
         le fichier d'inventaire de https://climate.weather.gc.ca. Le rayon de recherche autour de la zone d'étude est
         incrémenté jusqu'à trouver un minimum de 100 stations par défaut.
 
-        :param radius : Rayon de recherche des stations autour de la zone d'étude.
-        :type radius : int
-        :param required_stations : Nombre minimum de stations à récupérer.
-        :type required_stations : int
+        :param radius: Rayon de recherche des stations autour de la zone d'étude.
+        :type radius: int
+        :param required_stations: Nombre minimum de stations à récupérer.
+        :type required_stations: int
         :return: Retourne une liste des stations trouvées dans le rayon de recherche.
-        :rtype : list[Station]
+        :rtype: list[Station]
         """
 
         # Calcul des bornes de recherche sur la latitude et la longitude.
@@ -53,14 +68,13 @@ class WindFarmPlacement:
         return stations
 
     def get_wind_history_data(self, period, altitude):
-        """Méthode soft au niveau des threads
+        """Méthode soft au niveau des threads qui récupère les données historiques de la zone d'étude pour une période donnée et à une altitude donnée.
 
-        :param period:
-        :type period:
-        :param altitude:
-        :type altitude:
-        :return:
-        :rtype:
+        :param period: La période d'étude.
+        :type period: tuple[int, int]
+        :param altitude: L'altitude de mesure.
+        :type altitude: int
+        :return: None
         """
 
         near_stations = self.find_near_stations(1)
@@ -79,12 +93,11 @@ class WindFarmPlacement:
             self.wind_history += wind_history
 
     def get_wind_history_data_full_threaded(self, period, altitude):
-        """Fonction qui récupère les données historiques de la zone d'étude pour une année donnée.
-
-        :param year : L'année à étudier.
-        :type year : int
-        :return:
-        :rtype:
+        """Fonction qui récupère les données historiques de la zone d'étude pour une année et une altitude données.
+        en utilisant des thread
+        :param year: L'année à étudier.
+        :type year: int
+        :return: None
         """
 
         near_stations = self.find_near_stations(1)
@@ -102,15 +115,15 @@ class WindFarmPlacement:
     def find_adapted_zone(self, windfarm, width=0.1, nb_area=5):
         """Fonction qui recherche les portions de la zone qui permettent d'atteindre l'objectif de puissance produite.
 
-        :param power_goal : Production de puissance visée par le champ éolien
-        :type power_goal : float
-        :param width : Taille des zones. Si max_width = 0.1, alors on cherche un ensemble de coordonnées contiguës qui
+        :param power_goal: Production de puissance visée par le champ éolien
+        :type power_goal: float
+        :param width: Taille des zones. Si max_width = 0.1, alors on cherche un ensemble de coordonnées contiguës qui
         forme un rectangle de longueur 0.1 degré de latitude et de largeur 0.1 degré de longitude.
-        :type width : float
-        :param nb_area : Nombre de zones maximum à renvoyer.
-        :type nb_area : int
-        :return:
-        :rtype :
+        :type width: float
+        :param nb_area: Nombre de zones maximum à renvoyer.
+        :type nb_area: int
+        :return: Les coordonnées des zones intéressantes et la puissance totale produite.
+        :rtype: tuple[np.ndarray, np.ndarray]
         """
 
         # On commence par calculer les facteurs de la distribution de Weibull

@@ -7,6 +7,17 @@ import re
 class Station:
 
     def __init__(self, station_id, latitude, longitude, elevation):
+        """Initialise un objet Station avec les attributs spécifiés.
+
+        :param station_id: L'ID de la station météorologique.
+        :type station_id: str
+        :param latitude: La latitude de la station météorologique.
+        :type latitude: float
+        :param longitude: La longitude de la station météorologique.
+        :type longitude: float
+        :param elevation: L'altitude de la station météorologique.
+        :type elevation: float
+        """
         self.id = station_id
         self.lat = latitude
         self.long = longitude
@@ -16,10 +27,10 @@ class Station:
     def contains_wind_measurements_year(self, year):
         """Fonction qui vérifie si la station dispose de mesure sur le vent pour une année donnée.
 
-        :param year : L'année pour laquelle on veut vérifier la présence de données liées au vent.
-        :type year : int
+        :param year: L'année pour laquelle on veut vérifier la présence de données liées au vent.
+        :type year: int
         :return: Retourne un booléen qui indique si la station dispose de données liées au vent.
-        :rtype : bool
+        :rtype: bool
         """
 
         check_wind = False
@@ -32,12 +43,12 @@ class Station:
     def contains_wind_measurements_month(self, year, month):
         """Fonction qui vérifie si la station dispose de mesure sur le vent pour un mois précis d'une année donnée.
 
-        :param year : L'année pour laquelle on veut vérifier la présence de données liées au vent.
-        :type year : int
-        :param month : Le mois de l'année sur lequel effectué la recherche.
-        :type month : int
+        :param year: L'année pour laquelle on veut vérifier la présence de données liées au vent.
+        :type year: int
+        :param month: Le mois de l'année sur lequel effectué la recherche.
+        :type month: int
         :return: Retourne un booléen qui indique si la station dispose de données liées au vent.
-        :rtype : bool
+        :rtype: bool
         """
 
         check_wind = False
@@ -50,10 +61,10 @@ class Station:
     def contains_temperature_measurements_year(self, year):
         """Fonction qui vérifie si la station dispose de mesure sur la température pour une année donnée.
 
-        :param year : L'année pour laquelle on veut vérifier la présence de données liées à la température.
-        :type year : int
+        :param year: L'année pour laquelle on veut vérifier la présence de données liées à la température.
+        :type year: int
         :return: Retourne un booléen qui indique si la station dispose de données liées à la température.
-        :rtype : bool
+        :rtype: bool
         """
 
         check_temperature = False
@@ -64,6 +75,13 @@ class Station:
         return check_temperature
 
     def contains_temperature_measurements_period(self, period):
+        """Fonction qui vérifie si la station possède des mesures de température pour une période donnée (liste d'années).
+
+        :param period: La période (liste d'années) pour laquelle on veut vérifier la présence de données sur la température.
+        :type period: list[int]
+        :return: True si des données sur la température sont disponibles pour au moins une année de la période, False sinon.
+        :rtype: bool
+        """
         check_temperature = False
         for year in period:
             if self.contains_temperature_measurements_year(year):
@@ -74,12 +92,11 @@ class Station:
         """Fonction qui charge les données liées au vent pour un mois et une année précisés en paramètres.
         Les données sont accessibles via l'attribut wind_data de la station.
 
-        :param year : L'année des données à charger
-        :type year : int
-        :param month : Le mois des données à charger
-        :type month : int
-        :return:
-        :rtype :
+        :param year: L'année des données à charger
+        :type year: int
+        :param month: Le mois des données à charger
+        :type month: int
+        :return: None
         """
 
         path = f"data/{self.id}/{year}"
@@ -100,8 +117,9 @@ class Station:
     def reset_data(self, month):
         """Fonction qui réinitialise l'attribut wind_data de la station pour oublier les données chargées précédemment.
 
-        :return:
-        :rtype :
+        :param month: Le mois pour lequel on veut réinitialiser les données.
+        :type month: int
+        :return: None
         """
         self.df_wind_data[month] = {}
 
@@ -109,10 +127,12 @@ class Station:
         """Fonction qui renvoie la valeur de vitesse du vent à un instant précis (Heure : Jour) indiqué par son indice.
         L'indice correspond à la ligne correspondante du fichier csv. Lorsque pl
 
-        :param time_index :
-        :type time_index : int
+        :param month: Le mois pour lequel on veut récupérer les données.
+        :type month: int
+        :param time_index: L'indice de l'instant précis dans les données.
+        :type time_index: int
         :return: Retourne la vitesse du vent mesurée par la station
-        :rtype : float
+        :rtype: float
         """
 
         try:

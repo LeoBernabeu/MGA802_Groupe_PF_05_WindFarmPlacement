@@ -41,6 +41,7 @@
 <li class="toctree-l2"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#module-WindFarmPlacement.WeatherData.station">WindFarmPlacement.WeatherData.station module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.station.Station"><code class="docutils literal notranslate"><span class="pre">Station</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.station.Station.contains_temperature_measurements_period"><code class="docutils literal notranslate"><span class="pre">Station.contains_temperature_measurements_period()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.station.Station.contains_temperature_measurements_year"><code class="docutils literal notranslate"><span class="pre">Station.contains_temperature_measurements_year()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.station.Station.contains_wind_measurements_month"><code class="docutils literal notranslate"><span class="pre">Station.contains_wind_measurements_month()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.station.Station.contains_wind_measurements_year"><code class="docutils literal notranslate"><span class="pre">Station.contains_wind_measurements_year()</span></code></a></li>
@@ -55,12 +56,10 @@
 <li class="toctree-l3"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory"><code class="docutils literal notranslate"><span class="pre">WindHistory</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory.add_station"><code class="docutils literal notranslate"><span class="pre">WindHistory.add_station()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory.calculate_weibull_factors_with_moments"><code class="docutils literal notranslate"><span class="pre">WindHistory.calculate_weibull_factors_with_moments()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history_month"><code class="docutils literal notranslate"><span class="pre">WindHistory.compute_history_month()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history"><code class="docutils literal notranslate"><span class="pre">WindHistory.compute_history()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history_year"><code class="docutils literal notranslate"><span class="pre">WindHistory.compute_history_year()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory.estimate_wind_speed_for_altitude"><code class="docutils literal notranslate"><span class="pre">WindHistory.estimate_wind_speed_for_altitude()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory.get_fit_weibull_factors"><code class="docutils literal notranslate"><span class="pre">WindHistory.get_fit_weibull_factors()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory.get_moment_weibull_factors"><code class="docutils literal notranslate"><span class="pre">WindHistory.get_moment_weibull_factors()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory.update_stats"><code class="docutils literal notranslate"><span class="pre">WindHistory.update_stats()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -102,46 +101,76 @@
 <section id="module-WindFarmPlacement.WindFarmPlacement">
 <span id="windfarmplacement-windfarmplacement-module"></span><h2>WindFarmPlacement.WindFarmPlacement module<a class="headerlink" href="#module-WindFarmPlacement.WindFarmPlacement" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.StudyArea">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WindFarmPlacement.</span></span><span class="sig-name descname"><span class="pre">StudyArea</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">long_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_long</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.StudyArea" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.WindFarmPlacement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WindFarmPlacement.</span></span><span class="sig-name descname"><span class="pre">WindFarmPlacement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">long_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_long</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.WindFarmPlacement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.StudyArea.find_adapted_zone">
-<span class="sig-name descname"><span class="pre">find_adapted_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">windfarm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.StudyArea.find_adapted_zone" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.find_adapted_zone">
+<span class="sig-name descname"><span class="pre">find_adapted_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">windfarm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.find_adapted_zone" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui recherche les portions de la zone qui permettent d’atteindre l’objectif de puissance produite.</p>
-<p>:param power_goal : Production de puissance visée par le champ éolien
-:type power_goal : float
-:param width : Taille des zones. Si max_width = 0.1, alors on cherche un ensemble de coordonnées contiguës qui
-forme un rectangle de longueur 0.1 degré de latitude et de largeur 0.1 degré de longitude.
-:type width : float
-:param nb_area : Nombre de zones maximum à renvoyer.
-:type nb_area : int
-:return:
-:rtype :</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>power_goal</strong> (<em>float</em>) – Production de puissance visée par le champ éolien</p></li>
+<li><p><strong>width</strong> – Taille des zones. Si max_width = 0.1, alors on cherche un ensemble de coordonnées contiguës qui</p></li>
+</ul>
+</dd>
+</dl>
+<p>forme un rectangle de longueur 0.1 degré de latitude et de largeur 0.1 degré de longitude.
+:type width: float
+:param nb_area: Nombre de zones maximum à renvoyer.
+:type nb_area: int
+:return: Les coordonnées des zones intéressantes et la puissance totale produite.
+:rtype: tuple[np.ndarray, np.ndarray]</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.StudyArea.find_near_stations">
-<span class="sig-name descname"><span class="pre">find_near_stations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_stations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.StudyArea.find_near_stations" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.find_near_stations">
+<span class="sig-name descname"><span class="pre">find_near_stations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_stations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.find_near_stations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui recherche les stations les plus proches de la zone d’étude à partir des données contenues dans
 le fichier d’inventaire de <a class="reference external" href="https://climate.weather.gc.ca">https://climate.weather.gc.ca</a>. Le rayon de recherche autour de la zone d’étude est
 incrémenté jusqu’à trouver un minimum de 100 stations par défaut.</p>
-<p>:param radius : Rayon de recherche des stations autour de la zone d’étude.
-:type radius : int
-:param required_stations : Nombre minimum de stations à récupérer.
-:type required_stations : int
-:return: Retourne une liste des stations trouvées dans le rayon de recherche.
-:rtype : list[Station]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radius</strong> (<em>int</em>) – Rayon de recherche des stations autour de la zone d’étude.</p></li>
+<li><p><strong>required_stations</strong> (<em>int</em>) – Nombre minimum de stations à récupérer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Retourne une liste des stations trouvées dans le rayon de recherche.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.station.Station" title="WindFarmPlacement.WeatherData.station.Station">Station</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.StudyArea.get_wind_history_data">
-<span class="sig-name descname"><span class="pre">get_wind_history_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altitude</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.StudyArea.get_wind_history_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fonction qui récupère les données historiques de la zone d’étude pour une année donnée.</p>
-<p>:param year : L’année à étudier.
-:type year : int
-:return:
-:rtype:</p>
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.get_wind_history_data">
+<span class="sig-name descname"><span class="pre">get_wind_history_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altitude</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.get_wind_history_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Méthode soft au niveau des threads qui récupère les données historiques de la zone d’étude pour une période donnée et à une altitude donnée.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>period</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – La période d’étude.</p></li>
+<li><p><strong>altitude</strong> (<em>int</em>) – L’altitude de mesure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.get_wind_history_data_full_threaded">
+<span class="sig-name descname"><span class="pre">get_wind_history_data_full_threaded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altitude</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarmPlacement.WindFarmPlacement.get_wind_history_data_full_threaded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui récupère les données historiques de la zone d’étude pour une année et une altitude données.
+en utilisant des thread
+:param year: L’année à étudier.
+:type year: int
+:return: None</p>
 </dd></dl>
 
 </dd></dl>
@@ -156,22 +185,55 @@ incrémenté jusqu’à trouver un minimum de 100 stations par défaut.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.topography.ElevationData.calculate_flatness_score">
 <span class="sig-name descname"><span class="pre">calculate_flatness_score</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.topography.ElevationData.calculate_flatness_score" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Fonction qui calcule le score de planéité pour les données d’élévation.
+Le score de planéité est basé sur l’écart-type des valeurs d’élévation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Le score de planéité des données d’élévation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.topography.ElevationData.get_elevation_array">
 <span class="sig-name descname"><span class="pre">get_elevation_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.topography.ElevationData.get_elevation_array" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Fonction qui retourne le tableau des données d’élévation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Le tableau bidimensionnel contenant les données d’élévation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.topography.ElevationData.plot_3d_surface_map">
 <span class="sig-name descname"><span class="pre">plot_3d_surface_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.topography.ElevationData.plot_3d_surface_map" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Fonction qui trace une carte en 3D des données d’élévation.
+Les coordonnées de longitude, latitude et élévation sont utilisées pour créer une surface en 3D.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.topography.ElevationData.retrieve_elevation_data">
 <span class="sig-name descname"><span class="pre">retrieve_elevation_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.topography.ElevationData.retrieve_elevation_data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Fonction qui récupère les données d’élévation en effectuant des requêtes à l’API d’élévation.
+Les données d’élévation sont stockées dans un tableau bidimensionnel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -181,50 +243,140 @@ incrémenté jusqu’à trouver un minimum de 100 stations par défaut.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="WindFarmPlacement.utils.check_consecutive_lines">
 <span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.utils.</span></span><span class="sig-name descname"><span class="pre">check_consecutive_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.utils.check_consecutive_lines" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="WindFarmPlacement.utils.gather">
-<span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.utils.</span></span><span class="sig-name descname"><span class="pre">gather</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.utils.gather" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fonction qui regroupe en faisant un parcours en profondeur</p>
+<dd><p>Fonction qui vérifie si deux lignes sont consécutives.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>condition</strong> – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Coordonnées en latitude des points.</p></li>
+<li><p><strong>lines</strong> (<em>list</em><em>[</em><em>np.ndarray</em><em>]</em>) – Liste des indices des lignes.</p></li>
+<li><p><strong>index</strong> (<em>int</em>) – Index de la ligne actuelle.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>True si les lignes sont consécutives, False sinon.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="WindFarmPlacement.utils.interp_grid">
-<span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.utils.</span></span><span class="sig-name descname"><span class="pre">interp_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.utils.interp_grid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="WindFarmPlacement.utils.gather">
+<span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.utils.</span></span><span class="sig-name descname"><span class="pre">gather</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.utils.gather" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui regroupe les points satisfaisant une condition en effectuant un parcours en profondeur.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>condition</strong> (<em>np.ndarray</em>) – Condition à satisfaire pour regrouper les points.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Liste des groupes de points regroupés.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[tuple[int, int]]]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="WindFarmPlacement.utils.interp_point">
 <span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.utils.</span></span><span class="sig-name descname"><span class="pre">interp_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_ij</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ij</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.utils.interp_point" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Fonction qui effectue l’interpolation du point d’intérêt en utilisant les données des stations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_ij</strong> (<em>float</em>) – Coordonnée en latitude du point d’intérêt.</p></li>
+<li><p><strong>y_ij</strong> (<em>float</em>) – Coordonnée en longitude du point d’intérêt.</p></li>
+<li><p><strong>data</strong> (<em>np.ndarray</em>) – Données des stations (valeur + coordonnées).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>La valeur interpolée du point d’intérêt.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="WindFarmPlacement.utils.interpolation">
+<span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.utils.</span></span><span class="sig-name descname"><span class="pre">interpolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.utils.interpolation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui effectue l’interpolation des points d’intérêt en utilisant les données des stations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xx</strong> (<em>np.ndarray</em>) – Coordonnées en latitude des points d’intérêt.</p></li>
+<li><p><strong>yy</strong> (<em>np.ndarray</em>) – Coordonnées en longitude des points d’intérêt.</p></li>
+<li><p><strong>data</strong> (<em>np.ndarray</em>) – Données des stations (valeur + coordonnées).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>La matrice interpolée des points d’intérêt.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="WindFarmPlacement.utils.number_days_for_month">
 <span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.utils.</span></span><span class="sig-name descname"><span class="pre">number_days_for_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.utils.number_days_for_month" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Fonction qui retourne le nombre de jours dans un mois donné.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>month</strong> (<em>int</em>) – Le mois pour lequel on souhaite obtenir le nombre de jours.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Le nombre de jours dans le mois spécifié.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="WindFarmPlacement.utils.rectangle">
 <span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.utils.</span></span><span class="sig-name descname"><span class="pre">rectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.utils.rectangle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fonction qui renvoie les coordonnées permettant de faire un rectangle</p>
+<dd><p>Fonction qui retourne les coordonnées permettant de créer un rectangle à partir d’un groupe de points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em>) – Groupe de points.</p></li>
+<li><p><strong>width_x</strong> (<em>int</em>) – Largeur maximale selon l’axe x pour former un rectangle.</p></li>
+<li><p><strong>width_y</strong> (<em>int</em>) – Largeur maximale selon l’axe y pour former un rectangle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Liste des coordonnées des rectangles formés.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[int, int, np.ndarray]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="WindFarmPlacement.utils.weight">
 <span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.utils.</span></span><span class="sig-name descname"><span class="pre">weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_coords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station_coords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.utils.weight" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Fonction qui calcule les poids associés à chaque station en fonction des coordonnées d’un point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point_coords</strong> (<em>list</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – Coordonnées du point d’intérêt.</p></li>
+<li><p><strong>station_coords</strong> (<em>np.ndarray</em>) – Coordonnées des stations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Les poids associés à chaque station.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-WindFarmPlacement">

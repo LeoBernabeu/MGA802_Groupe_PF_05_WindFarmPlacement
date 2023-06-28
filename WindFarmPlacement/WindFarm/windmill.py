@@ -7,6 +7,18 @@ from math import pi
 class Windmill:
 
     def __init__(self, height, blade_length, cut_in_speed=3, cut_out_speed=25):
+        """Initialise une éolienne avec les paramètres spécifiés.
+
+        :param height: Hauteur de l'éolienne.
+        :type height: float
+        :param blade_length: Longueur des pales de l'éolienne.
+        :type blade_length: float
+        :param cut_in_speed: Vitesse de démarrage de l'éolienne (vitesse minimale pour laquelle elle produit de l'énergie).
+        :type cut_in_speed: float
+        :param cut_out_speed: Vitesse de coupure de l'éolienne (vitesse maximale à laquelle elle cesse de produire de l'énergie).
+        :type cut_out_speed: float
+        """
+
         self.height = height
         self.blade_length = blade_length
         self.cut_in = cut_in_speed
@@ -15,10 +27,26 @@ class Windmill:
         self.work_state = False
 
     def set_coordinates(self, lat, lon):
+        """Fonction qui définit les coordonnées géographiques de l'éolienne.
+
+        :param lat: Latitude de l'emplacement de l'éolienne.
+        :type lat: float
+        :param lon: Longitude de l'emplacement de l'éolienne.
+        :type lon: float
+        """
+
         self.lat = lat
         self.lon = lon
 
     def produced_power(self, wind):
+        """Fonction qui calcule la puissance produite par l'éolienne en fonction de la vitesse du vent.
+
+        :param wind: Vitesse du vent.
+        :type wind: float
+        :return: Puissance produite par l'éolienne.
+        :rtype: float
+        """
+
         # Dans un premier temps on simplifie en considérant les paramètres atmosphériques constants et identiques en
         # tout point. Des mesures sur ses paramètres permettraient d'améliorer l'estimation.
         To = 288.15  # Kelvin
@@ -45,11 +73,11 @@ class Windmill:
         coordonnée d'une grille en fonction des mesures du vent passées en paramètre. Les formules, méthodes et
         hypothèses proviennent de la source suivante : https://eolienne.f4jr.org/eolienne_etude_theorique
 
-        :param wind_data : Objet WindHistory qui contient les données sur les mesures historiques du vent de la zone
+        :param wind_data: Objet WindHistory qui contient les données sur les mesures historiques du vent de la zone
         d'étude. Contient, la valeur moyenne du vent et la distribution des classes de vent (histogramme).
-        :type wind_data : WindHistory
+        :type wind_data: WindHistory
         :return: Retourne une matrice contenant la puissance théorique pouvant être produite
-        :rtype : numpy.array
+        :rtype: numpy.array
         """
 
         size_x, size_y = np.shape(weibull)[:-1]

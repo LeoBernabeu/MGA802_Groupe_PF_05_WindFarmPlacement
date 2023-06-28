@@ -6,6 +6,21 @@ from mpl_toolkits.mplot3d import Axes3D
 
 class ElevationData:
     def __init__(self, lon_min, lon_max, lat_min, lat_max, num_lon_points, num_lat_points):
+        """Initialise une instance de la classe ElevationData avec les paramètres spécifiés.
+
+        :param lon_min: La longitude minimale de la zone d'intérêt.
+        :type lon_min: float
+        :param lon_max: La longitude maximale de la zone d'intérêt.
+        :type lon_max: float
+        :param lat_min: La latitude minimale de la zone d'intérêt.
+        :type lat_min: float
+        :param lat_max: La latitude maximale de la zone d'intérêt.
+        :type lat_max: float
+        :param num_lon_points: Le nombre de points de longitude pour l'échantillonnage de la zone.
+        :type num_lon_points: int
+        :param num_lat_points: Le nombre de points de latitude pour l'échantillonnage de la zone.
+        :type num_lat_points: int
+        """
         self.lon_min = lon_min
         self.lon_max = lon_max
         self.lat_min = lat_min
@@ -15,6 +30,11 @@ class ElevationData:
         self.elevation_array = np.zeros((num_lat_points, num_lon_points))
 
     def retrieve_elevation_data(self):
+        """Fonction qui récupère les données d'élévation en effectuant des requêtes à l'API d'élévation.
+        Les données d'élévation sont stockées dans un tableau bidimensionnel.
+
+        :return: None
+        """
         lon_step = (self.lon_max - self.lon_min) / (self.num_lon_points - 1)
         lat_step = (self.lat_max - self.lat_min) / (self.num_lat_points - 1)
 
@@ -29,9 +49,20 @@ class ElevationData:
                 self.elevation_array[i, j] = elevation
 
     def get_elevation_array(self):
+        """Fonction qui retourne le tableau des données d'élévation.
+
+        :return: Le tableau bidimensionnel contenant les données d'élévation.
+        :rtype: numpy.ndarray
+        """
         return self.elevation_array
     
     def calculate_flatness_score(self):
+        """Fonction qui calcule le score de planéité pour les données d'élévation.
+        Le score de planéité est basé sur l'écart-type des valeurs d'élévation.
+
+        :return: Le score de planéité des données d'élévation.
+        :rtype: float
+        """
         # Calculate the standard deviation of the elevation values
         std_dev = np.std(self.elevation_array)
 
@@ -46,6 +77,11 @@ class ElevationData:
             self.flatness_score = (1 - normalized_std_dev) * 100.0
 
     def plot_3d_surface_map(self):
+        """Fonction qui trace une carte en 3D des données d'élévation.
+        Les coordonnées de longitude, latitude et élévation sont utilisées pour créer une surface en 3D.
+
+        :return: None
+        """
         # Create meshgrid for x and y coordinates
         x = np.linspace(self.lon_min, self.lon_max, self.num_lon_points)
         y = np.linspace(self.lat_min, self.lat_max, self.num_lat_points)

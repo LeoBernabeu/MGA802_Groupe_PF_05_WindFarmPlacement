@@ -12,6 +12,17 @@ class WindHistory:
     """Historique du vent (année ou mois)"""
 
     def __init__(self, long_array, lat_array, stations=None, altitude=None):
+        """Initialise un objet WindHistory.
+
+        :param long_array: Un tableau de longitudes.
+        :type long_array: numpy.array
+        :param lat_array: Un tableau de latitudes.
+        :type lat_array: numpy.array
+        :param stations: Une liste des stations météorologiques, par défaut None.
+        :type stations: list, optional
+        :param altitude: L'altitude, par défaut None.
+        :type altitude: float, optional
+        """
         size_x, size_y = len(long_array), len(lat_array)
         self.grid = np.meshgrid(long_array, lat_array)
         self.wind_mean = np.zeros((size_x, size_y))
@@ -20,6 +31,13 @@ class WindHistory:
         self.stations = stations
 
     def __add__(self, other):
+        """Surcharge de l'opérateur d'addition (+).
+
+        :param other: Un autre objet WindHistory.
+        :type other: WindHistory
+        :return: Un nouvel objet WindHistory résultant de l'addition.
+        :rtype: WindHistory
+        """
         xx, yy = self.grid
         new_wind_history = WindHistory(xx[0], yy[:, 0])
         if np.all(self.wind_mean == np.zeros_like(self.wind_mean)):
@@ -30,15 +48,20 @@ class WindHistory:
         return new_wind_history
 
     def __iadd__(self, other):
+        """Surcharge de l'opérateur d'addition et d'affectation (+=).
+
+        :param other: Un autre objet WindHistory.
+        :type other: WindHistory
+        :return: L'objet WindHistory actuel après l'addition.
+        :rtype: WindHistory
+        """
         return self + other
 
     def add_station(self, station):
         """Fonction qui ajoute une station à la liste de celles utilisées pour calculer l'historique sur les vents.
 
-        :param station : Une station météorologique.
-        :type station : Station
-        :return:
-        :rtype :
+        :param station: Une station météorologique.
+        :type station: Station
         """
         self.stations.append(station)
 
@@ -46,8 +69,8 @@ class WindHistory:
         """Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
         paramètres statistiques de la distribution de Weibull sur toute l'année.
 
-        :return:
-        :rtype:
+        :param year: Année.
+        :type year: int
         """
 
         logging.basicConfig(level=logging.DEBUG, format='(%(threadName)-9s) %(message)s', )
@@ -86,7 +109,11 @@ class WindHistory:
         self.wind_mean = self.wind_mean/count_div
 
     def compute_history(self, period):
+        """Fonction qui calcule l'historique du vent pour une période donnée.
 
+        :param period: Période.
+        :type period: list
+        """
         follow_threads = []
         for year in period:
             threaded_q = multiprocessing.Queue()
@@ -109,7 +136,7 @@ class WindHistory:
         coordonnée. Pour cela on utilise la méthode de scipy weibull_min.fit().
 
         :return: Retourne une matrice 2D contenant les facteurs de forme et d'échelle
-        :rtype : numpy.array
+        :rtype: numpy.array
         """
 
         size_x, size_y = self.wind_mean.shape
@@ -132,7 +159,15 @@ class WindHistory:
         return weibull
 
     def calculate_weibull_factors_with_moments(self, x, y):
-        """Calculer les facteurs de weibull. À vectoriser plus tard"""
+        """Fonction qui calcul les facteurs de weibull à partir des moments
+
+        :param x: Coordonnée x.
+        :type x: int
+        :param y: Coordonnée y.
+        :type y: int
+        :return: Les facteurs de forme et d'échelle de Weibull.
+        :rtype: list
+        """
 
         raw_data = np.array([k for k in range(len(self.wind_histogram[x, y])) for i in range(int(self.wind_histogram[x, y, k]))])
 
@@ -157,7 +192,11 @@ class WindHistory:
         return [shape, scale]
 
     def get_moment_weibull_factors(self):
-        """Matrice de weibull"""
+        """Fonction qui retourne les facteurs de Weibull à partir des moments pour chaque coordonnée.
+
+        :return: Une matrice 2D contenant les facteurs de forme et d'échelle.
+        :rtype: numpy.array
+        """
 
         size_x, size_y = self.wind_mean.shape
 
