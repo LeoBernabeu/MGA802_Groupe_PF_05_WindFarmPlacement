@@ -53,6 +53,15 @@ class WindFarmPlacement:
         return stations
 
     def get_wind_history_data(self, period, altitude):
+        """Méthode soft au niveau des threads
+
+        :param period:
+        :type period:
+        :param altitude:
+        :type altitude:
+        :return:
+        :rtype:
+        """
 
         near_stations = self.find_near_stations(1)
 

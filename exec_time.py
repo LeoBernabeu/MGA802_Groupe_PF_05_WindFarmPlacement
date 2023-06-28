@@ -1,6 +1,8 @@
 from WindFarmPlacement.WindFarmPlacement import WindFarmPlacement
 from WindFarmPlacement.WindFarm.windmill import Windmill
 from WindFarmPlacement.WindFarm.windfarm import WindFarm
+from WindFarmPlacement.topography import ElevationData
+
 import time
 import matplotlib.pyplot as plt
 
@@ -11,7 +13,7 @@ if __name__ == '__main__':
 
     start_time = time.time()
     study_area = WindFarmPlacement(lon_min, lon_max, lat_min, lat_max, 20, 20)
-    study_area.get_wind_history_data_full_threaded([2018, 2019], 30)
+    study_area.get_wind_history_data_full_threaded([2018], 30)
     print(time.time()-start_time)
 
     # Affichage des vitesses moyennes du vent
@@ -36,3 +38,25 @@ if __name__ == '__main__':
     plt.xlabel("Longitude (°)")
     plt.ylabel("Latitude (°)")
     plt.show()
+
+    # Retreive elevation data and calculate score
+    elevation_data = ElevationData(area_of_interest[0][1][0], area_of_interest[0][1][1], area_of_interest[0][0][0],
+                                   area_of_interest[0][0][1], 10, 10)
+    elevation_data.retrieve_elevation_data()
+    elevation_data.calculate_flatness_score()
+
+    # Store elevation data and score
+    elevation_array = elevation_data.get_elevation_array()
+    flatness_score = elevation_data.flatness_score
+
+    # Plot elevation data
+    elevation_data.plot_3d_surface_map()
+    # Print results
+    print(f"Flatness score = ", flatness_score)
+
+    # Define the area of interest as a 2D numpy array
+
+    # Placer les éoliennes dans la zone d'intérêt
+    windmill_coordinates = wind_farm.place_windmills(area_of_interest[0])
+    print("Localisation des éoliennes")
+    print(windmill_coordinates)

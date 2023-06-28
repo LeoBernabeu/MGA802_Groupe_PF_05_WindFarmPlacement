@@ -37,7 +37,7 @@ class FastHistoryMonthProcess(multiprocessing.Process):
         for time in range(24*number_days_for_month(self.month)):  # On multiplie par 24 pour les heures d'une journée
             # À chaque instant, on récupère toutes les données disponibles auprès des stations
             wind_values = np.array([[wind_value, station.long, station.lat] for station in self.stations
-                                    if (wind_value := station.get_wind_data_timestamp(self.year, self.month, time))])
+                                    if (wind_value := station.get_wind_data_timestamp(self.month, time))])
 
             # Si on dispose d'au moins 4 valeurs de vent on effectue l'interpolation du champ.
             # (Arbitraire et reste très faible)
