@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>WindFarmPlacement.WeatherData package &#8212; MGA802-ProjetSpecial-Groupe_PF_05  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="WindFarmPlacement.WindFarm package" href="WindFarmPlacement.WindFarm.html" />
+    <link rel="prev" title="WindFarmPlacement package" href="WindFarmPlacement.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="windfarmplacement-weatherdata-package">
+<h1>WindFarmPlacement.WeatherData package<a class="headerlink" href="#windfarmplacement-weatherdata-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-WindFarmPlacement.WeatherData.station">
+<span id="windfarmplacement-weatherdata-station-module"></span><h2>WindFarmPlacement.WeatherData.station module<a class="headerlink" href="#module-WindFarmPlacement.WeatherData.station" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WeatherData.station.</span></span><span class="sig-name descname"><span class="pre">Station</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.contains_temperature_measurements_year">
+<span class="sig-name descname"><span class="pre">contains_temperature_measurements_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.contains_temperature_measurements_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui vérifie si la station dispose de mesure sur la température pour une année donnée.</p>
+<p>:param year : L’année pour laquelle on veut vérifier la présence de données liées à la température.
+:type year : int
+:return: Retourne un booléen qui indique si la station dispose de données liées à la température.
+:rtype : bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.contains_wind_measurements_month">
+<span class="sig-name descname"><span class="pre">contains_wind_measurements_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.contains_wind_measurements_month" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui vérifie si la station dispose de mesure sur le vent pour un mois précis d’une année donnée.</p>
+<p>:param year : L’année pour laquelle on veut vérifier la présence de données liées au vent.
+:type year : int
+:param month : Le mois de l’année sur lequel effectué la recherche.
+:type month : int
+:return: Retourne un booléen qui indique si la station dispose de données liées au vent.
+:rtype : bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.contains_wind_measurements_year">
+<span class="sig-name descname"><span class="pre">contains_wind_measurements_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.contains_wind_measurements_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui vérifie si la station dispose de mesure sur le vent pour une année donnée.</p>
+<p>:param year : L’année pour laquelle on veut vérifier la présence de données liées au vent.
+:type year : int
+:return: Retourne un booléen qui indique si la station dispose de données liées au vent.
+:rtype : bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.get_wind_data_timestamp">
+<span class="sig-name descname"><span class="pre">get_wind_data_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.get_wind_data_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui renvoie la valeur de vitesse du vent à un instant précis (Heure : Jour) indiqué par son indice.
+L’indice correspond à la ligne correspondante du fichier csv. Lorsque pl</p>
+<p>:param time_index :
+:type time_index : int
+:return: Retourne la vitesse du vent mesurée par la station
+:rtype : float</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.load_data">
+<span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.load_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui charge les données liées au vent pour un mois et une année précisés en paramètres.
+Les données sont accessibles via l’attribut wind_data de la station.</p>
+<p>:param year : L’année des données à charger
+:type year : int
+:param month : Le mois des données à charger
+:type month : int
+:return:
+:rtype :</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.reset_data">
+<span class="sig-name descname"><span class="pre">reset_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.reset_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui réinitialise l’attribut wind_data de la station pour oublier les données chargées précédemment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+<p>:rtype :</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-WindFarmPlacement.WeatherData.windhistory">
+<span id="windfarmplacement-weatherdata-windhistory-module"></span><h2>WindFarmPlacement.WeatherData.windhistory module<a class="headerlink" href="#module-WindFarmPlacement.WeatherData.windhistory" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WeatherData.windhistory.</span></span><span class="sig-name descname"><span class="pre">WindHistory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">long_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Historique du vent (année ou mois)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.add_station">
+<span class="sig-name descname"><span class="pre">add_station</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.add_station" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui ajoute une station à la liste de celles utilisées pour calculer l’historique sur les vents.</p>
+<p>:param station : Une station météorologique.
+:type station : Station
+:return:
+:rtype :</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.calculate_weibull_factors_with_moments">
+<span class="sig-name descname"><span class="pre">calculate_weibull_factors_with_moments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.calculate_weibull_factors_with_moments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculer les facteurs de weibull. À vectoriser plus tard</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history_month">
+<span class="sig-name descname"><span class="pre">compute_history_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history_month" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
+paramètres statistiques de la distribution de Weibull sur un mois donné.</p>
+<p>:param month : Le mois à étudier, sur lequel calculer la moyenne et les paramètres statistiques.
+Janvier = 1, Février = 2, …, Décembre = 12.
+:type month : int
+:return:
+:rtype:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history_year">
+<span class="sig-name descname"><span class="pre">compute_history_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
+paramètres statistiques de la distribution de Weibull sur toute l’année.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.estimate_wind_speed_for_altitude">
+<span class="sig-name descname"><span class="pre">estimate_wind_speed_for_altitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wind</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.estimate_wind_speed_for_altitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui estime la vitesse du vent à une altitude donnée en utilisant le profil vertical de la vitesse
+du vent</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.get_fit_weibull_factors">
+<span class="sig-name descname"><span class="pre">get_fit_weibull_factors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.get_fit_weibull_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui approxime les facteurs de forme et d’échelle de la distribution de Weibull du vent pour chaque
+coordonnée. Pour cela on utilise la méthode de scipy weibull_min.fit().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Retourne une matrice 2D contenant les facteurs de forme et d’échelle</p>
+</dd>
+</dl>
+<p>:rtype : numpy.array</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.get_moment_weibull_factors">
+<span class="sig-name descname"><span class="pre">get_moment_weibull_factors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.get_moment_weibull_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matrice de weibull</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.update_stats">
+<span class="sig-name descname"><span class="pre">update_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wind_field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.update_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui met à jour les statistiques sur les classes de vent à partir des données d’un champ de vent.</p>
+<p>:param wind_field : Une matrice 2D représentant un champ de vent
+:type wind_field : numpy.array
+:return:
+:rtype :</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-WindFarmPlacement.WeatherData">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-WindFarmPlacement.WeatherData" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MGA802-ProjetSpecial-Groupe_PF_05</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">MGA802_Projet</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="WindFarmPlacement.html">WindFarmPlacement package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clean.html">clean module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot.html">plot module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">MGA802_Projet</a><ul>
+  <li><a href="WindFarmPlacement.html">WindFarmPlacement package</a><ul>
+      <li>Previous: <a href="WindFarmPlacement.html" title="previous chapter">WindFarmPlacement package</a></li>
+      <li>Next: <a href="WindFarmPlacement.WindFarm.html" title="next chapter">WindFarmPlacement.WindFarm package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Bernabeu Léo – Mullins Mathieu - Da Costa Dias André.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/WindFarmPlacement.WeatherData.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
