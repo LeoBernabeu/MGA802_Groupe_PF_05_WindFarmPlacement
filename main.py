@@ -1,4 +1,4 @@
-from WindFarmPlacement.WindFarmPlacement import StudyArea
+from WindFarmPlacement.WindFarmPlacement import WindFarmPlacement
 from WindFarmPlacement.WindFarm.windmill import Windmill
 from WindFarmPlacement.WindFarm.windfarm import WindFarm
 from WindFarmPlacement.topography import ElevationData
@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 lon_min, lon_max = -123.5, -122.5
 lat_min, lat_max = 48, 49
 
-study_area = StudyArea(lon_min, lon_max, lat_min, lat_max, 50, 50)
+study_area = WindFarmPlacement(lon_min, lon_max, lat_min, lat_max, 50, 50)
 study_area.get_wind_history_data([2018], 30)
 
 # Affichage des vitesses moyennes du vent

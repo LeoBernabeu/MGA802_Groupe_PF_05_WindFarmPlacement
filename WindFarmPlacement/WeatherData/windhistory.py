@@ -1,13 +1,10 @@
 import numpy as np
 import scipy as sp
-import queue
 import logging
 import multiprocessing
 
-from WindFarmPlacement.utils import interpolation, number_days_for_month
-from WindFarmPlacement.WeatherData.FastInterpolation import FastInterpolation
-from WindFarmPlacement.WeatherData.FastMonthHistory import FastMonthHistory
-from WindFarmPlacement.WeatherData.FastHistoryMonthProcess import FastHistoryMonthProcess
+from WindFarmPlacement.WeatherData.fasthistoryyearprocess import FastHistoryYearProcess
+from WindFarmPlacement.WeatherData.fasthistorymonthprocess import FastHistoryMonthProcess
 
 
 class WindHistory:
@@ -23,7 +20,7 @@ class WindHistory:
 
     def __add__(self, other):
         xx, yy = self.grid
-        new_wind_history = WindHistory(xx[0], yy[:,0])
+        new_wind_history = WindHistory(xx[0], yy[:, 0])
         if np.all(self.wind_mean == np.zeros_like(self.wind_mean)):
             new_wind_history.wind_mean = other.wind_mean
         else:
@@ -44,77 +41,6 @@ class WindHistory:
         """
         self.stations.append(station)
 
-    def compute_history_month(self, year, month):
-        """Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
-        paramètres statistiques de la distribution de Weibull sur un mois donné.
-
-        :param month : Le mois à étudier, sur lequel calculer la moyenne et les paramètres statistiques.
-        Janvier = 1, Février = 2, ..., Décembre = 12.
-        :type month : int
-        :return:
-        :rtype:
-        """
-
-        # Chargement des données du mois étudié chez les stations
-        for station in self.stations:
-            # Si la station à des données sur ce mois elle les charge
-            if station.contains_wind_measurements_month(year, month):
-                station.load_data(year, month)
-            # Dans le cas contraire, on s'assure de ne pas garder d'anciennes données qui ne concernent pas ce mois.
-            else:
-                station.reset_data(month)
-
-        counter_div = 0
-        xx, yy = self.grid
-
-        #logging.basicConfig(level=logging.DEBUG,
-        #                    format='(%(threadName)-9s) %(message)s', )
-
-        follow_threads = []
-
-        for time in range(24*number_days_for_month(month)):  # On multiplie par 24 pour les heures d'une journée
-
-            # À chaque instant, on récupère toutes les données disponibles auprès des stations
-            wind_values = np.array([[wind_value, station.long, station.lat] for station in self.stations
-                                    if (wind_value := station.get_wind_data_timestamp(month, time))])
-
-            # Si on dispose d'au moins 4 valeurs de vent on effectue l'interpolation du champ.
-            # (Arbitraire et reste très faible)
-            if len(wind_values) > 4:
-                counter_div += 1
-
-                # Interpolation
-                wind_field = interpolation(xx, yy, wind_values)
-                if self.altitude:
-                    wind_field = self.estimate_wind_speed_for_altitude(wind_field)
-            
-                # Mise à jour des statistiques et de la moyenne
-                self.update_stats(wind_field)
-                self.wind_mean += wind_field
-
-        """
-        # D'abords on les crée tous
-        for time in range(24*number_days_for_month(month)):
-            threaded_q = queue.Queue()
-            threaded_interpolation = FastInterpolation(self.grid, self.stations, time, threaded_q)
-            follow_threads.append((threaded_interpolation, threaded_q))
-
-        # Ensuite on les lance
-        for thread_and_queue in follow_threads:
-            thread_and_queue[0].start()
-
-        for thread_and_queue in follow_threads:
-            thread_and_queue[0].join()
-            wind_matrix = thread_and_queue[1].get()
-            if not np.all(wind_matrix == 0):
-                counter_div += 1
-                self.update_stats(wind_matrix)
-                self.wind_mean += wind_matrix"""
-
-        if counter_div != 0:
-            # Calcul du champ de vent moyen
-            self.wind_mean = self.wind_mean/counter_div
-
     def compute_history_year(self, year):
         """Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
         paramètres statistiques de la distribution de Weibull sur toute l'année.
@@ -123,7 +49,7 @@ class WindHistory:
         :rtype:
         """
 
-        #logging.basicConfig(level=logging.DEBUG, format='(%(threadName)-9s) %(message)s', )
+        logging.basicConfig(level=logging.DEBUG, format='(%(threadName)-9s) %(message)s', )
 
         print("Year : ", year)
 
@@ -137,54 +63,45 @@ class WindHistory:
                 # Dans le cas contraire, on s'assure de ne pas garder d'anciennes données qui ne concernent pas ce mois.
                 else:
                     station.reset_data(month)
+
             logging.debug(f'Data loaded')
 
-            #threaded_q = queue.Queue()
-            #threaded_interpolation = FastMonthHistory(self.grid, self.stations, year, month, self.altitude, threaded_q)
             threaded_q = multiprocessing.Queue()
-            threaded_interpolation = FastHistoryMonthProcess(self.grid, self.stations, year, month, self.altitude, threaded_q)
+            threaded_interpolation = FastHistoryMonthProcess(self.grid, self.stations, year, month, self.altitude,
+                                                             threaded_q)
             follow_threads.append((threaded_interpolation, threaded_q))
 
         for thread in follow_threads:
             thread[0].start()
 
+        count_div = 0
         for thread_and_queue in follow_threads:
             wind_mean, wind_histo = thread_and_queue[1].get()
             thread_and_queue[0].join()
             self.wind_mean += wind_mean
             self.wind_histogram += wind_histo
+            count_div += 1
 
-        self.wind_mean = self.wind_mean/12
+        self.wind_mean = self.wind_mean/count_div
 
-        """
-        for month in range(1, 13):
-            print("Month : ", month)
-            self.compute_history_month(year, month)
-        """
+    def compute_history(self, period):
 
-    def estimate_wind_speed_for_altitude(self, wind):
-        """Fonction qui estime la vitesse du vent à une altitude donnée en utilisant le profil vertical de la vitesse
-        du vent
-        """
+        follow_threads = []
+        for year in period:
+            threaded_q = multiprocessing.Queue()
+            thread = FastHistoryYearProcess(self.grid, self.stations, year, self.altitude, threaded_q)
+            follow_threads.append((thread, threaded_q))
 
-        altitude_measures = 10  # Les capteurs des stations sont à 10 m du sol
-        z = 0.03  # Longueur de rugosité
-        estimate_factor = np.log(self.altitude/z)/np.log(altitude_measures/z)
+        for thread in follow_threads:
+            thread[0].start()
 
-        return wind*estimate_factor
+        for thread_and_queue in follow_threads:
+            wind_year_mean, wind_year_histogram = thread_and_queue[1].get()
+            thread_and_queue[0].join()
+            self.wind_mean += wind_year_mean
+            self.wind_histogram += wind_year_histogram
 
-    def update_stats(self, wind_field):
-        """Fonction qui met à jour les statistiques sur les classes de vent à partir des données d'un champ de vent.
-
-        :param wind_field : Une matrice 2D représentant un champ de vent
-        :type wind_field : numpy.array
-        :return:
-        :rtype :
-        """
-
-        size_x, size_y = self.wind_mean.shape
-        for x in range(size_x):
-            self.wind_histogram[x, np.arange(size_y), wind_field.astype(int)[x, :]] += 1
+        self.wind_mean = self.wind_mean/len(period)
 
     def get_fit_weibull_factors(self):
         """Fonction qui approxime les facteurs de forme et d'échelle de la distribution de Weibull du vent pour chaque
@@ -218,27 +135,23 @@ class WindHistory:
 
         raw_data = np.array([k for k in range(len(self.wind_histogram[x, y])) for i in range(int(self.wind_histogram[x, y, k]))])
 
-        bins = np.arange(41)
-        bins_centers = (bins[:-1] + bins[1:]) / 2
-        n = len(self.wind_histogram[x, y])
+        bin_centers = np.arange(0.5, 40.5)
+        frequencies = self.wind_histogram[x, y]
 
+        n = np.sum(frequencies)
         # Calcul du moment d'ordre 1 (moyenne)
-        mean = np.sum(bins_centers * self.wind_histogram[x, y]) / n
-
+        mean = np.sum(bin_centers * frequencies) / n
         # Calcul du moment d'ordre 2 (variance)
-        var = np.sum((bins_centers - mean) ** 2 * self.wind_histogram[x, y]) / n
-
-        # Calcul du moment d'ordre 3 (assymétrie)
-        skewness = np.sum(((bins_centers - mean) / np.sqrt(var)) ** 3 * self.wind_histogram[x, y]) / n
-
+        var = np.sum(((bin_centers - mean) ** 2) * frequencies) / n
+        # Calcul du moment d'ordre 3 (asymétrie)
+        skewness = (np.sum(((bin_centers - mean) ** 3) * frequencies) / n) / (var ** (3/2))
         # Calcul du moment d'ordre 4 (kurtosis ?)
-        kurtosis = np.sum(((bins_centers - mean) / np.sqrt(var)) ** 4 * self.wind_histogram[x, y]) / n - 3
+        kurtosis = ((np.sum(((bin_centers - mean) ** 4) * frequencies) / n) / (var ** 2)) - 3
 
         # Calculer estimation du facteur de forme
         shape = (kurtosis+3) / (skewness**2)
-
         # Calculer estimation du facteur d'échelle
-        scale = np.sqrt(var / ((shape - 1)*mean**2))
+        scale = mean / (sp.special.gamma(1 + 1/shape)**(1/shape))
 
         return [shape, scale]
 

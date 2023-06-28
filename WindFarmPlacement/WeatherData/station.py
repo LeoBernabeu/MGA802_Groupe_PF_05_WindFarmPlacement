@@ -23,7 +23,7 @@ class Station:
         """
 
         check_wind = False
-        for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
+        for root, dirpath, filenames in os.walk(f"./heavy_data/{self.id}/{year}"):
             for filename in filenames:
                 if "_W" in filename:
                     check_wind = True
@@ -41,7 +41,7 @@ class Station:
         """
 
         check_wind = False
-        for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
+        for root, dirpath, filenames in os.walk(f"./heavy_data/{self.id}/{year}"):
             for filename in filenames:
                 if re.search(f"\\b{month}", filename) and "_W" in filename:
                     check_wind = True
@@ -57,10 +57,17 @@ class Station:
         """
 
         check_temperature = False
-        for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
+        for root, dirpath, filenames in os.walk(f"./heavy_data/{self.id}/{year}"):
             for filename in filenames:
                 if "_T" in filename:
                     check_temperature = True
+        return check_temperature
+
+    def contains_temperature_measurements_period(self, period):
+        check_temperature = False
+        for year in period:
+            if self.contains_temperature_measurements_year(year):
+                check_temperature = True
         return check_temperature
 
     def load_data(self, year, month):
@@ -75,7 +82,12 @@ class Station:
         :rtype :
         """
 
-        path = f"data/{self.id}/{year}"
+        path = f"heavy_data/{self.id}/{year}"
+
+        try:
+            self.df_wind_data[year]
+        except KeyError:
+            self.df_wind_data[year] = {}
 
         # glob : Retourne la liste des fichiers dont le name respecte le schéma passé en paramètre
         filename = glob.glob(path + "/" + f"{month}*.csv")[0]
@@ -88,24 +100,7 @@ class Station:
         df_data = df["Wind Spd (m/s)"].loc[df_null]
 
         # Sauvegarde sous la forme d'un dictionnaire.
-        self.df_wind_data[month] = df_data
-
-    def load_all_year_data(self, year):
-
-        path = f"data/{self.id}/{year}"
-
-        # glob : Retourne la liste des fichiers dont le name respecte le schéma passé en paramètre
-        all_files = glob.glob(os.path.join(path, "*.csv"))
-        # On doit trier les noms de fichier car l'ordre lexicographique utilisé par os place les chiffres avant les
-        # autres caractères donc 10_ avant 1_ (dépend de l'OS de la machine, mais ça doit être la même sur Linux).
-        sorted_all_files = sorted(all_files, key=lambda x: int(x.split('_')[0].split('\\')[-1]))
-        df = pd.concat((pd.read_csv(f, usecols=[19]) for f in all_files), ignore_index=False)
-        # Conversion en m/s des vitesses
-        df["Wind Spd (m/s)"] = df["Wind Spd (km/h)"] * 1000 / 3600
-        # Je garde même les valeurs qui sont nan, car sinon je pourrai pas m'y retrouver dans les mois.
-
-        # Sauvegarde sous la forme d'un dictionnaire.
-        self.df_wind_data = df["Wind Spd (m/s)"]
+        self.df_wind_data[year][month] = df_data
 
     def reset_data(self, month):
         """Fonction qui réinitialise l'attribut wind_data de la station pour oublier les données chargées précédemment.
@@ -115,7 +110,7 @@ class Station:
         """
         self.df_wind_data[month] = {}
 
-    def get_wind_data_timestamp(self, month, time_index):
+    def get_wind_data_timestamp(self, year, month, time_index):
         """Fonction qui renvoie la valeur de vitesse du vent à un instant précis (Heure : Jour) indiqué par son indice.
         L'indice correspond à la ligne correspondante du fichier csv. Lorsque pl
 
@@ -126,7 +121,7 @@ class Station:
         """
 
         try:
-            wind_speed = self.df_wind_data[month].loc[time_index]
+            wind_speed = self.df_wind_data[year][month].loc[time_index]
         except (AttributeError, KeyError):
             # AttributeError s'il n'y a pas de données sur le mois ; IndexError s'il n'y a pas de données à time_index
             wind_speed = None
