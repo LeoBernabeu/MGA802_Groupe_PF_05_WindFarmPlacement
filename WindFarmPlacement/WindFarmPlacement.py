@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from math import ceil
+import multiprocessing
 
 from WindFarmPlacement.WeatherData import Station
 from WindFarmPlacement.WeatherData import WindHistory
@@ -8,7 +9,7 @@ from WindFarmPlacement.WeatherData import WindHistory
 from WindFarmPlacement.utils import gather, rectangle
 
 
-class StudyArea:
+class WindFarmPlacement:
 
     def __init__(self, long_min, long_max, lat_min, lat_max, nb_lat, nb_long):
         self.long_array = np.linspace(long_min, long_max, nb_long).round(3)
@@ -52,6 +53,32 @@ class StudyArea:
         return stations
 
     def get_wind_history_data(self, period, altitude):
+        """Méthode soft au niveau des threads
+
+        :param period:
+        :type period:
+        :param altitude:
+        :type altitude:
+        :return:
+        :rtype:
+        """
+
+        near_stations = self.find_near_stations(1)
+
+        for year in period:
+
+            useful_stations = []
+            for station in near_stations:
+                if station.contains_temperature_measurements_period(period):
+                    useful_stations.append(station)
+            # On crée un nouveau WindHistory pour l'année d'étude
+            wind_history = WindHistory(self.long_array, self.lat_array, useful_stations, altitude)
+            # On lance le calcul des données historiques.
+            wind_history.compute_history_year(year)
+
+            self.wind_history += wind_history
+
+    def get_wind_history_data_full_threaded(self, period, altitude):
         """Fonction qui récupère les données historiques de la zone d'étude pour une année donnée.
 
         :param year : L'année à étudier.
@@ -61,20 +88,16 @@ class StudyArea:
         """
 
         near_stations = self.find_near_stations(1)
+        usefull_stations = []
+        # On ajoute les stations proches de la zone d'étude qui possèdent des données sur cette année.
+        for station in near_stations:
+            if station.contains_temperature_measurements_period(period):
+                usefull_stations.append(station)
 
-        for year in period:
+        self.wind_history.stations = usefull_stations
+        self.wind_history.altitude = altitude
 
-            usefull_stations = []
-            # On ajoute les stations proches de la zone d'étude qui possèdent des données sur cette année.
-            for station in near_stations:
-                if station.contains_wind_measurements_year(year):
-                    usefull_stations.append(station)
-            # On crée un nouveau WindHistory pour l'année d'étude
-            wind_history = WindHistory(self.long_array, self.lat_array, usefull_stations, altitude)
-            # On lance le calcul des données historiques.
-            wind_history.compute_history_year(year)
-
-            self.wind_history += wind_history
+        self.wind_history.compute_history(period)
 
     def find_adapted_zone(self, windfarm, width=0.1, nb_area=5):
         """Fonction qui recherche les portions de la zone qui permettent d'atteindre l'objectif de puissance produite.

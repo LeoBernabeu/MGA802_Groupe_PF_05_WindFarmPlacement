@@ -33,7 +33,7 @@ def interp_point(x_ij, y_ij, data):
     return U_ij
 
 
-def interp_grid(xx, yy, data):
+def interpolation(xx, yy, data):
     vfunc = np.vectorize(interp_point, excluded=['data'])
     interp_matrix = vfunc(xx, yy, data=data)
     return interp_matrix
