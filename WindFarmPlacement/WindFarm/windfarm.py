@@ -3,7 +3,7 @@ import numpy as np
 
 
 class WindFarm:
-    """Initialise un parc éolien avec la puissance cible spécifiée.
+    """Objet représentant un parc éolien.
 
     :param target_power: Puissance cible du parc éolien.
     :type target_power: float
@@ -29,15 +29,6 @@ class WindFarm:
 
         self.windmills.append(windmill)
 
-    def set_topography(self, topography):
-        """Fonction qui définit la topographie de la zone d'implantation du parc éolien.
-
-        :param topography: Topographie de la zone d'implantation.
-        :type topography: np.ndarray
-        """
-
-        self.topography = topography
-
     def total_produced_power(self, wind_field):
         """Fonction qui calcule la puissance totale produite par le parc éolien en fonction du champ de vent.
 
@@ -48,6 +39,7 @@ class WindFarm:
         """
 
         total_power = 0
+        # On calcule la puissance produite par chaque éolienne du champ.
         for windmill in self.windmills:
             total_power += windmill.produced_power(wind_field[windmill.lat, windmill.lon])
         return total_power
@@ -131,10 +123,10 @@ class WindFarm:
         windmill_coordinates = np.vstack((latitudes, longitudes)).T
 
         # Display windmill locations on a 2D plot
-        plt.scatter(windmill_coordinates[:, 1], windmill_coordinates[:, 0], color='red', marker='x')
-        plt.xlabel('Longitude (°)')
-        plt.ylabel('Latitude (°)')
-        plt.title('Localisation de chaque éoliennes dans le parc éolien')
-        plt.show()
+        # plt.scatter(windmill_coordinates[:, 1], windmill_coordinates[:, 0], color='red', marker='x')
+        # plt.xlabel('Longitude (°)')
+        # plt.ylabel('Latitude (°)')
+        # plt.title('Localisation de chaque éoliennes dans le parc éolien')
+        # plt.show()
 
         return windmill_coordinates

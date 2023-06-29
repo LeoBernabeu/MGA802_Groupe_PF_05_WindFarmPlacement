@@ -5,7 +5,7 @@ from math import pi
 
 
 class Windmill:
-    """Initialise une éolienne avec les paramètres spécifiés.
+    """Objet représentant une éolienne.
 
     :param height: Hauteur de l'éolienne.
     :type height: float
@@ -13,7 +13,8 @@ class Windmill:
     :type blade_length: float
     :param cut_in_speed: Vitesse de démarrage de l'éolienne (vitesse minimale pour laquelle elle produit de l'énergie).
     :type cut_in_speed: float
-    :param cut_out_speed: Vitesse de coupure de l'éolienne (vitesse maximale à laquelle elle cesse de produire de l'énergie).
+    :param cut_out_speed: Vitesse de coupure de l'éolienne (vitesse maximale à laquelle elle cesse de produire de
+    l'énergie).
     :type cut_out_speed: float
     """
 
@@ -72,9 +73,10 @@ class Windmill:
         coordonnée d'une grille en fonction des mesures du vent passées en paramètre. Les formules, méthodes et
         hypothèses proviennent de la source suivante : https://eolienne.f4jr.org/eolienne_etude_theorique
 
-        :param wind_data: Objet WindHistory qui contient les données sur les mesures historiques du vent de la zone d'étude. Contient, la valeur moyenne du vent et la distribution des classes de vent (histogramme).
-        :type wind_data: WindHistory
-        :return: Retourne une matrice contenant la puissance théorique pouvant être produite
+        :param weibull: Tableau qui contient les facteurs de forme et d'échelle des distributions de Weibull du vent
+        pour chaque couple de coordonnées longitude; latitude de la zone étudiée.
+        :type weibull: numpy.ndarray
+        :return: Retourne une matrice contenant la puissance théorique pouvant être produite.
         :rtype: numpy.array
         """
 
