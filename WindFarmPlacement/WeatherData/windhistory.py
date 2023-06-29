@@ -179,7 +179,7 @@ class WindHistory:
 
         n = np.sum(frequencies)
         # Calcul du moment d'ordre 1 (moyenne)
-        mean = np.sum(bin_centers * frequencies) / n
+        mean = self.wind_mean[x, y]
         # Calcul du moment d'ordre 2 (variance)
         var = np.sum(((bin_centers - mean) ** 2) * frequencies) / n
         # Calcul du moment d'ordre 3 (asymétrie)
