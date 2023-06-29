@@ -9,19 +9,20 @@ from WindFarmPlacement.WeatherData.fasthistorymonthprocess import FastHistoryMon
 
 
 class WindHistory:
-    """Initialise un objet WindHistory pour l'historique du vent (année ou mois).
+    """Objet conceptuel représentant l'historique du vent dans une zone par la vitesse moyenne du vent et l'histogramme
+    des classes de vent. Les classes de vent sont les différentes tranches de vitesse du vent : 0 m/s, 1 m/s, 2 m/s, ...
 
     :param long_array: Un tableau de longitudes.
     :type long_array: numpy.array
     :param lat_array: Un tableau de latitudes.
     :type lat_array: numpy.array
+    :param altitude: L'altitude par rapport au sol pour mesurer la vitesse.
+    :type altitude: float
     :param stations: Une liste des stations météorologiques, par défaut None.
     :type stations: list, optional
-    :param altitude: L'altitude, par défaut None.
-    :type altitude: float, optional
     """
 
-    def __init__(self, long_array, lat_array, stations=None, altitude=None):
+    def __init__(self, long_array, lat_array, altitude, stations=None):
         size_x, size_y = len(long_array), len(lat_array)
         self.grid = np.meshgrid(long_array, lat_array)
         self.wind_mean = np.zeros((size_x, size_y))
@@ -70,14 +71,11 @@ class WindHistory:
     def compute_history_year(self, year):
         """Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
         paramètres statistiques de la distribution de Weibull sur toute l'année.
+        (Utilisé lorsque les processus sur les années ne sont pas activés)
 
         :param year: Année.
         :type year: int
         """
-
-        logging.basicConfig(level=logging.DEBUG, format='(%(threadName)-9s) %(message)s', )
-
-        print("Year : ", year)
 
         follow_threads = []
         for month in range(1, 13):
@@ -93,30 +91,37 @@ class WindHistory:
             logging.debug(f'Data loaded')
 
             threaded_q = multiprocessing.Queue()
+            # Création des processus pour les calculs sur chaque mois
             threaded_interpolation = FastHistoryMonthProcess(self.grid, self.stations, year, month, self.altitude,
                                                              threaded_q)
             follow_threads.append((threaded_interpolation, threaded_q))
 
+        # Lancement de l'exécution des processus
         for thread in follow_threads:
             thread[0].start()
 
-        count_div = 0
+        counter_divide = 0
         for thread_and_queue in follow_threads:
+            # On récupère le contenu des Queues
             wind_mean, wind_histo = thread_and_queue[1].get()
             thread_and_queue[0].join()
+            # Mise-à-jour de la moyenne et des statistiques
             self.wind_mean += wind_mean
             self.wind_histogram += wind_histo
-            count_div += 1
+            counter_divide += 1
 
-        self.wind_mean = self.wind_mean/count_div
+        if counter_divide != 0:
+            self.wind_mean = self.wind_mean/counter_divide
 
     def compute_history(self, period):
-        """Fonction qui calcule l'historique du vent pour une période donnée.
+        """Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
+        paramètres statistiques de la distribution de Weibull sur toutes les années listées dans période.
 
-        :param period: Période.
+        :param period: Liste d'années à utiliser pour calculer l'historique du vent.
         :type period: list
         """
 
+        # Pourrait être un Refactor pour limiter le code duppliqué
         follow_threads = []
         for year in period:
             threaded_q = multiprocessing.Queue()
@@ -207,6 +212,7 @@ class WindHistory:
 
         for x in range(size_x):
             for y in range(size_y):
+                # Calcul des facteurs de forme et d'échelle de Weibull
                 weibull[x, y] = self.calculate_weibull_factors_with_moments(x, y)
 
         return weibull
