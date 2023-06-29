@@ -1,0 +1,29 @@
+# Enter the parameters for the calculation
+
+# Study area and data acquisition parameters
+lon_min: -123.5               # Min longitude of our study region
+lon_max: -122.5               # Max longitude of our study region
+lat_min: 48.0                 # Min latidute of our study region
+lat_max: 49.0                 # Max latidute of our study region
+# lon_min: -123               # Min longitude of our study region
+# lon_max: -122.8               # Max longitude of our study region
+# lat_min: 48.8                 # Min latidute of our study region
+# lat_max: 49.0                 # Max latidute of our study region
+precision_lon: 5              # Number of points to study along the longitude of our study region
+precision_lat: 5              # Number of points to study along the latitude of our study region
+study_alt: 50.0               # Altitude at which we gather wind data in meters, can be either 10, 30 or 50
+study_years:                  # List of years that we want to study
+  - 2018
+#  - 2019
+activate_multi_process: false  # Activate multi-thread processing to decrease calculation time
+num_areas_interest: 2         # Number of sub-areas of intesrests to further study within the study area
+
+# Wind farm turbine parameters
+target_power: 200000.0        # Target power of the wind turbine farm in Watts
+num_windmills: 9              # Number of wind turbines in the farm
+turb_height: 50.0             # Altitude of turbine in meters, for accurate results, should be equal to study_alt (either 10, 30 or 50)
+blade_length: 45.0            # Length of turbine blades in meters
+cut_in_speed: 3.0             # Speed at which the turbine starts producing power
+cut_out_speed: 25.0           # Speed at which the turbine stops producing power
+turbine_spacing: 5            # Spacing of individual turbines in the farm, a spacing of 5 will space them by 5 times their turbine diameter
+

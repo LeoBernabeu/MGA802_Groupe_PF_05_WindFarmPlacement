@@ -152,7 +152,7 @@ class WindFarmPlacement:
             limits = np.array([np.arange(rectangular_areas[k][0], rectangular_areas[k][1])
                                for k in range(len(rectangular_areas))])
             latitudes = np.array(self.lat_array[limits])
-            print("Latirudes : ", latitudes)
+            print("Latitudes : ", latitudes)
             lat_limits = [np.min(latitudes, axis=1)-width/2, np.max(latitudes, axis=1)+width/2]
             print(lat_limits)
             area_of_interest_coordinates[:, 0, 0] = lat_limits[0]

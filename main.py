@@ -2,62 +2,112 @@ from WindFarmPlacement.WindFarmPlacement import WindFarmPlacement
 from WindFarmPlacement.WindFarm.windmill import Windmill
 from WindFarmPlacement.WindFarm.windfarm import WindFarm
 from WindFarmPlacement.topography import ElevationData
+from WindFarmPlacement.utils import print_message_console
 
 import numpy as np
 import matplotlib.pyplot as plt
-
+import yaml
+import os
 
 # Paramètres de test pour la Study Area qui sont pas mal, i.e : début de résultat avec temps de calcul assez court.
 
 if __name__ == '__main__':
 
-    lon_min, lon_max = -123.5, -122.5
-    lat_min, lat_max = 48, 49
+    # Load parameters from YAML file
+    with open('parameters.yaml', 'r') as file:
+        parameters = yaml.safe_load(file)
 
-    study_area = WindFarmPlacement(lon_min, lon_max, lat_min, lat_max, 50, 50)
-    study_area.get_wind_history_data([2018], 30)
+    # Study area and data acquisition parameters definition
+    lon_min = parameters['lon_min']                     # Min longitude of our study region
+    lon_max = parameters['lon_max']                     # Max longitude of our study region
+    lat_min = parameters['lat_min']                     # Min latidute of our study region
+    lat_max = parameters['lat_max']                     # Max latidute of our study region
+    precision_lon = int(parameters['precision_lon'])    # Number of points to study along the longitude of our study region
+    precision_lat = int(parameters['precision_lat'])    # Number of points to study along the latitude of our study region
+    study_alt = parameters['study_alt']                 # Altitude at which we gather wind data in meters, can be either 10, 30 or 50
+    study_years = parameters['study_years']             # List of years that we want to study
+    activate_multi_process = parameters['activate_multi_process']   # Activate multi-thread processing to decrease calculation time
+    num_areas_interest = int(parameters['num_areas_interest'])      # Number of sub-areas of intesrests to further study within the study area
+    
+    # Wind farm turbine parameters
+    target_power = parameters['target_power']   # Target power of the wind turbine farm in Watts
+    num_windmills = parameters['num_windmills'] # Number of wind turbines in the farm
+    turb_height = parameters['turb_height']     # Altitude of turbine in meters, for accurate results, should be equal to study_alt (either 10, 30 or 50)
+    blade_length = parameters['blade_length']   # Length of turbine blades in meters
+    cut_in_speed = parameters['cut_in_speed']   # Speed at which the turbine starts producing power
+    cut_out_speed = parameters['cut_out_speed'] # Speed at which the turbine stops producing power
+    turbine_spacing = parameters['turbine_spacing'] # Spacing of individual turbines in the farm, a spacing of 5 will space them by 5 times their turbine diameter
+    print_message_console("Parameters have been acquired successfully")
 
-    # Affichage des vitesses moyennes du vent
+    # Define study area and get wind history data
+    study_area = WindFarmPlacement(lon_min, lon_max, lat_min, lat_max, precision_lat, precision_lon)
+    if activate_multi_process == True:
+        study_area.get_wind_history_data_full_threaded(study_years, study_alt)
+    else:
+        study_area.get_wind_history_data(study_years, study_alt)
+    print_message_console("Wind history data has been gathered successfully")
+
+    # Print and save average wind speed figure
     plt.imshow(study_area.wind_history.wind_mean, extent=[lon_min, lon_max, lat_min, lat_max], aspect='auto')
     plt.colorbar()
-    plt.title("Vitesse moyenne du vent (en m/s) 2018")
+    years_str = ", ".join(str(year) for year in study_years)
+    plt.title(f"Average wind speed (m/s) {years_str}")
     plt.xlabel("Longitude (°)")
     plt.ylabel("Latitude (°)")
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    file_name = "Average_wind_speed.png"
+    figure_path = os.path.join(current_directory, "figures", file_name)
+    plt.savefig(figure_path)
     plt.show()
+    
+    # Create wind farm object and add wind turbines to the wind farm
+    wind_farm = WindFarm(target_power)
+    for i in range(num_windmills):
+        wind_farm.add_windmill(Windmill(turb_height, blade_length,cut_in_speed,cut_out_speed))
+    print_message_console("Wind wind turbine farm has been created successfully")
 
-    wind_farm = WindFarm(10*2e5)
-    num_windmills = 9  # Nombre d'éoliennes (à définir par l'utilisateur)
-    for i in range(9):
-        wind_farm.add_windmill(Windmill(50, 45))
+    # Calculate the power matrix produced by our wind farm within the study area and find an area of interest
+    areas_of_interest, power_matrix = study_area.find_adapted_zone(wind_farm, width=0.02,nb_area=num_areas_interest)
+    print_message_console("Power matrix and areas of interests have been calculated successfully")
 
-    area_of_interest, power_matrix = study_area.find_adapted_zone(wind_farm, width=0.02)
-
-    # Affichage des puissances
+    # Print and save power estimation figure
     plt.imshow(power_matrix, extent=[lon_min, lon_max, lat_min, lat_max], aspect='auto')
     plt.colorbar()
-    plt.title("Estimation puissance produite sur une année (en W)")
+    plt.title("Yearly power estimate (W)")
     plt.xlabel("Longitude (°)")
     plt.ylabel("Latitude (°)")
+    file_name = "Power_estimate_yearly.png"
+    figure_path = os.path.join(current_directory, "figures", file_name)
+    plt.savefig(figure_path)
     plt.show()
 
-    # Retreive elevation data and calculate score
-    elevation_data = ElevationData(area_of_interest[0][1][0], area_of_interest[0][1][1], area_of_interest[0][0][0], area_of_interest[0][0][1], 10, 10)
-    elevation_data.retrieve_elevation_data()
-    elevation_data.calculate_flatness_score()
+    # Retrieve elevation data for all areas of interest and calculate topography score
+    print_message_console("About to retrieve topography from Open Elevation API, this might take a few minutes.")
+    elevation_arrays = []
+    flatness_scores = []
+    for area in range(areas_of_interest.shape[0]):
+        # Retreive elevation data and calculate score # add for to loop through all areas of intests
+        elevation_data = ElevationData(areas_of_interest[area][1][0], areas_of_interest[area][1][1], areas_of_interest[area][0][0], areas_of_interest[area][0][1], precision_lon, precision_lat)
+        elevation_data.retrieve_elevation_data()
+        elevation_data.calculate_flatness_score()
 
-    # Store elevation data and score
-    elevation_array = elevation_data.get_elevation_array()
-    flatness_score = elevation_data.flatness_score
+        # Store elevation data and score
+        elevation_arrays.append(elevation_data.get_elevation_array())
+        flatness_scores.append(elevation_data.flatness_score)
+        print(f"The elevation score for area of interest {area} is {flatness_scores[area]}")
 
-    # Plot elevation data
-    elevation_data.plot_3d_surface_map()
-    # Print results
-    print(f"Flatness score = ",flatness_score)
+        # Plot elevation data
+        elevation_data.plot_3d_surface_map(area)
 
+    # Keep the area of interest that has the largest flatness score
+    print_message_console("Topography and flatness scores have been calculated successfully")
 
-    # Define the area of interest as a 2D numpy array
+    # Find the area of intesrest with the max flatness score and show its flatness score and power output
+    index_max_topo = np.argmax(flatness_scores)
+    print(f"The area of interest with the best flatness score is area {index_max_topo} with a score of {flatness_scores[index_max_topo]}")
+    # print("It's yearly power output estimate is W")
 
     # Placer les éoliennes dans la zone d'intérêt
-    windmill_coordinates = wind_farm.place_windmills(area_of_interest[0])
-    print("Localisation des éoliennes")
+    windmill_coordinates = wind_farm.place_windmills(areas_of_interest[index_max_topo],turbine_spacing)
+    print("\nLocation of wind turbines in the parc [lat,lon]")
     print(windmill_coordinates)

@@ -50,7 +50,7 @@ class WindHistory:
         :rtype:
         """
 
-        logging.basicConfig(level=logging.DEBUG, format='(%(threadName)-9s) %(message)s', )
+        # logging.basicConfig(level=logging.DEBUG, format='(%(threadName)-9s) %(message)s', )
 
         print("Year : ", year)
 
@@ -65,7 +65,7 @@ class WindHistory:
                 else:
                     station.reset_data(month)
 
-            logging.debug(f'Data loaded')
+            # logging.debug(f'Data loaded')
 
             threaded_q = multiprocessing.Queue()
             threaded_interpolation = FastHistoryMonthProcess(self.grid, self.stations, year, month, self.altitude,

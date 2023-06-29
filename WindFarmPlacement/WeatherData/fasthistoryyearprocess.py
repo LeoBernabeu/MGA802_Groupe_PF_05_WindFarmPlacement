@@ -14,12 +14,12 @@ class FastHistoryYearProcess(multiprocessing.Process):
         self.year = year
         self.altitude = altitude
         self.queue = queue
-        logging.debug(f'FastYear - Threaded class {year} created')
+        # logging.debug(f'FastYear - Threaded class {year} created')
 
     def run(self) -> None:
         # logging.basicConfig(level=logging.DEBUG, format='(%(threadName)-9s) %(message)s', )
 
-        logging.debug(f"FastYear - Threaded class {self.year} started")
+        # logging.debug(f"FastYear - Threaded class {self.year} started")
         follow_threads = []
         for month in range(1, 13):
             # Chargement des données du mois étudié chez les stations
@@ -31,7 +31,7 @@ class FastHistoryYearProcess(multiprocessing.Process):
                 else:
                     station.reset_data(month)
 
-            logging.debug(f'Data loaded')
+            # logging.debug(f'Data loaded')
 
             threaded_q = multiprocessing.Queue()
             threaded_interpolation = FastHistoryMonthProcess(self.grid, self.stations, self.year, month, self.altitude,

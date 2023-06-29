@@ -22,11 +22,11 @@ class FastHistoryMonthProcess(multiprocessing.Process):
         self.month = month
         self.altitude = altitude
         self.queue = queue
-        logging.debug(f'FastHistoryMonth - Threaded class {month} created')
+        # logging.debug(f'FastHistoryMonth - Threaded class {month} created')
 
     def run(self) -> None:
 
-        logging.debug(f'FastHistoryMonth - Threaded class {self.month} just started')
+        # logging.debug(f'FastHistoryMonth - Threaded class {self.month} just started')
 
         counter_div = 0
         xx, yy = self.grid
@@ -61,7 +61,7 @@ class FastHistoryMonthProcess(multiprocessing.Process):
 
         self.queue.put([wind_mean, wind_histogram])
 
-        logging.debug(f'FastInterpolation - Threaded class {self.month} just finished')
+        # logging.debug(f'FastInterpolation - Threaded class {self.month} just finished')
 
     def estimate_wind_speed_for_altitude(self, wind):
         """Fonction qui estime la vitesse du vent à une altitude donnée en utilisant le profil vertical de la vitesse

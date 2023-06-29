@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 
 class WindFarm:
@@ -29,13 +30,13 @@ class WindFarm:
             total_theoric_power += windmill.theoretical_power(weibull_factors)
         return total_theoric_power
 
-    def place_windmills(self, area_of_interest):
+    def place_windmills(self, area_of_interest,turbine_spacing):
 
         windmill = self.windmills[0]
         rotor_diameter = windmill.blade_length  # Espacement de 5 fois le diamètre (à définir par l'utilisateur)
-        distance = 5 * rotor_diameter
+        distance = turbine_spacing * rotor_diameter
 
-        print(area_of_interest)
+        # print(area_of_interest)
         num_windmills = len(self.windmills)
 
         lat_min, lat_max = area_of_interest[0]
@@ -90,7 +91,14 @@ class WindFarm:
         plt.scatter(windmill_coordinates[:, 1], windmill_coordinates[:, 0], color='red', marker='x')
         plt.xlabel('Longitude (°)')
         plt.ylabel('Latitude (°)')
-        plt.title('Localisation de chaque éoliennes dans le parc éolien')
+        plt.title('Location of wind turbines in the farm')
         plt.show()
+
+        # Save the figure to the "figures" sub-folder
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+        current_directory = current_directory.replace("\\WindFarmPlacement\\WindFarm", "")
+        file_name = "Wind_turbines_locations.png"
+        figure_path = os.path.join(current_directory, "figures", file_name)
+        plt.savefig(figure_path)
 
         return windmill_coordinates

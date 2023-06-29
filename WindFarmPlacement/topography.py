@@ -2,6 +2,7 @@ import requests
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import os
 
 
 class ElevationData:
@@ -15,6 +16,13 @@ class ElevationData:
         self.elevation_array = np.zeros((num_lat_points, num_lon_points))
 
     def retrieve_elevation_data(self):
+        """Function that uses the Open Elevation API to get elevation data points from a specified lat/long reactangular region.
+
+        :param : 
+        :type :
+        :return:
+        :rtype :
+        """
         lon_step = (self.lon_max - self.lon_min) / (self.num_lon_points - 1)
         lat_step = (self.lat_max - self.lat_min) / (self.num_lat_points - 1)
 
@@ -32,6 +40,14 @@ class ElevationData:
         return self.elevation_array
     
     def calculate_flatness_score(self):
+        """Function that calculates a flatness score from an elevation array. A higher score means the surface is flatter.
+
+        :param : 
+        :type :
+        :return:
+        :rtype :
+        """
+
         # Calculate the standard deviation of the elevation values
         std_dev = np.std(self.elevation_array)
 
@@ -45,7 +61,15 @@ class ElevationData:
             # Map the normalized standard deviation to a score between 0 and 100
             self.flatness_score = (1 - normalized_std_dev) * 100.0
 
-    def plot_3d_surface_map(self):
+    def plot_3d_surface_map(self,area_id):
+        """Function that plots a 3D surface map from an elevation array and a lat/lon grid.
+
+        :param : 
+        :type :
+        :return:
+        :rtype :
+        """
+
         # Create meshgrid for x and y coordinates
         x = np.linspace(self.lon_min, self.lon_max, self.num_lon_points)
         y = np.linspace(self.lat_min, self.lat_max, self.num_lat_points)
@@ -66,6 +90,13 @@ class ElevationData:
 
         # Show the plot
         plt.show()
+
+        # Save the figure to the "figures" sub-folder
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+        current_directory = current_directory.replace("\\WindFarmPlacement", "")
+        file_name = "topography_map_" + str(area_id) + ".png"
+        figure_path = os.path.join(current_directory, "figures", file_name)
+        plt.savefig(figure_path)
 
 # # Example usage in mountains s=39
 # lon_min, lon_max = -124.75, -124.0

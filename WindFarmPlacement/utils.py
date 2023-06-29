@@ -140,3 +140,6 @@ def check_consecutive_lines(x, lines, index):
     if x[next_line[0]] - 1 != x[line[0]]:
         check_consecutive = False
     return check_consecutive
+
+def print_message_console(message):
+    print(f"\n-------------------\n{message}\n-------------------") 
