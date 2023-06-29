@@ -42,47 +42,107 @@
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WeatherData.station.</span></span><span class="sig-name descname"><span class="pre">Station</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialise un objet Station avec les attributs spécifiés.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>station_id</strong> (<em>str</em>) – L’ID de la station météorologique.</p></li>
+<li><p><strong>latitude</strong> (<em>float</em>) – La latitude de la station météorologique.</p></li>
+<li><p><strong>longitude</strong> (<em>float</em>) – La longitude de la station météorologique.</p></li>
+<li><p><strong>elevation</strong> (<em>float</em>) – L’altitude de la station météorologique.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.contains_temperature_measurements_period">
+<span class="sig-name descname"><span class="pre">contains_temperature_measurements_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.contains_temperature_measurements_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui vérifie si la station possède des mesures de température pour une période donnée (liste d’années).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>period</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – La période (liste d’années) pour laquelle on veut vérifier la présence de données sur la température.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True si des données sur la température sont disponibles pour au moins une année de la période, False sinon.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.contains_temperature_measurements_year">
 <span class="sig-name descname"><span class="pre">contains_temperature_measurements_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.contains_temperature_measurements_year" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui vérifie si la station dispose de mesure sur la température pour une année donnée.</p>
-<p>:param year : L’année pour laquelle on veut vérifier la présence de données liées à la température.
-:type year : int
-:return: Retourne un booléen qui indique si la station dispose de données liées à la température.
-:rtype : bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>year</strong> (<em>int</em>) – L’année pour laquelle on veut vérifier la présence de données liées à la température.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Retourne un booléen qui indique si la station dispose de données liées à la température.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.contains_wind_measurements_month">
 <span class="sig-name descname"><span class="pre">contains_wind_measurements_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.contains_wind_measurements_month" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui vérifie si la station dispose de mesure sur le vent pour un mois précis d’une année donnée.</p>
-<p>:param year : L’année pour laquelle on veut vérifier la présence de données liées au vent.
-:type year : int
-:param month : Le mois de l’année sur lequel effectué la recherche.
-:type month : int
-:return: Retourne un booléen qui indique si la station dispose de données liées au vent.
-:rtype : bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>year</strong> (<em>int</em>) – L’année pour laquelle on veut vérifier la présence de données liées au vent.</p></li>
+<li><p><strong>month</strong> (<em>int</em>) – Le mois de l’année sur lequel effectué la recherche.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Retourne un booléen qui indique si la station dispose de données liées au vent.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.contains_wind_measurements_year">
 <span class="sig-name descname"><span class="pre">contains_wind_measurements_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.contains_wind_measurements_year" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui vérifie si la station dispose de mesure sur le vent pour une année donnée.</p>
-<p>:param year : L’année pour laquelle on veut vérifier la présence de données liées au vent.
-:type year : int
-:return: Retourne un booléen qui indique si la station dispose de données liées au vent.
-:rtype : bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>year</strong> (<em>int</em>) – L’année pour laquelle on veut vérifier la présence de données liées au vent.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Retourne un booléen qui indique si la station dispose de données liées au vent.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.get_wind_data_timestamp">
-<span class="sig-name descname"><span class="pre">get_wind_data_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.get_wind_data_timestamp" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_wind_data_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.get_wind_data_timestamp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui renvoie la valeur de vitesse du vent à un instant précis (Heure : Jour) indiqué par son indice.
 L’indice correspond à la ligne correspondante du fichier csv. Lorsque pl</p>
-<p>:param time_index :
-:type time_index : int
-:return: Retourne la vitesse du vent mesurée par la station
-:rtype : float</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>month</strong> (<em>int</em>) – Le mois pour lequel on veut récupérer les données.</p></li>
+<li><p><strong>time_index</strong> (<em>int</em>) – L’indice de l’instant précis dans les données.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Retourne la vitesse du vent mesurée par la station</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -90,24 +150,31 @@ L’indice correspond à la ligne correspondante du fichier csv. Lorsque pl</p>
 <span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.load_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui charge les données liées au vent pour un mois et une année précisés en paramètres.
 Les données sont accessibles via l’attribut wind_data de la station.</p>
-<p>:param year : L’année des données à charger
-:type year : int
-:param month : Le mois des données à charger
-:type month : int
-:return:
-:rtype :</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>year</strong> (<em>int</em>) – L’année des données à charger</p></li>
+<li><p><strong>month</strong> (<em>int</em>) – Le mois des données à charger</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.station.Station.reset_data">
-<span class="sig-name descname"><span class="pre">reset_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.reset_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reset_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.station.Station.reset_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui réinitialise l’attribut wind_data de la station pour oublier les données chargées précédemment.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>month</strong> (<em>int</em>) – Le mois pour lequel on veut réinitialiser les données.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
-<p>:rtype :</p>
 </dd></dl>
 
 </dd></dl>
@@ -119,33 +186,57 @@ Les données sont accessibles via l’attribut wind_data de la station.</p>
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WeatherData.windhistory.</span></span><span class="sig-name descname"><span class="pre">WindHistory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">long_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Historique du vent (année ou mois)</p>
+<p>Initialise un objet WindHistory pour l’historique du vent (année ou mois).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>long_array</strong> (<em>numpy.array</em>) – Un tableau de longitudes.</p></li>
+<li><p><strong>lat_array</strong> (<em>numpy.array</em>) – Un tableau de latitudes.</p></li>
+<li><p><strong>stations</strong> (<em>list</em><em>, </em><em>optional</em>) – Une liste des stations météorologiques, par défaut None.</p></li>
+<li><p><strong>altitude</strong> (<em>float</em><em>, </em><em>optional</em>) – L’altitude, par défaut None.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.add_station">
 <span class="sig-name descname"><span class="pre">add_station</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.add_station" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui ajoute une station à la liste de celles utilisées pour calculer l’historique sur les vents.</p>
-<p>:param station : Une station météorologique.
-:type station : Station
-:return:
-:rtype :</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>station</strong> (<a class="reference internal" href="#WindFarmPlacement.WeatherData.station.Station" title="WindFarmPlacement.WeatherData.station.Station"><em>Station</em></a>) – Une station météorologique.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.calculate_weibull_factors_with_moments">
 <span class="sig-name descname"><span class="pre">calculate_weibull_factors_with_moments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.calculate_weibull_factors_with_moments" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculer les facteurs de weibull. À vectoriser plus tard</p>
+<dd><p>Fonction qui calcul les facteurs de weibull à partir des moments</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – Coordonnée x.</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Coordonnée y.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Les facteurs de forme et d’échelle de Weibull.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history_month">
-<span class="sig-name descname"><span class="pre">compute_history_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history_month" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
-paramètres statistiques de la distribution de Weibull sur un mois donné.</p>
-<p>:param month : Le mois à étudier, sur lequel calculer la moyenne et les paramètres statistiques.
-Janvier = 1, Février = 2, …, Décembre = 12.
-:type month : int
-:return:
-:rtype:</p>
+<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history">
+<span class="sig-name descname"><span class="pre">compute_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.compute_history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui calcule l’historique du vent pour une période donnée.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>period</strong> (<em>list</em>) – Période.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -154,20 +245,10 @@ Janvier = 1, Février = 2, …, Décembre = 12.
 <dd><p>Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
 paramètres statistiques de la distribution de Weibull sur toute l’année.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>year</strong> (<em>int</em>) – Année.</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.estimate_wind_speed_for_altitude">
-<span class="sig-name descname"><span class="pre">estimate_wind_speed_for_altitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wind</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.estimate_wind_speed_for_altitude" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fonction qui estime la vitesse du vent à une altitude donnée en utilisant le profil vertical de la vitesse
-du vent</p>
 </dd></dl>
 
 <dl class="py method">
@@ -179,24 +260,24 @@ coordonnée. Pour cela on utilise la méthode de scipy weibull_min.fit().</p>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Retourne une matrice 2D contenant les facteurs de forme et d’échelle</p>
 </dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy.array</p>
+</dd>
 </dl>
-<p>:rtype : numpy.array</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.get_moment_weibull_factors">
 <span class="sig-name descname"><span class="pre">get_moment_weibull_factors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.get_moment_weibull_factors" title="Permalink to this definition">¶</a></dt>
-<dd><p>Matrice de weibull</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="WindFarmPlacement.WeatherData.windhistory.WindHistory.update_stats">
-<span class="sig-name descname"><span class="pre">update_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wind_field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WeatherData.windhistory.WindHistory.update_stats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fonction qui met à jour les statistiques sur les classes de vent à partir des données d’un champ de vent.</p>
-<p>:param wind_field : Une matrice 2D représentant un champ de vent
-:type wind_field : numpy.array
-:return:
-:rtype :</p>
+<dd><p>Fonction qui retourne les facteurs de Weibull à partir des moments pour chaque coordonnée.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Une matrice 2D contenant les facteurs de forme et d’échelle.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy.array</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

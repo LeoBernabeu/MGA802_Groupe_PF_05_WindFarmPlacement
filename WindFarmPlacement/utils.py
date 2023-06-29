@@ -3,11 +3,29 @@ import warnings
 
 
 def number_days_for_month(month):
+    """Fonction qui retourne le nombre de jours dans un mois donné.
+
+    :param month: Le mois pour lequel on souhaite obtenir le nombre de jours.
+    :type month: int
+    :return: Le nombre de jours dans le mois spécifié.
+    :rtype: int
+    """
+
     days = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
     return days[month]
 
 
 def weight(point_coords, station_coords):
+    """Fonction qui calcule les poids associés à chaque station en fonction des coordonnées d'un point.
+
+    :param point_coords: Coordonnées du point d'intérêt.
+    :type point_coords: list[float, float]
+    :param station_coords: Coordonnées des stations.
+    :type station_coords: np.ndarray
+    :return: Les poids associés à chaque station.
+    :rtype: np.ndarray
+    """
+
     x_ij, y_ij = point_coords[0], point_coords[1]
     x_k, y_k = station_coords[:, 0], station_coords[:, 1]
 
@@ -23,6 +41,18 @@ def weight(point_coords, station_coords):
 
 
 def interp_point(x_ij, y_ij, data):
+    """Fonction qui effectue l'interpolation du point d'intérêt en utilisant les données des stations.
+
+    :param x_ij: Coordonnée en latitude du point d'intérêt.
+    :type x_ij: float
+    :param y_ij: Coordonnée en longitude du point d'intérêt.
+    :type y_ij: float
+    :param data: Données des stations (valeur + coordonnées).
+    :type data: np.ndarray
+    :return: La valeur interpolée du point d'intérêt.
+    :rtype: float
+    """
+
     # Source méthode bis plus complexe
     # https://www.researchgate.net/publication/234295032_A_Simple_Method_for_Spatial_Interpolation_of_the_Wind_in_Complex_Terrain
     values = data[:, 0]
@@ -34,6 +64,18 @@ def interp_point(x_ij, y_ij, data):
 
 
 def interpolation(xx, yy, data):
+    """Fonction qui effectue l'interpolation des points d'intérêt en utilisant les données des stations.
+
+    :param xx: Coordonnées en latitude des points d'intérêt.
+    :type xx: np.ndarray
+    :param yy: Coordonnées en longitude des points d'intérêt.
+    :type yy: np.ndarray
+    :param data: Données des stations (valeur + coordonnées).
+    :type data: np.ndarray
+    :return: La matrice interpolée des points d'intérêt.
+    :rtype: np.ndarray
+    """
+
     vfunc = np.vectorize(interp_point, excluded=['data'])
     interp_matrix = vfunc(xx, yy, data=data)
     return interp_matrix
@@ -42,12 +84,12 @@ def interpolation(xx, yy, data):
 
 
 def gather(condition):
-    """Fonction qui regroupe en faisant un parcours en profondeur
+    """Fonction qui regroupe les points satisfaisant une condition en effectuant un parcours en profondeur.
 
-    :param condition:
-    :type condition:
-    :return:
-    :rtype:
+    :param condition: Condition à satisfaire pour regrouper les points.
+    :type condition: np.ndarray
+    :return: Liste des groupes de points regroupés.
+    :rtype: list[list[tuple[int, int]]]
     """
 
     groups = []
@@ -75,7 +117,17 @@ def gather(condition):
 
 
 def rectangle(group, width_x, width_y):
-    """Fonction qui renvoie les coordonnées permettant de faire un rectangle"""
+    """Fonction qui retourne les coordonnées permettant de créer un rectangle à partir d'un groupe de points
+
+    :param group: Groupe de points.
+    :type group: list[tuple[int, int]]
+    :param width_x: Largeur maximale selon l'axe x pour former un rectangle.
+    :type width_x: int
+    :param width_y: Largeur maximale selon l'axe y pour former un rectangle.
+    :type width_y: int
+    :return: Liste des coordonnées des rectangles formés.
+    :rtype: list[list[int, int, np.ndarray]]
+    """
 
     array = np.array(group)
     x = array[:, 1]
@@ -134,6 +186,18 @@ def rectangle(group, width_x, width_y):
 
 
 def check_consecutive_lines(x, lines, index):
+    """Fonction qui vérifie si deux lignes sont consécutives.
+
+    :param x: Coordonnées en latitude des points.
+    :type x: np.ndarray
+    :param lines: Liste des indices des lignes.
+    :type lines: list[np.ndarray]
+    :param index: Index de la ligne actuelle.
+    :type index: int
+    :return: True si les lignes sont consécutives, False sinon.
+    :rtype: bool
+    """
+
     check_consecutive = True
     line = lines[index]
     next_line = lines[index + 1]

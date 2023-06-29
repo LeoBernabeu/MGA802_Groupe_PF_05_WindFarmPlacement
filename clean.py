@@ -7,6 +7,14 @@ import os
 
 
 def full_missing_data(dataframe):
+    """Fonction qui vérifie si toutes les données d'une colonne sont manquantes.
+
+    :param dataframe: Colonne de données.
+    :type dataframe: pd.Series
+    :return: True si toutes les données sont manquantes, False sinon.
+    :rtype: bool
+    """
+
     check_missing = False
     nb_entries = len(dataframe)
     if len(np.where(dataframe == "M")) == nb_entries:

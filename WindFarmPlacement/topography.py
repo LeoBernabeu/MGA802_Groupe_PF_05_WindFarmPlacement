@@ -6,6 +6,22 @@ import os
 
 
 class ElevationData:
+    """Initialise une instance de la classe ElevationData avec les paramètres spécifiés.
+
+    :param lon_min: La longitude minimale de la zone d'intérêt.
+    :type lon_min: float
+    :param lon_max: La longitude maximale de la zone d'intérêt.
+    :type lon_max: float
+    :param lat_min: La latitude minimale de la zone d'intérêt.
+    :type lat_min: float
+    :param lat_max: La latitude maximale de la zone d'intérêt.
+    :type lat_max: float
+    :param num_lon_points: Le nombre de points de longitude pour l'échantillonnage de la zone.
+    :type num_lon_points: int
+    :param num_lat_points: Le nombre de points de latitude pour l'échantillonnage de la zone.
+    :type num_lat_points: int
+    """
+
     def __init__(self, lon_min, lon_max, lat_min, lat_max, num_lon_points, num_lat_points):
         self.lon_min = lon_min
         self.lon_max = lon_max
@@ -37,15 +53,20 @@ class ElevationData:
                 self.elevation_array[i, j] = elevation
 
     def get_elevation_array(self):
+        """Fonction qui retourne le tableau des données d'élévation.
+
+        :return: Le tableau bidimensionnel contenant les données d'élévation.
+        :rtype: numpy.ndarray
+        """
+
         return self.elevation_array
     
     def calculate_flatness_score(self):
-        """Function that calculates a flatness score from an elevation array. A higher score means the surface is flatter.
+        """Fonction qui calcule le score de planéité pour les données d'élévation.
+        Le score de planéité est basé sur l'écart-type des valeurs d'élévation.
 
-        :param : 
-        :type :
-        :return:
-        :rtype :
+        :return: Le score de planéité des données d'élévation.
+        :rtype: float
         """
 
         # Calculate the standard deviation of the elevation values
@@ -78,10 +99,11 @@ class ElevationData:
         # Create a 3D figure
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
+        # fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 
         # Plot the surface
         ax.plot_surface(X, Y, self.elevation_array, cmap='viridis')
-
+        
         # Set labels and title
         ax.set_xlabel('Longitude')
         ax.set_ylabel('Latitude')
@@ -97,45 +119,5 @@ class ElevationData:
         file_name = "topography_map_" + str(area_id) + ".png"
         figure_path = os.path.join(current_directory, "figures", file_name)
         plt.savefig(figure_path)
-
-# # Example usage in mountains s=39
-# lon_min, lon_max = -124.75, -124.0
-# lat_min, lat_max = 50.75, 51
-# num_lon_points = 10
-# num_lat_points = 10
-
-# # Example usage in everest s=27
-# lon_min, lon_max = 86.75, 87
-# lat_min, lat_max = 27.75, 28
-# num_lon_points = 10
-# num_lat_points = 10
-
-# # Example usage in prairies s=95
-# lon_min, lon_max = -106.75, -105.75
-# lat_min, lat_max = 50.5, 49.5
-# num_lon_points = 10
-# num_lat_points = 10
-
-"""
-# Example usage in ocean s=100
-lon_min, lon_max = -127.0, -126.0
-lat_min, lat_max = 47.0, 48.0
-num_lon_points = 10
-num_lat_points = 10
-
-# Retreive elevation data and calculate score
-elevation_data = ElevationData(lon_min, lon_max, lat_min, lat_max, num_lon_points, num_lat_points)
-elevation_data.retrieve_elevation_data()
-elevation_data.calculate_flatness_score()
-
-# Store elevation data and score
-elevation_array = elevation_data.get_elevation_array()
-flatness_score = elevation_data.flatness_score
-
-# Plot elevation data
-elevation_data.plot_3d_surface_map()
-# Print results
-print(f"Flatness score = ",flatness_score)
-"""
 
 

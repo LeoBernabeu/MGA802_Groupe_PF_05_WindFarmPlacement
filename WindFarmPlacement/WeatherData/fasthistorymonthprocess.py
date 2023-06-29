@@ -1,18 +1,26 @@
-import numpy as np
-from WindFarmPlacement.utils import number_days_for_month, interpolation
 import logging
 import multiprocessing
+import numpy as np
+
+from WindFarmPlacement.utils import number_days_for_month, interpolation
 
 
 class FastHistoryMonthProcess(multiprocessing.Process):
-    """En vrai avec multiprocessing, utiliser correctement il y a un résultat intéressant.
-    Pour du 20x20, on divise par un peu plus que 2 le temps d'exécution.
-    Test sur 50x50 : Méthode classique -> 380-420 sec
-    Multi-process -> ~150 sec
-    Et enfin 100x100 -> 650 contre 1580
-    Conclusion : Apparemment c'est ce qu'il nous faut
-    Eventuellement combiner à du multi-process sur les années mais avec trop d'années ça va nécessiter beaucoup de
-    ressources (genre 10 ans = 10+120 process) donc peut-être en option"""
+    """Processus de calcul rapide de l'historique pour un mois spécifique.
+
+    :param grid: La grille du parc éolien.
+    :type grid: tuple[np.ndarray, np.ndarray]
+    :param stations: La liste des stations météorologiques.
+    :type stations: list[Station]
+    :param year: L'année correspondante au mois à traiter.
+    :type year: int
+    :param month: Le mois à traiter.
+    :type month: int
+    :param altitude: L'altitude de référence pour l'interpolation des données.
+    :type altitude: float
+    :param queue: La file d'attente pour le résultat du processus.
+    :type queue: multiprocessing.Queue
+    """
 
     def __init__(self, grid, stations, year, month, altitude, queue):
         super().__init__()
@@ -25,40 +33,48 @@ class FastHistoryMonthProcess(multiprocessing.Process):
         # logging.debug(f'FastHistoryMonth - Threaded class {month} created')
 
     def run(self) -> None:
+        """Exécute le processus de calcul rapide de l'historique pour un mois spécifique.
 
-        # logging.debug(f'FastHistoryMonth - Threaded class {self.month} just started')
+        :return:
+        :rtype:
+        """
 
-        counter_div = 0
+        # Activer le débogage
+        # logging.basicConfig(level=logging.DEBUG, format='(%(threadName)-9s) %(message)s', )
+        logging.debug(f'FastHistoryMonth - Threaded class {self.month} just started')
+
         xx, yy = self.grid
         size_x, size_y = xx.shape
         wind_mean = np.zeros_like(xx)
         wind_histogram = np.zeros((size_x, size_y, 40))
 
+        counter_divide = 0  # Compteur pour la division final du champ de vent moyen
         for time in range(24*number_days_for_month(self.month)):  # On multiplie par 24 pour les heures d'une journée
+
             # À chaque instant, on récupère toutes les données disponibles auprès des stations
             wind_values = np.array([[wind_value, station.long, station.lat] for station in self.stations
                                     if (wind_value := station.get_wind_data_timestamp(self.month, time))])
 
-            # Si on dispose d'au moins 4 valeurs de vent on effectue l'interpolation du champ.
-            # (Arbitraire et reste très faible)
-            if len(wind_values) > 4:
-                counter_div += 1
+            # On interpolle si on dispose d'au moins 10 valeurs pour que ça soit trop imprécis (Abritraire mais faible)
+            if len(wind_values) > 10:
+                counter_divide += 1
 
                 # Interpolation
                 wind_field = interpolation(xx, yy, wind_values)
-                if self.altitude:
-                    wind_field = self.estimate_wind_speed_for_altitude(wind_field)
 
-                # Mise à jour des statistiques et de la moyenne
+                # Profil vertical du vent
+                wind_field = self.estimate_wind_speed_for_altitude(wind_field)
+
+                # Mise à jour des statistiques et du champ de vent moyen
                 for x in range(size_x):
                     wind_histogram[x, np.arange(size_y), wind_field.astype(int)[x, :]] += 1
-
                 wind_mean += wind_field
 
-        if counter_div != 0:
-            # Calcul du champ de vent moyen
-            wind_mean = wind_mean / counter_div
+        # Calcul final du champ de vent moyen
+        if counter_divide != 0:
+            wind_mean = wind_mean / counter_divide
 
+        # Ajout des statistiques et du champ moyen à la Queue pour être ensuite récupéré dans le processus parent
         self.queue.put([wind_mean, wind_histogram])
 
         # logging.debug(f'FastInterpolation - Threaded class {self.month} just finished')
@@ -66,10 +82,15 @@ class FastHistoryMonthProcess(multiprocessing.Process):
     def estimate_wind_speed_for_altitude(self, wind):
         """Fonction qui estime la vitesse du vent à une altitude donnée en utilisant le profil vertical de la vitesse
         du vent
+
+        :param wind: Le champ de vent initial.
+        :type wind: np.ndarray
+        :return: Le champ de vent estimé à l'altitude spécifiée.
+        :rtype: np.ndarray
         """
 
         altitude_measures = 10  # Les capteurs des stations sont à 10 m du sol
-        z = 0.03  # Longueur de rugosité
+        z = 0.03  # Longueur de rugosité (Terrain plat et dégagé : herbe, quelques obstacles isolés)
         estimate_factor = np.log(self.altitude/z)/np.log(altitude_measures/z)
 
         return wind*estimate_factor

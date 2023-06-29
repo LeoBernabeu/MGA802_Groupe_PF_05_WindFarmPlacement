@@ -1,0 +1,2 @@
+# Disable detection of docs files
+build/* linguist-detectable=false

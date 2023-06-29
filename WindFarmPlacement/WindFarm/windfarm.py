@@ -4,6 +4,15 @@ import os
 
 
 class WindFarm:
+    """Objet représentant un parc éolien.
+
+    :param target_power: Puissance cible du parc éolien.
+    :type target_power: float
+    :param windmills: Liste des éoliennes du parc éolien (facultatif).
+    :type windmills: list, optional
+    :param topography: Topographie de la zone d'implantation du parc éolien (facultatif).
+    :type topography: np.ndarray, optional
+    """
 
     def __init__(self, target_power, windmills=None, topography=None):
         self.target_power = target_power
@@ -13,24 +22,55 @@ class WindFarm:
         self.topography = topography
 
     def add_windmill(self, windmill):
+        """Fonction qui ajoute une éolienne au parc éolien.
+
+        :param windmill: Éolienne à ajouter.
+        :type windmill: Windmill
+        """
+
         self.windmills.append(windmill)
 
-    def set_topography(self, topography):
-        self.topography = topography
-
     def total_produced_power(self, wind_field):
+        """Fonction qui calcule la puissance totale produite par le parc éolien en fonction du champ de vent.
+
+        :param wind_field: Champ de vent.
+        :type wind_field: np.ndarray
+        :return: Puissance totale produite par le parc éolien.
+        :rtype: float
+        """
+
         total_power = 0
+        # On calcule la puissance produite par chaque éolienne du champ.
         for windmill in self.windmills:
             total_power += windmill.produced_power(wind_field[windmill.lat, windmill.lon])
         return total_power
 
     def total_theoretical_produced_power(self, weibull_factors):
+        """Fonction qui calcule la puissance théorique totale que le parc éolien pourrait produire en fonction des facteurs de Weibull.
+
+        :param weibull_factors: Facteurs de Weibull.
+        :type weibull_factors: np.ndarray
+        :return: Puissance théorique totale pouvant être produite par le parc éolien.
+        :rtype: float
+        """
+
         total_theoric_power = 0
         for windmill in self.windmills:
             total_theoric_power += windmill.theoretical_power(weibull_factors)
         return total_theoric_power
 
+
     def place_windmills(self, area_of_interest,turbine_spacing):
+
+
+        """Fonction qui place les éoliennes dans la zone d'intérêt spécifiée et affiche leur localisation sur un graphique 2D.
+
+        :param area_of_interest: Zone d'intérêt spécifiée sous la forme ((lat_min, lat_max), (lon_min, lon_max)).
+        :type area_of_interest: tuple
+        :return: Coordonnées des éoliennes du parc éolien.
+        :rtype: np.ndarray
+        """
+
 
         windmill = self.windmills[0]
         rotor_diameter = windmill.blade_length  # Espacement de 5 fois le diamètre (à définir par l'utilisateur)
