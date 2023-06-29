@@ -1,2 +1,2 @@
 # Disable detection of docs files
-build/* linguist-detectable=false
+build/html/*.html linguist-detectable=false
