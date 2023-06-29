@@ -6,6 +6,5 @@ MGA802_Projet
 
    WindFarmPlacement
    clean
-   flat_zone_finder
    main
    plot
