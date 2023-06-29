@@ -1,5 +1,2 @@
 # Disable detection of docs files
 build/* linguist-detectable=false
-source/* linguist-detectable=false
-Makefile -linguist-vendored
-make.bat -linguist-vendored
