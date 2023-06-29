@@ -1,3 +1,5 @@
 # Disable detection of G-code files for linguist
-build/*.* linguist-detectable=false
-Makefile linguist-detectable=false
+build/*.* linguist-generated=true
+source/*.* linguist-generated=true
+./Makefile linguist-detectable=false
+./make.bat linguist-detectable=false
