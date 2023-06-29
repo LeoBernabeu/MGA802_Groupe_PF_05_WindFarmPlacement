@@ -5,7 +5,7 @@ import re
 
 
 class Station:
-    """Initialise un objet Station avec les attributs spécifiés.
+    """Objet représentant une station météorologique.
 
     :param station_id: L'ID de la station météorologique.
     :type station_id: str
@@ -52,8 +52,10 @@ class Station:
         """
 
         check_wind = False
+        # On parcourt l'ensemble des fichiers présent dans le dossier au chemin indiqué dans le dossier 'data'
         for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
             for filename in filenames:
+                # On vérifie que le nom du fichier pour le mois 'month' contient l'indicatif _W
                 if re.search(f"\\b{month}", filename) and "_W" in filename:
                     check_wind = True
         return check_wind
@@ -68,8 +70,10 @@ class Station:
         """
 
         check_temperature = False
+        # On parcourt l'ensemble des fichiers présent dans le dossier au chemin indiqué dans le dossier 'data'
         for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
             for filename in filenames:
+                # On vérifie que le nom du fichier pour le mois 'month' contient l'indicatif _T
                 if "_T" in filename:
                     check_temperature = True
         return check_temperature
