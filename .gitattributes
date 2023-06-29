@@ -1,3 +1,3 @@
 # Disable detection of G-code files for linguist
-build/*.* linguist-detectable=false
-Makefile linguist-detectable=false
+build/* linguist-documentation
+Makefile -linguist-detectable=false
