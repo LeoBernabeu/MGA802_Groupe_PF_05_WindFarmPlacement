@@ -1,4 +1,2 @@
 # Disable detection of G-code files for linguist
-*.* linguist-detectable=false
-*.py linguist-detectable=true
-*.sh linguist-detectable=true
+build/*.* linguist-detectable=false
