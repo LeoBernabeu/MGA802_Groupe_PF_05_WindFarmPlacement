@@ -17,4 +17,3 @@ WindFarmPlacement.egg-info/
 dist/
 build/lib
 build/bdist.win-amd64
-build/doctrees
