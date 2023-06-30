@@ -11,10 +11,11 @@ référez-vous au fichier [README](README.md).
 - [1. Dépendances](#dépendances)
 - [2. Description du projet](#description-du-projet)
 - [3. Structure du projet](#structure-du-projet)
-- [4. Pistes d'améliorations](#pistes-d'améliorations)
-  - [4.1. Optimiser et accélérer le traitement des données](#optimiser-et-accélérer-le-traitement-des-données)
-  - [4.2. Prendre en compte la température](#prendre-en-compte-la-température)
-  - [4.3. Trouver une nouvelle solution pour les données d'élévation](#trouver-une-nouvelle-solution-pour-les-données-d'élévation)
+- [4. Description des fichiers](#description-des-fichiers)
+- [5. Pistes d'améliorations](#pistes-d'améliorations)
+  - [5.1. Optimiser et accélérer le traitement des données](#optimiser-et-accélérer-le-traitement-des-données)
+  - [5.2. Prendre en compte la température](#prendre-en-compte-la-température)
+  - [5.3. Trouver une nouvelle solution pour les données d'élévation](#trouver-une-nouvelle-solution-pour-les-données-d'élévation)
 
 ## Dépendances
 
@@ -83,33 +84,42 @@ Le dossier du projet est organisé de la manière suivante :
 ## Description des fichiers
 
 ### WeatherData
-##### fasthistorymonthprocess: 
-Processus de calcul rapide de l'historique pour un mois spécifique.
-##### fasthistoryyearprocess: 
-Processus de calcul rapide de l'historique sur une année spécifique.
-##### station: 
-Objet représentant une station météorologique. Charge le contenu des fichiers météos et lis les données.
-##### windhistory: 
-Objet conceptuel représentant l'historique du vent dans une zone par la vitesse moyenne du vent et l'histogramme des classes de vent. Les classes de vent sont les différentes tranches de vitesse du vent : 0 m/s, 1 m/s, 2 m/s, ...
 
+- `fasthistorymonthprocess`: Objet qui hérite de `multiprocessing.Process` pour pouvoir effectuer le traitement des
+données météorologiques d'un mois précis dans un processus fils du processus principal, puis de pouvoir récupérer les 
+résultats du traitement. L'objectif étant de diminuer le temps de traitement des données
+
+- `fasthistoryyearprocess`: Objet qui hérite de `multiprocessing.Process` pour pouvoir effectuer le traitement des
+données météorologiques d'une année précises dans un processus fils. Cet objet crée des objets/processus
+`fasthistorymonthprocess` pour accélérer encore plus le temps de traitement.
+
+- `station`: Objet représentant une station météorologique. Cet objet est chargé de lire le contenu des fichiers de
+données météorologiques associés à une station et de fournir les mesures.
+
+- `windhistory`: Objet conceptuel représentant l'historique du vent dans une zone par la vitesse moyenne du vent et 
+l'histogramme des classes de vent. Les classes de vent sont les différentes tranches de vitesse du vent : 0 m/s, 1 m/s, 
+2 m/s, ...
 
 ### WindFarm
-##### windfarm:
-Objet représentant un parc éolien. Permet de construire le parc éolien en fonction des paramètres de éoliennes.
-#### windmill:
-Objet représentant une éolienne. Permet de créer les objects d'éoliennes et de calculer leur puissance théorique.
 
+- `windfarm`: Objet représentant un parc éolien. Permet de construire le parc éolien en fonction des paramètres des 
+éoliennes. 
 
-### elevationdata:
-Objet conceptuel représentant les caractéristiques topographiques d'une zone d'étude. Permet de calculer les scores de topographies.
+- `windmill`: Objet représentant une éolienne. Les puissances produites théoriques sont calculés grâce aux méthodes
+de cet objet.
+ 
+### WindFarmPlacement
 
-### utils:
-Fichier contenant plusieurs fonction utilitaires au programme. Notamment les fonctions pour l'interpolation et la recherche en profondeur.
+- `elevationdata`: Objet conceptuel représentant les caractéristiques topographiques d'une zone d'étude. Permet de 
+calculer les scores de topographies.
 
-### windfarmplacement:
-Objet conceptuel représentant un "gestionnaire" qui s'occupe de faire le lien entre le calcul des données du vent dans la zone étudiée et la puissance productible par des éoliennes dans cette zone, afin de trouver les meilleures parcelles où placer un champ d'éoliennes.
+- `utils`: Fichier contenant plusieurs des fonctions utilitaires, c'est-à-dire des fonctions qui s'occupent d'accomplir
+un calcul où une tache qui est nécessaire pour un objet, mais qui ne lui est pas spécifique. Par exemple, des fonctions 
+pour effectuer une interpolation ou une recherche en profondeur.
 
-
+- `windfarmplacement`: Objet conceptuel représentant un "gestionnaire" qui s'occupe de faire le lien entre le calcul des
+données du vent dans la zone étudiée et la puissance productible par des éoliennes dans cette zone, afin de trouver les 
+meilleures parcelles où placer un champ d'éoliennes.
 
 ## Pistes d'améliorations
 
