@@ -5,20 +5,19 @@ reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.
 
 ## Table des matières
 
-- [Section 1](#prsentation)
-- [Section 2](#rcuprr-des-donnes-supplmentaires)
-  - [Sous-section 1.1](#utilisation)
-  - [Sous-section 1.2](#utiliser-un-autre-ensemble-de-donnes)
-- [Section 3](#installation)
-- [Section 4](#explication-des-paramtres)
-- [Section 5](#ressources-et-rfrences)
-  - [Sous-section 5.1](#ressources)
-  - [Sous-section 5.2](#rfrences)
+- [1. Présentation](#présentation)
+- [2. Récupérer des données supplémentaires](#récupérer-des-données-supplémentaires)
+- [3 Utiliser un autre ensemble de données](#utiliser-un-autre-ensemble-de-donnes)
+- [4 Installation](#installation)
+- [5 Paramètres utilisateurs](#explication-des-paramètres)
+- [6 Ressources et références](#ressources-et-références)
+  - [6.1 Ressources](#ressources)
+  - [6.2 Références](#références)
 
 ## Présentation
 
 
-## Récupérér des données supplémentaires
+## Récupérer des données supplémentaires
 
 Certaines limitations de GitHub ne nous ont pas permis de fournir avec notre projet des archives .zip de l'ensemble des 
 données météorologiques que nous avons utilisés. Nous aurions du donc déposer tous les fichiers séparément ce qui
@@ -63,7 +62,7 @@ pip install pandas
 python clean.py
 ````
 
-### Utiliser un autre ensemble de données
+## Utiliser un autre ensemble de données
 
 Nous avons programmé notre module dans l'optique d'être utilisé avec des données de station météorologiques, ce qui 
 a influé sur l'organisation du dossier `data` et donc sur les méthodes de lecture des fichiers. Par conséquent, notre
