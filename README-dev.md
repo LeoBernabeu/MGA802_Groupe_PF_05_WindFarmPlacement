@@ -43,21 +43,44 @@ pour proposer des parcelles de terrain permettant d'atteindre un objectif de pui
 Le dossier du projet est organisé de la manière suivante :
 
 ````graphql
-└──nom_projet/
+└──WindFarmPlacement/
   ├─ build/ - # Dossier de la documentation générée à l'aide de sphinx
-  │  └─ doctrees/
-  │  └─ html/
+  │  └─ html/ - # Dossier qui contient la documentation du module WindFarmPlacement sous forme de fichiers html
   ├─ data/ - # Dossier où sont rangées les données météorologiques à utiliser
-  ├─ source/ - # Dossier source pour Sphinx
+  ├─ examples/ - # Dossier qui contient des exemples d'utilisation et des fichiers de paramètres YAML
+  ├─ figures/ - # Dossier où sont enregistrés les images générées par la dernière exécution du module
+  ├─ source/ - # Dossier où sont rangés les fichiers de Sphinx pour générer la documentation
+  ├─ WindFarmPlacement/ - # Module principale
+  │  ├─ WeatherData/ - # Dossier qui contient la documentation du module WindFarmPlacement sous forme de fichiers html
+  │  │   ├─ __init__.py
+  │  │   ├─ fasthistorymonthprocess.py
+  │  │   ├─ fasthistoryyearprocess.py
+  │  │   ├─ station.py
+  │  │   └─ windhistory.py
+  │  ├─ WindFarm/ - # Dossier qui contient la documentation du module WindFarmPlacement sous forme de fichiers html
+  │  │   ├─ __init__.py
+  │  │   ├─ windfarm.py
+  │  │   └─ windmill.py
+  │  ├─ __init__.py
+  │  ├─ elevationdata.py
+  │  ├─ utils.py
+  │  └─ windfarmplacement.py
+  ├─ .gitattributes
+  ├─ .gitignore
+  ├─ clean.py - # Script Python pour traiter les fichiers de données téléchargées avec data.sh
+  ├─ data.sh - # Script shell pour récupérer des données supplémentaires sur Climate Weather Canada
+  ├─ LICENSE.md - # Fichier License Apache 2.0
+  ├─ make.bat - # Fichier pour générer la documentation à l'aide de sphinx
+  ├─ Makefile
   ├─ README.md - # Fichier README
   ├─ README-dev.md - # Fichier README destiné aux développeurs
-  ├─ requirements.txt
-  
-...
-
+  ├─ requirements.txt - # Fichier listant les dépendances 
+  ├─ setup.cfg - # Fichier pour la configuration de l'installation du module
+  ├─ setup.py - # Fichier pour lancer l'installation du module
+  └─ Station_Inventory_EN.scv - # Fichier de référence des stations de Climate Weather Canada
 ````
-## Description des fichiers
 
+## Description des fichiers
 
 ### WeatherData
 ##### fasthistorymonthprocess: 
