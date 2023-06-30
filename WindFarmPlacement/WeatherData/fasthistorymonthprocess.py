@@ -30,7 +30,7 @@ class FastHistoryMonthProcess(multiprocessing.Process):
         self.month = month
         self.altitude = altitude
         self.queue = queue
-        # logging.debug(f'FastHistoryMonth - Threaded class {month} created')
+        logging.debug(f'FastHistoryMonth - Threaded class {month} created')
 
     def run(self) -> None:
         """Exécute le processus de calcul rapide de l'historique pour un mois spécifique.
@@ -55,7 +55,8 @@ class FastHistoryMonthProcess(multiprocessing.Process):
             wind_values = np.array([[wind_value, station.long, station.lat] for station in self.stations
                                     if (wind_value := station.get_wind_data_timestamp(self.month, time))])
 
-            # On interpolle si on dispose d'au moins 10 valeurs pour que ça soit trop imprécis (Abritraire mais faible)
+            # On interpole si on dispose d'au moins 10 valeurs pour que ça ne soit pas trop imprécis
+            # (arbitraire et reste faible)
             if len(wind_values) > 10:
                 counter_divide += 1
 
@@ -77,11 +78,11 @@ class FastHistoryMonthProcess(multiprocessing.Process):
         # Ajout des statistiques et du champ moyen à la Queue pour être ensuite récupéré dans le processus parent
         self.queue.put([wind_mean, wind_histogram])
 
-        # logging.debug(f'FastInterpolation - Threaded class {self.month} just finished')
+        logging.debug(f'FastInterpolation - Threaded class {self.month} just finished')
 
     def estimate_wind_speed_for_altitude(self, wind):
         """Fonction qui estime la vitesse du vent à une altitude donnée en utilisant le profil vertical de la vitesse
-        du vent
+        du vent.
 
         :param wind: Le champ de vent initial.
         :type wind: np.ndarray

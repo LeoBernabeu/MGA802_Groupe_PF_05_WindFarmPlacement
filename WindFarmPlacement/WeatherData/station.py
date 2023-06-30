@@ -7,7 +7,7 @@ import re
 class Station:
     """Objet représentant une station météorologique.
 
-    :param station_id: L'ID de la station météorologique.
+    :param station_id: L'identifiant de la station météorologique.
     :type station_id: str
     :param latitude: La latitude de la station météorologique.
     :type latitude: float
@@ -24,6 +24,26 @@ class Station:
         self.elev = elevation
         self.df_wind_data = {}  # Un dico, on associe à la df
 
+    def contains_wind_measurements_month(self, year, month):
+        """Fonction qui vérifie si la station dispose de mesure sur le vent pour un mois précis d'une année donnée.
+
+        :param year: L'année pour laquelle on veut vérifier la présence de données liées au vent.
+        :type year: int
+        :param month: Le mois de l'année sur lequel effectué la recherche.
+        :type month: int
+        :return: Retourne un booléen qui indique si la station dispose de données liées au vent.
+        :rtype: bool
+        """
+
+        check_wind = False
+        # On parcourt l'ensemble des fichiers présent dans le dossier au chemin indiqué dans le dossier 'data'
+        for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
+            for filename in filenames:
+                # On vérifie que le nom du fichier pour le mois 'month' contient l'indicatif _W
+                if re.search(f"\\b{month}", filename) and "_W" in filename:
+                    check_wind = True
+        return check_wind
+
     def contains_wind_measurements_year(self, year):
         """Fonction qui vérifie si la station dispose de mesure sur le vent pour une année donnée.
 
@@ -34,20 +54,39 @@ class Station:
         """
 
         check_wind = False
+        # On parcourt l'ensemble des fichiers présent dans le dossier au chemin indiqué dans le dossier 'data'
         for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
             for filename in filenames:
+                # On vérifie que le nom du fichier pour le mois 'month' contient l'indicatif _W
                 if "_W" in filename:
                     check_wind = True
         return check_wind
 
-    def contains_wind_measurements_month(self, year, month):
-        """Fonction qui vérifie si la station dispose de mesure sur le vent pour un mois précis d'une année donnée.
+    def contains_wind_measurements_period(self, period):
+        """Fonction qui vérifie si la station possède des mesures de vent pour une période donnée (liste d'années).
 
-        :param year: L'année pour laquelle on veut vérifier la présence de données liées au vent.
+        :param period: La période (liste d'années) pour laquelle on veut vérifier la présence de données sur la vent.
+        :type period: list[int]
+        :return: True si des données sur la température sont disponibles pour au moins une année de la période, False
+        sinon.
+        :rtype: bool
+        """
+        check_temperature = False
+        for year in period:
+            if self.contains_wind_measurements_year(year):
+                check_temperature = True
+        return check_temperature
+
+    # La température n'a finalement pas été utilisé jusqu'à présent.
+    def contains_temperature_measurements_month(self, year, month):
+        """Fonction qui vérifie si la station dispose de mesure sur la température pour un mois précis d'une année
+        donnée.
+
+        :param year: L'année pour laquelle on veut vérifier la présence de données liées à la température.
         :type year: int
         :param month: Le mois de l'année sur lequel effectué la recherche.
         :type month: int
-        :return: Retourne un booléen qui indique si la station dispose de données liées au vent.
+        :return: Retourne un booléen qui indique si la station dispose de données liées à la température.
         :rtype: bool
         """
 
@@ -129,7 +168,7 @@ class Station:
 
     def get_wind_data_timestamp(self, month, time_index):
         """Fonction qui renvoie la valeur de vitesse du vent à un instant précis (Heure : Jour) indiqué par son indice.
-        L'indice correspond à la ligne correspondante du fichier csv. Lorsque pl
+        L'indice correspond à la ligne correspondante du fichier csv.
 
         :param month: Le mois pour lequel on veut récupérer les données.
         :type month: int

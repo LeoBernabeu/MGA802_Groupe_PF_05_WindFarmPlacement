@@ -1,8 +1,6 @@
+import multiprocessing
 import numpy as np
 import scipy as sp
-
-import logging
-import multiprocessing
 
 from WindFarmPlacement.WeatherData.fasthistoryyearprocess import FastHistoryYearProcess
 from WindFarmPlacement.WeatherData.fasthistorymonthprocess import FastHistoryMonthProcess
@@ -16,10 +14,10 @@ class WindHistory:
     :type long_array: numpy.array
     :param lat_array: Un tableau de latitudes.
     :type lat_array: numpy.array
-    :param altitude: L'altitude par rapport au sol pour mesurer la vitesse.
-    :type altitude: float, optional
     :param stations: Une liste des stations météorologiques, par défaut None.
     :type stations: list, optional
+    :param altitude: L'altitude par rapport au sol pour mesurer la vitesse.
+    :type altitude: float, optional
     """
 
     def __init__(self, long_array, lat_array, stations=None, altitude=None):
@@ -69,7 +67,7 @@ class WindHistory:
         self.stations.append(station)
 
     def compute_history_year(self, year):
-        """Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
+        """Fonction qui calcule pour chaque couple de coordonnées (latitude, longitude), la moyenne du vent et les
         paramètres statistiques de la distribution de Weibull sur toute l'année.
         (Utilisé lorsque les processus sur les années ne sont pas activés)
 
@@ -88,8 +86,6 @@ class WindHistory:
                 else:
                     station.reset_data(month)
 
-            # logging.debug(f'Data loaded')
-
             threaded_q = multiprocessing.Queue()
             # Création des processus pour les calculs sur chaque mois
             threaded_interpolation = FastHistoryMonthProcess(self.grid, self.stations, year, month, self.altitude,
@@ -105,7 +101,7 @@ class WindHistory:
             # On récupère le contenu des Queues
             wind_mean, wind_histo = thread_and_queue[1].get()
             thread_and_queue[0].join()
-            # Mise-à-jour de la moyenne et des statistiques
+            # Mise à jour de la moyenne et des statistiques
             self.wind_mean += wind_mean
             self.wind_histogram += wind_histo
             counter_divide += 1
@@ -114,26 +110,29 @@ class WindHistory:
             self.wind_mean = self.wind_mean/counter_divide
 
     def compute_history(self, period):
-        """Fonction qui calcule pour chaque couple de coordonnée (latitude, longitude), la moyenne du vent et les
-        paramètres statistiques de la distribution de Weibull sur toutes les années listées dans période.
+        """Fonction qui calcule pour chaque couple de coordonnées (latitude, longitude), la moyenne du vent et les
+        paramètres statistiques de la distribution de Weibull sur toutes les années listées dans la paramètre 'period'.
 
         :param period: Liste d'années à utiliser pour calculer l'historique du vent.
         :type period: list
         """
 
-        # Pourrait être un Refactor pour limiter le code duppliqué
+        # Pourrait être un peu Refactor pour limiter le code duppliqué
         follow_threads = []
         for year in period:
             threaded_q = multiprocessing.Queue()
             thread = FastHistoryYearProcess(self.grid, self.stations, year, self.altitude, threaded_q)
             follow_threads.append((thread, threaded_q))
 
+        # Lancement de l'exécution des processus
         for thread in follow_threads:
             thread[0].start()
 
         for thread_and_queue in follow_threads:
+            # On récupère le contenu des Queues
             wind_year_mean, wind_year_histogram = thread_and_queue[1].get()
             thread_and_queue[0].join()
+            # Mise à jour de la moyenne et des statistiques
             self.wind_mean += wind_year_mean
             self.wind_histogram += wind_year_histogram
 
@@ -141,7 +140,7 @@ class WindHistory:
 
     def get_fit_weibull_factors(self):
         """Fonction qui approxime les facteurs de forme et d'échelle de la distribution de Weibull du vent pour chaque
-        coordonnée. Pour cela on utilise la méthode de scipy weibull_min.fit().
+        coordonnée. Pour cela, on utilise la méthode de scipy weibull_min.fit().
 
         :return: Retourne une matrice 2D contenant les facteurs de forme et d'échelle
         :rtype: numpy.array
@@ -167,7 +166,7 @@ class WindHistory:
         return weibull
 
     def calculate_weibull_factors_with_moments(self, x, y):
-        """Fonction qui calcul les facteurs de weibull à partir des moments
+        """Fonction qui calcul les facteurs de Weibull à partir des moments d'ordre 1 à 4.
 
         :param x: Coordonnée x.
         :type x: int
@@ -176,8 +175,6 @@ class WindHistory:
         :return: Les facteurs de forme et d'échelle de Weibull.
         :rtype: list
         """
-
-        raw_data = np.array([k for k in range(len(self.wind_histogram[x, y])) for i in range(int(self.wind_histogram[x, y, k]))])
 
         bin_centers = np.arange(0.5, 40.5)
         frequencies = self.wind_histogram[x, y]
@@ -189,12 +186,12 @@ class WindHistory:
         var = np.sum(((bin_centers - mean) ** 2) * frequencies) / n
         # Calcul du moment d'ordre 3 (asymétrie)
         skewness = (np.sum(((bin_centers - mean) ** 3) * frequencies) / n) / (var ** (3/2))
-        # Calcul du moment d'ordre 4 (kurtosis ?)
+        # Calcul du moment d'ordre 4 (kurtosis)
         kurtosis = ((np.sum(((bin_centers - mean) ** 4) * frequencies) / n) / (var ** 2)) - 3
 
-        # Calculer estimation du facteur de forme
+        # Calcul de l'estimation du facteur de forme
         shape = (kurtosis+3) / (skewness**2)
-        # Calculer estimation du facteur d'échelle
+        # Calcul de l'estimation du facteur d'échelle
         scale = mean / (sp.special.gamma(1 + 1/shape)**(1/shape))
 
         return [shape, scale]

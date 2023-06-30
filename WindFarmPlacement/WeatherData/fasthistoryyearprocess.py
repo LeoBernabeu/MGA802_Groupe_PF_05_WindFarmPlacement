@@ -27,7 +27,7 @@ class FastHistoryYearProcess(multiprocessing.Process):
         self.year = year
         self.altitude = altitude
         self.queue = queue
-        # logging.debug(f'FastYear - Threaded class {year} created')
+        logging.debug(f'FastYear - Threaded class {year} created')
 
     def run(self) -> None:
         """Exécute le processus de calcul rapide de l'historique sur une année spécifique.
@@ -43,16 +43,14 @@ class FastHistoryYearProcess(multiprocessing.Process):
         follow_threads = []
         for month in range(1, 13):
 
-            # Chargement des données du mois étudié chez les stations
+            # Chargement des données par les stations pour le mois étudié
             for station in self.stations:
-                # Si la station à des données sur ce mois elle les charge
+                # Si la station a des données sur ce mois elle les charge
                 if station.contains_wind_measurements_month(self.year, month):
                     station.load_data(self.year, month)
-                # Dans le cas contraire, on s'assure de ne pas garder d'anciennes données qui ne concernent pas ce mois.
+                # Dans le cas contraire, on s'assure de ne pas garder d'anciennes données qui ne concernent pas ce mois
                 else:
                     station.reset_data(month)
-
-            # logging.debug(f'Data loaded')
 
             threaded_q = multiprocessing.Queue()
             # Création des processus pour les calculs sur chaque mois
@@ -75,7 +73,7 @@ class FastHistoryYearProcess(multiprocessing.Process):
             # On récupère le contenu des Queues
             wind_mean, wind_histogram = thread_and_queue[1].get()
             thread_and_queue[0].join()
-            # Mise-à-jour de la moyenne et des statistiques
+            # Mise à jour de la moyenne et des statistiques
             wind_year_mean += wind_mean
             wind_year_histogram += wind_histogram
             counter_divide += 1
