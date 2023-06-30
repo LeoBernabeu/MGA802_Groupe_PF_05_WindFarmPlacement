@@ -25,12 +25,16 @@ class WindFarmPlacement:
     :type nb_lat: int
     :param nb_long: Le nombre de points en longitude pour l'échantillonnage de la zone.
     :type nb_long: int
+    :param path_to_data: Chemin relatif pour accéder au dossier contenant les fichiers de mesure météorologiques ET
+    le fichier de références. Par défaut, le chemin est initialisé au répertoire courant "./"
+    :type path_to_data: str, optional
     """
 
-    def __init__(self, long_min, long_max, lat_min, lat_max, nb_lat, nb_long):
+    def __init__(self, long_min, long_max, lat_min, lat_max, nb_lat, nb_long, path_to_data="./"):
         self.long_array = np.linspace(long_min, long_max, nb_long)
         self.lat_array = np.linspace(lat_min, lat_max, nb_lat)
         self.wind_history = WindHistory(self.long_array, self.lat_array)
+        self.path_to_data = path_to_data
 
     def find_near_stations(self, radius, reference_file, required_stations=100):
         """Fonction qui recherche les stations les plus proches de la zone d'étude à partir des données contenues dans
@@ -54,7 +58,7 @@ class WindFarmPlacement:
 
         # Création de la DataFrame avec les colonnes qui nous intéressent.
         try:
-            df = pd.read_csv(reference_file, usecols=(3, 6, 7), skiprows=3)
+            df = pd.read_csv(self.path_to_data+reference_file, usecols=(3, 6, 7), skiprows=3)
         except ValueError:
             # Pour permettre d'ouvrir un fichier avec un format différent de l'inventaire de weather canada
             df = pd.read_csv(reference_file)

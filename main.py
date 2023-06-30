@@ -21,6 +21,7 @@ if __name__ == '__main__':
         parameters = yaml.load(file, Loader=yaml.FullLoader)
 
     # Reference file
+    path_to_data = parameters['path_to_data']
     reference_file = parameters['reference_file']
 
     # Study area and data acquisition parameters definition
@@ -50,7 +51,11 @@ if __name__ == '__main__':
     print_message_console("Parameters have been acquired successfully")
 
     # Define study area and get wind history data
-    study_area = WindFarmPlacement(lon_min, lon_max, lat_min, lat_max, precision_lat, precision_lon)
+    if path_to_data:
+        study_area = WindFarmPlacement(lon_min, lon_max, lat_min, lat_max, precision_lat, precision_lon, path_to_data)
+    else:
+        study_area = WindFarmPlacement(lon_min, lon_max, lat_min, lat_max, precision_lat, precision_lon)
+
     if activate_multi_process:
         if reference_file:
             study_area.get_wind_history_data_full_threaded(study_years, study_alt, reference_file=reference_file)

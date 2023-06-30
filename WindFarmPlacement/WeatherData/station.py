@@ -13,12 +13,16 @@ class Station:
     :type latitude: float
     :param longitude: La longitude de la station météorologique.
     :type longitude: float
+    :param path_to_data: Chemin relatif pour accéder au dossier contenant les fichiers de mesure météorologiques ET
+    le fichier de références. Par défaut, le chemin est initialisé au répertoire courant "./"
+    :type path_to_data: str, optional
     """
 
-    def __init__(self, station_id, latitude, longitude):
+    def __init__(self, station_id, latitude, longitude, path_to_data="./"):
         self.id = station_id
         self.lat = latitude
         self.long = longitude
+        self.path_to_data = path_to_data
         self.df_wind_data = {}  # Un dico, on associe à la df
 
     def contains_wind_measurements_month(self, year, month):
@@ -34,7 +38,7 @@ class Station:
 
         check_wind = False
         # On parcourt l'ensemble des fichiers présent dans le dossier au chemin indiqué dans le dossier 'data'
-        for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
+        for root, dirpath, filenames in os.walk(f"{self.path_to_data}/data/{self.id}/{year}"):
             for filename in filenames:
                 # On vérifie que le nom du fichier pour le mois 'month' contient l'indicatif _W
                 if re.search(f"\\b{month}", filename) and "_W" in filename:
@@ -52,7 +56,7 @@ class Station:
 
         check_wind = False
         # On parcourt l'ensemble des fichiers présent dans le dossier au chemin indiqué dans le dossier 'data'
-        for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
+        for root, dirpath, filenames in os.walk(f"{self.path_to_data}/data/{self.id}/{year}"):
             for filename in filenames:
                 # On vérifie que le nom du fichier pour le mois 'month' contient l'indicatif _W
                 if "_W" in filename:
@@ -89,7 +93,7 @@ class Station:
 
         check_wind = False
         # On parcourt l'ensemble des fichiers présent dans le dossier au chemin indiqué dans le dossier 'data'
-        for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
+        for root, dirpath, filenames in os.walk(f"{self.path_to_data}/data/{self.id}/{year}"):
             for filename in filenames:
                 # On vérifie que le nom du fichier pour le mois 'month' contient l'indicatif _W
                 if re.search(f"\\b{month}", filename) and "_W" in filename:
@@ -107,7 +111,7 @@ class Station:
 
         check_temperature = False
         # On parcourt l'ensemble des fichiers présent dans le dossier au chemin indiqué dans le dossier 'data'
-        for root, dirpath, filenames in os.walk(f"./data/{self.id}/{year}"):
+        for root, dirpath, filenames in os.walk(f"{self.path_to_data}/data/{self.id}/{year}"):
             for filename in filenames:
                 # On vérifie que le nom du fichier pour le mois 'month' contient l'indicatif _T
                 if "_T" in filename:
