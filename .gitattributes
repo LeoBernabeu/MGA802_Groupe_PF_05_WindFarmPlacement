@@ -1,2 +1,5 @@
 # Disable detection of docs files
-build/* linguist-detectable=false
+* linguist-detectable=false
+WindFarmPlacement/* linguist-detectable=true
+clean.py linguist-detectable=true
+data.sh linguist-detectable=true

@@ -10,4 +10,4 @@ __pycache__/
 heavy_data/
 
 # Ignore create during tests
-/figures/**
+figures/**
