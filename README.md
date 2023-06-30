@@ -10,6 +10,9 @@ reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.
 - [3. Utiliser un autre ensemble de données](#utiliser-un-autre-ensemble-de-données)
 - [4. Installation](#installation)
 - [5. Paramètres utilisateurs](#explication-des-paramètres)
+  - [5.1 Paramètres sur les fichiers de données](#paramètres-sur-les-fichiers-de-données)
+  - [5.2 Paramètres sur la zone d'étude](#paramètres-sur-la-zone-d'étude)
+  - [5.3 Paramètres sur le traitement des données](#paramètres-sur-le-traitement-des-données)
 - [6. Ressources et références](#ressources-et-références)
   - [6.1. Ressources](#ressources)
   - [6.2. Références](#références)
@@ -145,9 +148,10 @@ latitudes associées à chaque identifiant.
 
 ## Explication des paramètres
 
-### Paramètres sur les données
+### Paramètres sur les fichiers de données
 
-Dans le cas 
+Dans le cas où vous souhaiteriez utiliser votre propre ensemble de données ou bien que le dossier *data* n'est pas dans
+votre dossier de travail, les paramètres suivants peuvent avoir besoin d'être définis.
 
 - `path_to_data`: Le chemin relatif vers le dossier qui contient le dossier *data* et le fichier de référence à utiliser
 pour les données météorologiques. Le chemin relatif correspond au chemin à effectuer depuis le répertoire courant pour 
@@ -157,7 +161,50 @@ paramètre est laissé vide, on utilisera par défaut *./* ce qui signifie que l
 répertoire courant.
 - `reference_file`: Le nom du fichier de référence décrit dans la section [Utiliser un autre ensemble de données](#utiliser-un-autre-ensemble-de-données)
 lorsque vous souhaitez utiliser votre propre ensemble de données. Si ce paramètre est laissé vide, on utilisera par
-défaut le fichier *Station_Inventory_EN.csv* qui est le fichier de référence des stations de Weather Climate Canada.
+défaut le fichier *Station_Inventory_EN.csv* qui est le fichier de référence des stations de Climate Weather Canada.
+
+### Paramètres sur la zone d'étude
+
+Notre package travaille exclusivement avec des coordonnées en longitudes et en latitudes sous forme de degrés décimaux. 
+Pour définir la zone d'étude, il faut donc entrer en paramètre les coordonnées limites de la zone d'étude.
+
+- `lon_min`: La borne inférieure des coordonnées de longitude.
+- `lon_max`: La borne supérieure des coordonnées de longitude.
+- `lat_min`: La borne inférieure des coordonnées de latitude.
+- `lat_max`: La borne supérieure des coordonnées de latitude.
+
+Il est nécessaire aussi de définir le nombre de points qui vont définir le maillage de la zone d'étude. Plus, le nombre
+de points est élevé plus le nombre de calculs effectués sera important. Le temps d'exécution du programme sera donc
+allongé. 
+
+- `precision_lon`: Le nombre de points pour le maillage pour les coordonnées de longitude.
+- `precision_lat`: Le nombre de points pour le maillage pour les coordonnées de longitude. 
+
+### Paramètres sur le traitement des données
+
+Il est nécessaire de fournir les années à utiliser pour le traitement des données, ainsi que l'altitude à laquelle on
+souhaite déterminer les vitesses du vent.
+
+- `study_years`: La liste des années a utilisé pour le traitement des données. On fournit une liste en paramètre de la
+façon suivante :
+````yaml
+study_years:
+  - 2017
+  - 2018
+  - 2019
+````
+- `study_alt`: L'altitude à laquelle on souhaite déterminer les vitesses du vent. Les stations météorologiques utilisées
+par Climate Weather Canada mesurant toutes les altitudes à 10 mètres au-dessus du sol, nous considèrons que toutes les
+données traitées sont aussi à 10 mètres au-dessus du sol. Nous utilisons ensuite le profil vertical du vent pour
+déterminer la vitesse à l'altitude souhaitée.
+
+Notre package utilise le parallélisme pour accélérer le traitement des données. Pour cela, chaque année est traitée
+une à une et pour chacune d'entre elles tous les mois sont traités simultanément. Nous proposons aussi de rajouter
+du parallélisme au niveau des années pour effectuer l'ensemble du traitement des données en simultané.
+
+- `activate_multi_process`: Un booléen (true / false) pour activer ou désactiver le parallélisme au niveau des années.
+Attention, activer ce niveau de parallélisme supplémentaire avec beaucoup d'années à traiter va utiliser une grande
+quantité de mémoire. Il est donc nécessaire d'avoir une machine suffisamment puissante.
 
 ## Ressources et références
 
