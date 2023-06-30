@@ -51,3 +51,44 @@ pip install pandas
 python clean.py
 ````
 
+## Utiliser un autre ensemble de données
+
+Nous avons programmé notre module dans l'optique d'être utilisé avec des données de station météorologiques, ce qui 
+a influé sur l'organisation du dossier `data` et donc sur les méthodes de lecture des fichiers. Par conséquent, notre
+module n'a pas adapté à l'utilisation de données dont la structure diffère des nôtres.
+
+Cependant, il est tout de même possible d'utiliser vos propres ensembles de données, mais il sera nécessaire que vous 
+les réorganisiez de la façon suivante :
+
+````graphql
+  ├─ data/ - # Dossier où sont rangées les données météorologiques à utiliser
+  │  ├─ id_1/
+  │  │   ├─ Year_1/
+  │  │   │   ├─ 1_W.csv # Mois de Janvier
+  │  │   │   └─ 2_W.csv # Mois de Février
+  │  │   │   └─ ...
+  │  │   └─ Year_2/
+  │  └─ id_2/
+````
+
+Chacun des fichiers month_X.csv devra comporter une colonne "Wind Spd (km/h)" avec les mesures du vent en (km/h).
+
+Exemple :
+`````text
+"Wind Spd (km/h)"
+"12"
+"11"
+...
+`````
+
+De plus, il vous faudra un autre fichier .csv dans lequel seront indiquées les coordonnées de longitudes et de 
+latitudes associées à chaque identifiant.
+
+`````text
+"id","Latitude (Decimal Degrees)","Longitude (Decimal Degrees)"
+"1","-122.34","44.3"
+...
+`````
+
+## Explication des paramètres
+

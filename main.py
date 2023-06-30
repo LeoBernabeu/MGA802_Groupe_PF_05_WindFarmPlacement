@@ -20,6 +20,9 @@ if __name__ == '__main__':
     with open(YAML_filename, 'r') as file:
         parameters = yaml.load(file, Loader=yaml.FullLoader)
 
+    # Reference file
+    reference_file = parameters['reference_file']
+
     # Study area and data acquisition parameters definition
     lon_min = parameters['lon_min']                     # Min longitude of our study region
     lon_max = parameters['lon_max']                     # Max longitude of our study region
@@ -49,9 +52,15 @@ if __name__ == '__main__':
     # Define study area and get wind history data
     study_area = WindFarmPlacement(lon_min, lon_max, lat_min, lat_max, precision_lat, precision_lon)
     if activate_multi_process:
-        study_area.get_wind_history_data_full_threaded(study_years, study_alt)
+        if reference_file:
+            study_area.get_wind_history_data_full_threaded(study_years, study_alt, reference_file=reference_file)
+        else:
+            study_area.get_wind_history_data_full_threaded(study_years, study_alt)
     else:
-        study_area.get_wind_history_data(study_years, study_alt)
+        if reference_file:
+            study_area.get_wind_history_data(study_years, study_alt, reference_file=reference_file)
+        else:
+            study_area.get_wind_history_data(study_years, study_alt)
     print_message_console("Wind history data has been gathered successfully")
 
     # Print and save average wind speed figure

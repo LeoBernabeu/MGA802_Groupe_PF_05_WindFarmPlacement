@@ -32,15 +32,18 @@ class WindFarmPlacement:
         self.lat_array = np.linspace(lat_min, lat_max, nb_lat)
         self.wind_history = WindHistory(self.long_array, self.lat_array)
 
-    def find_near_stations(self, radius, required_stations=100):
+    def find_near_stations(self, radius, reference_file, required_stations=100):
         """Fonction qui recherche les stations les plus proches de la zone d'étude à partir des données contenues dans
         le fichier d'inventaire de https://climate.weather.gc.ca. Le rayon de recherche autour de la zone d'étude est
         incrémenté jusqu'à trouver un minimum de 100 stations par défaut.
 
         :param radius: Rayon de recherche des stations autour de la zone d'étude.
         :type radius: int
+        :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations
+        météorologiques.
+        :type reference_file: str
         :param required_stations: Nombre minimum de stations a récupéré.
-        :type required_stations: int
+        :type required_stations: int, optional
         :return: Retourne une liste des stations trouvées dans le rayon de recherche.
         :rtype: list[Station]
         """
@@ -50,7 +53,11 @@ class WindFarmPlacement:
         long_min, long_max = self.long_array[0] - radius, self.long_array[-1] + radius
 
         # Création de la DataFrame avec les colonnes qui nous intéressent.
-        df = pd.read_csv("Station_Inventory_EN.csv", usecols=(3, 6, 7), skiprows=3)
+        try:
+            df = pd.read_csv(reference_file, usecols=(3, 6, 7), skiprows=3)
+        except ValueError:
+            # Pour permettre d'ouvrir un fichier avec un format différent de l'inventaire de weather canada
+            df = pd.read_csv(reference_file)
 
         # Recherche des stations dont la latitude et la longitude sont comprises dans l'intervalle de recherche.
         lat_index = np.array(df.index[df["Latitude (Decimal Degrees)"].between(lat_min, lat_max)])
@@ -68,7 +75,7 @@ class WindFarmPlacement:
                 stations.append(Station(int(station_id), lat, long))
         return stations
 
-    def get_wind_history_data_full_threaded(self, period, altitude):
+    def get_wind_history_data_full_threaded(self, period, altitude, reference_file="Station_Inventory_EN.csv"):
         """Fonction qui récupère les données historiques de la zone d'étude pour une liste d'années et une altitude.
         Cette fonction utilise le parallélisme des tâches, pour pouvoir effectuer le traitement des données de tous
         les mois de chaque année en même temps. Attention : Peut nécessiter beaucoup de mémoire.
@@ -77,10 +84,13 @@ class WindFarmPlacement:
         :type period: list
         :param altitude: L'altitude de la mesure pour l'interpolation des données.
         :type altitude: int
+        :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations
+        météorologiques.
+        :type reference_file: str, optional
         :return: None
         """
 
-        near_stations = self.find_near_stations(1)
+        near_stations = self.find_near_stations(1, reference_file)
         usefull_stations = []
         # On ajoute les stations proches de la zone d'étude qui possèdent des données sur cette année.
         for station in near_stations:
@@ -92,7 +102,7 @@ class WindFarmPlacement:
 
         self.wind_history.compute_history(period)
 
-    def get_wind_history_data(self, period, altitude):
+    def get_wind_history_data(self, period, altitude, reference_file="Station_Inventory_EN.csv"):
         """Fonction qui récupère les données historiques de la zone d'étude pour une liste d'années et une altitude.
         Cette fonction utilise le parallélisme des tâches, pour pouvoir effectuer le traitement des données de tous
         les mois en même temps. Les années sont traitées une à une. Cette méthode est à utiliser si
@@ -102,10 +112,13 @@ class WindFarmPlacement:
         :type period: list
         :param altitude: L'altitude de la mesure pour l'interpolation des données.
         :type altitude: int
+        :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations
+        météorologiques.
+        :type reference_file: str, optional
         :return: None
         """
 
-        near_stations = self.find_near_stations(1)
+        near_stations = self.find_near_stations(1, reference_file)
 
         for year in period:
 

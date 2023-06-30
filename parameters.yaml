@@ -1,5 +1,9 @@
 # Enter the parameters for the calculation
 
+# Specify your personal reference file if necessary
+
+reference_file:               # Reference file for 'data' folder if you use your personal set of measurements
+
 # Study area and data acquisition parameters
 lon_min: -123.5               # Min longitude of our study region
 lon_max: -122.5               # Max longitude of our study region

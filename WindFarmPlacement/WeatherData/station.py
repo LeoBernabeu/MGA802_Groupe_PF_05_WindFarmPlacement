@@ -143,7 +143,11 @@ class Station:
 
         # glob : Retourne la liste des fichiers dont le name respecte le schéma passé en paramètre
         filename = glob.glob(path + "/" + f"{month}*.csv")[0]
-        df = pd.read_csv(filename, usecols=[19])
+        try:
+            df = pd.read_csv(filename, usecols=[19])
+        except ValueError:
+            # Pour permettre d'ouvrir des fichiers avec un format différent de ceux de weather canada
+            df = pd.read_csv(filename)
         # Conversion en m/s des vitesses
         df["Wind Spd (m/s)"] = df["Wind Spd (km/h)"]*1000/3600
 
