@@ -1,5 +1,7 @@
 # MGA802
 
+À modifier
+
 Ce README est à destination des développeurs qui souhaiteraient reprendre ce projet et faire évaluer le code 
 "gcode_editor.py". Nous détaillons ici les informations que nous avons jugées utiles pour travailler 
 sur ce projet. Nous fournissons la structure du projet, les informations sur le fonctionnement du code, les tâches 

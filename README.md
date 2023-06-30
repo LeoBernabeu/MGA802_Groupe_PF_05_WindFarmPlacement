@@ -1,6 +1,6 @@
 # MGA802
 
-Ce README est à destination des utilisateurs du projet Gcode editor. Pour les développeurs qui seraient intéressés à 
+Ce README est à destination des utilisateurs du projet `nom_projet`. Pour les développeurs qui seraient intéressés à 
 reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.md).
 
 ## Présentation
@@ -92,3 +92,18 @@ latitudes associées à chaque identifiant.
 
 ## Explication des paramètres
 
+
+## Ressources et références
+
+Voici un résumé des ressources et des références que nous avons utilisées pour ce projet :
+
+### Ressources
+
+- Climate Weather Canada : https://climate.weather.gc.ca
+- Open Elevation API : https://www.open-elevation.com
+
+### Références
+
+- Choix de la méthode d'interpolation : https://www.researchgate.net/publication/234295032_A_Simple_Method_for_Spatial_Interpolation_of_the_Wind_in_Complex_Terrain
+- Hypothèses et formules pour la puissance des éoliennes : https://eolienne.f4jr.org/eolienne_etude_theorique
+- Les documentations de NumPy, matplotlib, pandas et multiprocessing
