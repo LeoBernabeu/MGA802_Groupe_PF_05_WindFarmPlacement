@@ -13,18 +13,10 @@ Subpackages
 Submodules
 ----------
 
-WindFarmPlacement.WindFarmPlacement module
-------------------------------------------
+WindFarmPlacement.elevationdata module
+--------------------------------------
 
-.. automodule:: WindFarmPlacement.WindFarmPlacement
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-WindFarmPlacement.topography module
------------------------------------
-
-.. automodule:: WindFarmPlacement.topography
+.. automodule:: WindFarmPlacement.elevationdata
    :members:
    :undoc-members:
    :show-inheritance:
@@ -33,6 +25,14 @@ WindFarmPlacement.utils module
 ------------------------------
 
 .. automodule:: WindFarmPlacement.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+WindFarmPlacement.windfarmplacement module
+------------------------------------------
+
+.. automodule:: WindFarmPlacement.windfarmplacement
    :members:
    :undoc-members:
    :show-inheritance:

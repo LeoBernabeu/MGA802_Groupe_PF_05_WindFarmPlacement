@@ -13,7 +13,6 @@
     <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="clean module" href="clean.html" />
     <link rel="prev" title="WindFarmPlacement.WeatherData package" href="WindFarmPlacement.WeatherData.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -42,7 +41,7 @@
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WindFarm.windfarm.</span></span><span class="sig-name descname"><span class="pre">WindFarm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_power</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windmills</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topography</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Initialise un parc éolien avec la puissance cible spécifiée.</p>
+<p>Objet représentant un parc éolien.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -64,12 +63,73 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm.place_windmills">
-<span class="sig-name descname"><span class="pre">place_windmills</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_of_interest</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.place_windmills" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fonction qui place les éoliennes dans la zone d’intérêt spécifiée et affiche leur localisation sur un graphique 2D.</p>
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm.calculate_theorical_spacing">
+<span class="sig-name descname"><span class="pre">calculate_theorical_spacing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">turbine_spacing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">median_latitude</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.calculate_theorical_spacing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonctionne qui calcule l’espacement théorique entre les éoliennes en prenant pour référence
+l’éolienne la plus grande du champ.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>area_of_interest</strong> (<em>tuple</em>) – Zone d’intérêt spécifiée sous la forme ((lat_min, lat_max), (lon_min, lon_max)).</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>turbine_spacing</strong> (<em>int</em>) – Facteur d’espacement entre les éoliennes</p></li>
+<li><p><strong>median_latitude</strong> (<em>float</em>) – La médiane des coordonnées de latitude de la zone où sont présentes les éoliennes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Renvoie l’espacement théorique pour la latitude et la longitude en degrés.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm.largest_blade_in_windfarm">
+<span class="sig-name descname"><span class="pre">largest_blade_in_windfarm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.largest_blade_in_windfarm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui retourne la plus grande longueur de pâle parmi les éoliennes du champ.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm.maximum_windmills_in_rectangle_surface">
+<span class="sig-name descname"><span class="pre">maximum_windmills_in_rectangle_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">turbine_spacing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">median_latitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_long</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.maximum_windmills_in_rectangle_surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui calcule le nombre maximum d’éoliennes pouvant être disposer en rectangle dans une parcelle de
+terrain, en prenant pour référence l’éolienne la plus grande du champ.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>turbine_spacing</strong> (<em>int</em>) – Facteur d’espacement entre les éoliennes</p></li>
+<li><p><strong>median_latitude</strong> (<em>float</em>) – La médiane des coordonnées de latitude de la zone où sont présentes les éoliennes.</p></li>
+<li><p><strong>width_long</strong> (<em>float</em>) – La largeur en longitude de la zone</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Le nombre maximum d’éolienne</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm.place_windmills">
+<span class="sig-name descname"><span class="pre">place_windmills</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_of_interest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turbine_spacing</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.place_windmills" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui place les éoliennes dans la zone d’intérêt spécifiée et affiche leur localisation sur un
+graphique 2D.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_of_interest</strong> (<em>tuple</em>) – Zone d’intérêt spécifiée sous la forme ((lat_min, lat_max), (lon_min, lon_max)).</p></li>
+<li><p><strong>turbine_spacing</strong> (<em>int</em>) – Facteur d’espacement entre les éoliennes</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Coordonnées des éoliennes du parc éolien.</p>
@@ -81,40 +141,36 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm.set_topography">
-<span class="sig-name descname"><span class="pre">set_topography</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topography</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.set_topography" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fonction qui définit la topographie de la zone d’implantation du parc éolien.</p>
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm.total_precise_theorical_produced_power">
+<span class="sig-name descname"><span class="pre">total_precise_theorical_produced_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weibull_factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.total_precise_theorical_produced_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calcul la puissance en tenant compte des positions des éoliennes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>topography</strong> (<em>np.ndarray</em>) – Topographie de la zone d’implantation.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm.total_produced_power">
-<span class="sig-name descname"><span class="pre">total_produced_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wind_field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.total_produced_power" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fonction qui calcule la puissance totale produite par le parc éolien en fonction du champ de vent.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>wind_field</strong> (<em>np.ndarray</em>) – Champ de vent.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weibull_factors</strong> (<em>np.ndarray</em>) – Matrice des facteurs de forme et d’échelle de Weibul.</p></li>
+<li><p><strong>grid</strong> – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Puissance totale produite par le parc éolien.</p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windfarm.WindFarm.total_theoretical_produced_power">
-<span class="sig-name descname"><span class="pre">total_theoretical_produced_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weibull_factors</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.total_theoretical_produced_power" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fonction qui calcule la puissance théorique totale que le parc éolien pourrait produire en fonction des facteurs de Weibull.</p>
+<span class="sig-name descname"><span class="pre">total_theoretical_produced_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weibull_factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_windmills</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windfarm.WindFarm.total_theoretical_produced_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui calcule la puissance théorique totale que le parc éolien pourrait produire en fonction des
+facteurs de Weibull.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>weibull_factors</strong> (<em>np.ndarray</em>) – Facteurs de Weibull.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weibull_factors</strong> (<em>np.ndarray</em>) – Matrice des facteurs de forme et d’échelle de Weibul.</p></li>
+<li><p><strong>maximum_windmills</strong> (<em>np.ndarray</em>) – Matrice du nombre maximum d’éoliennes pouvant être présente pour chaque cellule</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Puissance théorique totale pouvant être produite par le parc éolien.</p>
@@ -134,7 +190,7 @@
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windmill.Windmill">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.WindFarm.windmill.</span></span><span class="sig-name descname"><span class="pre">Windmill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blade_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cut_in_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cut_out_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windmill.Windmill" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Initialise une éolienne avec les paramètres spécifiés.</p>
+<p>Objet représentant une éolienne.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -180,17 +236,38 @@
 <dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windmill.Windmill.theoretical_power">
 <span class="sig-name descname"><span class="pre">theoretical_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weibull</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windmill.Windmill.theoretical_power" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fonction qui calcule la puissance théorique du vent qu’une éolienne doit pouvoir atteindre pour chaque
-coordonnée d’une grille en fonction des mesures du vent passées en paramètre. Les formules, méthodes et
+coordonnée d’une grille en fonction des mesures du vent passées en paramètre. Les formules, les méthodes et les
 hypothèses proviennent de la source suivante : <a class="reference external" href="https://eolienne.f4jr.org/eolienne_etude_theorique">https://eolienne.f4jr.org/eolienne_etude_theorique</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>wind_data</strong> (<a class="reference internal" href="WindFarmPlacement.WeatherData.html#WindFarmPlacement.WeatherData.windhistory.WindHistory" title="WindFarmPlacement.WeatherData.windhistory.WindHistory"><em>WindHistory</em></a>) – Objet WindHistory qui contient les données sur les mesures historiques du vent de la zone d’étude. Contient, la valeur moyenne du vent et la distribution des classes de vent (histogramme).</p>
+<dd class="field-odd"><p><strong>weibull</strong> (<em>numpy.ndarray</em>) – Tableau qui contient les facteurs de forme et d’échelle des distributions de Weibull du vent pour chaque couple de coordonnées de longitudes et de latitudes de la zone étudiée.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Retourne une matrice contenant la puissance théorique pouvant être produite</p>
+<dd class="field-even"><p>Retourne une matrice contenant la puissance théorique pouvant être produite.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WindFarmPlacement.WindFarm.windmill.Windmill.theorical_power_tuple_weibull_factors">
+<span class="sig-name descname"><span class="pre">theorical_power_tuple_weibull_factors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.WindFarm.windmill.Windmill.theorical_power_tuple_weibull_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fonction qui calcule la puissance théorique du vent qu’une éolienne doit pouvoir atteindre pour des valeurs
+particulières de facteur de forme et d’échelle d’une distribution de Weibull.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>float</em>) – Le facteur de forme d’une distribution de Weibull.</p></li>
+<li><p><strong>scale</strong> (<em>float</em>) – Le facteur d’échelle d’une distribution de Weibull.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>La puissance théorique.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -222,11 +299,8 @@ hypothèses proviennent de la source suivante : <a class="reference external" hr
 <h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">MGA802_Projet</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">WindFarmPlacement</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="WindFarmPlacement.html">WindFarmPlacement package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="clean.html">clean module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot.html">plot module</a></li>
 </ul>
 </li>
 </ul>
@@ -235,10 +309,9 @@ hypothèses proviennent de la source suivante : <a class="reference external" hr
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="modules.html">MGA802_Projet</a><ul>
+  <li><a href="modules.html">WindFarmPlacement</a><ul>
   <li><a href="WindFarmPlacement.html">WindFarmPlacement package</a><ul>
       <li>Previous: <a href="WindFarmPlacement.WeatherData.html" title="previous chapter">WindFarmPlacement.WeatherData package</a></li>
-      <li>Next: <a href="clean.html" title="next chapter">clean module</a></li>
   </ul></li>
   </ul></li>
   </ul></li>

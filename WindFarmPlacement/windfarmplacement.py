@@ -43,8 +43,7 @@ class WindFarmPlacement:
 
         :param radius: Rayon de recherche des stations autour de la zone d'étude.
         :type radius: int
-        :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations
-        météorologiques.
+        :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations météorologiques.
         :type reference_file: str
         :param required_stations: Nombre minimum de stations a récupéré.
         :type required_stations: int, optional
@@ -88,8 +87,7 @@ class WindFarmPlacement:
         :type period: list
         :param altitude: L'altitude de la mesure pour l'interpolation des données.
         :type altitude: int
-        :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations
-        météorologiques.
+        :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations météorologiques.
         :type reference_file: str, optional
         :return: None
         """
@@ -116,8 +114,7 @@ class WindFarmPlacement:
         :type period: list
         :param altitude: L'altitude de la mesure pour l'interpolation des données.
         :type altitude: int
-        :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations
-        météorologiques.
+        :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations météorologiques.
         :type reference_file: str, optional
         :return: None
         """

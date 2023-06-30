@@ -1,11 +1,7 @@
-MGA802_Projet
-=============
+WindFarmPlacement
+=================
 
 .. toctree::
    :maxdepth: 4
 
    WindFarmPlacement
-   clean
-   flat_zone_finder
-   main
-   plot

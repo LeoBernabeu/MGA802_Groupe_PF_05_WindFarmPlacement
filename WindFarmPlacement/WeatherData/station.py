@@ -13,8 +13,7 @@ class Station:
     :type latitude: float
     :param longitude: La longitude de la station météorologique.
     :type longitude: float
-    :param path_to_data: Chemin relatif pour accéder au dossier contenant les fichiers de mesure météorologiques ET
-    le fichier de références. Par défaut, le chemin est initialisé au répertoire courant "./"
+    :param path_to_data: Chemin relatif pour accéder au dossier contenant les fichiers de mesure météorologiques ET le fichier de références. Par défaut, le chemin est initialisé au répertoire courant "./"
     :type path_to_data: str, optional
     """
 
@@ -68,8 +67,7 @@ class Station:
 
         :param period: La période (liste d'années) pour laquelle on veut vérifier la présence de données sur la vent.
         :type period: list[int]
-        :return: True si des données sur la température sont disponibles pour au moins une année de la période, False
-        sinon.
+        :return: True si des données sur la température sont disponibles pour au moins une année de la période, False sinon.
         :rtype: bool
         """
         check_temperature = False
