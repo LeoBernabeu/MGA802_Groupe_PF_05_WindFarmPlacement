@@ -108,8 +108,8 @@ class ElevationData:
         ax.set_zlabel('Elevation (m)')
 
         # Création d'un FixedLocator
-        ax.xaxis.set_major_locator(plt.FixedLocator(x))
-        ax.yaxis.set_major_locator(plt.FixedLocator(y))
+        ax.xaxis.set_major_locator(plt.FixedLocator(x, nbins=5))
+        ax.yaxis.set_major_locator(plt.FixedLocator(y, nbins=5))
 
         # Formattage des repères des axes avec plusieurs décimales
         ax.xaxis.set_major_formatter(plt.FixedFormatter(x.round(4)))

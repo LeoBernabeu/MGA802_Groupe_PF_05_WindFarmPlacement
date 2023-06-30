@@ -64,11 +64,11 @@ if __name__ == '__main__':
     # Create wind farm object and add wind turbines to the wind farm
     wind_farm = WindFarm(target_power)
     for i in range(num_windmills):
-        wind_farm.add_windmill(Windmill(turb_height, blade_length,cut_in_speed,cut_out_speed))
+        wind_farm.add_windmill(Windmill(turb_height, blade_length, cut_in_speed, cut_out_speed))
     print_message_console("Wind wind turbine farm has been created successfully")
 
     # Calculate the power matrix produced by our wind farm within the study area and find an area of interest
-    areas_of_interest, power_matrix = study_area.find_adapted_zone(wind_farm, width=0.02,nb_area=num_areas_interest)
+    areas_of_interest, power_matrix = study_area.find_adapted_zone(wind_farm, width=0.02, nb_area=num_areas_interest)
     print_message_console("Power matrix and areas of interests have been calculated successfully")
 
     # Print and save power estimation figure
@@ -112,6 +112,6 @@ if __name__ == '__main__':
     # print("It's yearly power output estimate is W")
 
     # Placer les éoliennes dans la zone d'intérêt
-    windmill_coordinates = wind_farm.place_windmills(areas_of_interest[index_max_topo],turbine_spacing)
+    windmill_coordinates = wind_farm.place_windmills(areas_of_interest[index_max_topo], turbine_spacing)
     print("\nLocation of wind turbines in the parc [lat,lon]")
     print(windmill_coordinates)
