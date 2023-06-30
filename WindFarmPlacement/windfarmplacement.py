@@ -116,8 +116,8 @@ class WindFarmPlacement:
     def find_adapted_zone(self, windfarm, width=0.1, nb_area=5):
         """Fonction qui recherche les portions de la zone qui permettent d'atteindre l'objectif de puissance produite.
 
-        :param power_goal: Production de puissance visée par le champ éolien
-        :type power_goal: float
+        :param windfarm: Un champ d'éolienne avec une puissance visée et ses éoliennes.
+        :type windfarm: WindFarm
         :param width: Taille des zones. Si max_width = 0.1, alors on cherche un ensemble de coordonnées contiguës qui forme un rectangle de longueur 0.1 degré de latitude et de largeur 0.1 degré de longitude.
         :type width: float
         :param nb_area: Nombre de zones maximum à renvoyer.
