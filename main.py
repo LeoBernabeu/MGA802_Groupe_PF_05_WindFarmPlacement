@@ -87,7 +87,9 @@ if __name__ == '__main__':
     flatness_scores = []
     for area in range(areas_of_interest.shape[0]):
         # Retreive elevation data and calculate score # add for to loop through all areas of intests
-        elevation_data = ElevationData(areas_of_interest[area][1][0], areas_of_interest[area][1][1], areas_of_interest[area][0][0], areas_of_interest[area][0][1], precision_lon, precision_lat)
+        elevation_data = ElevationData(areas_of_interest[area][1][0], areas_of_interest[area][1][1],
+                                       areas_of_interest[area][0][0], areas_of_interest[area][0][1],
+                                       precision_lon, precision_lat)
         elevation_data.retrieve_elevation_data()
         elevation_data.calculate_flatness_score()
 

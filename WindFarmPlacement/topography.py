@@ -82,7 +82,7 @@ class ElevationData:
             # Map the normalized standard deviation to a score between 0 and 100
             self.flatness_score = (1 - normalized_std_dev) * 100.0
 
-    def plot_3d_surface_map(self,area_id):
+    def plot_3d_surface_map(self, area_id):
         """Function that plots a 3D surface map from an elevation array and a lat/lon grid.
 
         :param : 
@@ -97,17 +97,24 @@ class ElevationData:
         X, Y = np.meshgrid(x, y)
 
         # Create a 3D figure
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        # fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+        fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 
         # Plot the surface
         ax.plot_surface(X, Y, self.elevation_array, cmap='viridis')
-        
+
         # Set labels and title
         ax.set_xlabel('Longitude')
         ax.set_ylabel('Latitude')
         ax.set_zlabel('Elevation (m)')
+
+        # Création d'un FixedLocator
+        ax.xaxis.set_major_locator(plt.FixedLocator(x))
+        ax.yaxis.set_major_locator(plt.FixedLocator(y))
+
+        # Formattage des repères des axes avec plusieurs décimales
+        ax.xaxis.set_major_formatter(plt.FixedFormatter(x.round(4)))
+        ax.yaxis.set_major_formatter(plt.FixedFormatter(y.round(4)))
+
         ax.set_title('3D Surface Map of Elevation')
 
         # Show the plot
