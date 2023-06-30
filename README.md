@@ -3,6 +3,18 @@
 Ce README est à destination des utilisateurs du projet `nom_projet`. Pour les développeurs qui seraient intéressés à 
 reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.md).
 
+## Table des matières
+
+- [Section 1](#prsentation)
+- [Section 2](#rcuprr-des-donnes-supplmentaires)
+  - [Sous-section 1.1](#utilisation)
+  - [Sous-section 1.2](#utiliser-un-autre-ensemble-de-donnes)
+- [Section 3](#installation)
+- [Section 4](#explication-des-paramtres)
+- [Section 5](#ressources-et-rfrences)
+  - [Sous-section 5.1](#ressources)
+  - [Sous-section 5.2](#rfrences)
+
 ## Présentation
 
 
@@ -51,7 +63,7 @@ pip install pandas
 python clean.py
 ````
 
-## Utiliser un autre ensemble de données
+### Utiliser un autre ensemble de données
 
 Nous avons programmé notre module dans l'optique d'être utilisé avec des données de station météorologiques, ce qui 
 a influé sur l'organisation du dossier `data` et donc sur les méthodes de lecture des fichiers. Par conséquent, notre
@@ -90,6 +102,8 @@ latitudes associées à chaque identifiant.
 ...
 `````
 
+## Installation
+
 ## Explication des paramètres
 
 
@@ -107,3 +121,4 @@ Voici un résumé des ressources et des références que nous avons utilisées p
 - Choix de la méthode d'interpolation : https://www.researchgate.net/publication/234295032_A_Simple_Method_for_Spatial_Interpolation_of_the_Wind_in_Complex_Terrain
 - Hypothèses et formules pour la puissance des éoliennes : https://eolienne.f4jr.org/eolienne_etude_theorique
 - Les documentations de NumPy, matplotlib, pandas et multiprocessing
+- Premier pas avec le parallélisme en Python : https://wiki.ilylabs.com/en/knowledge_center/electronics/datax_arduino_pyserial
