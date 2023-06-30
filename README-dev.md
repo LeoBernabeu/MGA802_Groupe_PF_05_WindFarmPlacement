@@ -1,28 +1,42 @@
-# MGA802
+# WindFarmPlacement
 
-À modifier
+Ce README est à destination des développeurs qui souhaiteraient reprendre le projet `WindFarmPlacement` et le faire 
+évoluer. Nous détaillons ici les informations que nous avons jugées utiles pour travailler sur ce projet. 
+Nous fournissons la structure du projet, des informations sur le fonctionnement du code et des pistes de travail
+pour continuer à améliorer le projet. Pour les explications d'ordre général (installation, paramètres, ...), 
+référez-vous au fichier [README](README.md).
 
-Ce README est à destination des développeurs qui souhaiteraient reprendre ce projet et faire évaluer le code 
-"gcode_editor.py". Nous détaillons ici les informations que nous avons jugées utiles pour travailler 
-sur ce projet. Nous fournissons la structure du projet, les informations sur le fonctionnement du code, les tâches 
-supplémentaires implémentées pour modifier le G-code et leurs instructions détaillées. Pour les explications relatives 
-à l'utilisation de cet éditeur de G-code, référez-vous au fichier [README](README.md).
+## Table des matières
+
+- [1. Dépendances](#dépendances)
+- [2. Description du projet](#description-du-projet)
+- [3. Structure du projet](#structure-du-projet)
+- [4. Pistes d'améliorations](#pistes-d'améliorations)
+  - [4.1. Optimiser et accélérer le traitement des données](#optimiser-et-accélérer-le-traitement-des-données)
+  - [4.2. Prendre en compte la température](#prendre-en-compte-la-température)
+  - [4.3. Trouver une nouvelle solution pour les données d'élévation](#trouver-une-nouvelle-solution-pour-les-données-d'élévation)
 
 ## Dépendances
 
-Ce programme a été développé avec Python 3.9.5 et a été testé avec les versions 3.9.5 et 3.11.3. Ci-dessous la liste des
-modules utilisés et leur version.
+Ce programme a été développé avec Python 3.9.5 et a été testé avec les versions 3.7, 3.9.5 et 3.11.3. 
+Ci-dessous la liste des modules utilisés et leur version.
 
 ### Modules :
 
 - `matplotlib==3.7.1`
-- `numpy==1.24.3`
-- `pandas==2.0.1`
+- `numpy>=1.24.3`
+- `pandas>=2.0.1`
 - `requests==2.31.0`
-- `scipy==1.10.1`
+- `scipy>=1.10.1`
 - `PyYAML==6.0`
 
 ## Description du projet
+
+Le projet `WindFarmPlacement` est un package Python ayant pour but de trouver, à partir de données météorologiques
+historiques, des parcelles de terrain pouvant accueillir des champs d'éoliennes définis par l'utilisateur. Il
+contient des méthodes pour estimer la moyenne et les probabilités de vitesse du vent dans une zone d'étude, des méthodes
+pour définir des champs d'éoliennes et calculer la puissance théorique maximum qu'il peut produire et enfin des méthodes
+pour proposer des parcelles de terrain permettant d'atteindre un objectif de puissance.
 
 ## Structure du projet
 

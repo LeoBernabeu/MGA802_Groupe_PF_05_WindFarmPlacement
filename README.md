@@ -1,18 +1,18 @@
-# MGA802
+# WindFarmPlacement
 
-Ce README est à destination des utilisateurs du projet `nom_projet`. Pour les développeurs qui seraient intéressés à 
+Ce README est à destination des utilisateurs du projet `WindFarmPlacement`. Pour les développeurs qui seraient intéressés à 
 reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.md).
 
 ## Table des matières
 
 - [1. Présentation](#présentation)
 - [2. Récupérer des données supplémentaires](#récupérer-des-données-supplémentaires)
-- [3 Utiliser un autre ensemble de données](#utiliser-un-autre-ensemble-de-données)
-- [4 Installation](#installation)
-- [5 Paramètres utilisateurs](#explication-des-paramètres)
-- [6 Ressources et références](#ressources-et-références)
-  - [6.1 Ressources](#ressources)
-  - [6.2 Références](#références)
+- [3. Utiliser un autre ensemble de données](#utiliser-un-autre-ensemble-de-données)
+- [4. Installation](#installation)
+- [5. Paramètres utilisateurs](#explication-des-paramètres)
+- [6. Ressources et références](#ressources-et-références)
+  - [6.1. Ressources](#ressources)
+  - [6.2. Références](#références)
 
 ## Présentation
 
