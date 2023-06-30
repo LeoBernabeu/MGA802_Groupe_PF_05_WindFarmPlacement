@@ -2,7 +2,7 @@ import logging
 import multiprocessing
 import numpy as np
 
-from WindFarmPlacement.WeatherData.fasthistorymonthprocess import FastHistoryMonthProcess
+from .fasthistorymonthprocess import FastHistoryMonthProcess
 
 
 class FastHistoryYearProcess(multiprocessing.Process):

@@ -2,14 +2,13 @@ import numpy as np
 import pandas as pd
 from math import ceil
 
-from WindFarmPlacement.utils import gather, rectangle
-
-from WindFarmPlacement.WeatherData import Station
-from WindFarmPlacement.WeatherData import WindHistory
+from .utils import gather, rectangle
+from .WeatherData.station import Station
+from .WeatherData.windhistory import WindHistory
 
 
 class WindFarmPlacement:
-    """Objet conceptuel représentant un "gestionnaire" qui s'occupe de faire le lien entre le calcul des données du
+    """Objet conceptuel creprésentant un "gestionnaire" qui s'occupe de faire le lien entre le calcul des données du
     vent dans la zone étudiée et la puissance productible par des éoliennes dans cette zone, afin de trouver les
     meilleures parcelles où placer un champ d'éoliennes.
 

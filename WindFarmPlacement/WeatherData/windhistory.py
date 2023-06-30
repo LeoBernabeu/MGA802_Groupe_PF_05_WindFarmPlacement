@@ -2,8 +2,8 @@ import multiprocessing
 import numpy as np
 import scipy as sp
 
-from WindFarmPlacement.WeatherData.fasthistoryyearprocess import FastHistoryYearProcess
-from WindFarmPlacement.WeatherData.fasthistorymonthprocess import FastHistoryMonthProcess
+from .fasthistoryyearprocess import FastHistoryYearProcess
+from .fasthistorymonthprocess import FastHistoryMonthProcess
 
 
 class WindHistory:
