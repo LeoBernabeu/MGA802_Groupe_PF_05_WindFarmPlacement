@@ -35,7 +35,7 @@ Cette section présente la démarche à suivre pour récupérer ce projet et ins
 
 Prérequis : Installer [Python](https://www.python.org/downloads/) (Versions testées 3.7, 3.9.5, 3.11.3).
 
-1. Aller sur la page ["Releases"](https://github.com/LeoBernabeu/MGA802_Projet/releases) de GitHub et télécharger
+1. Aller sur la page ["Releases"](https://github.com/LeoBernabeu/MGA802_Groupe_PF_05_WindFarmPlacement/releases) de GitHub et télécharger
 l'archive *Source code (zip)* présente dans l'onglet *Assets*.
 
 2. Décompresser l'archive obtenue dans le dossier de votre choix.
@@ -61,12 +61,35 @@ Exemple :
 cd Desktop/*/*/gcode_editor
 ````
 
-4. Installer les modules nécessaires au programme puis lancer Python.
+4. Installer le package `WindFarmPlacement`. Les modules présents dans le fichier requirements.txt seront installés 
+automatiquement. Vous pouvez utiliser la commande suivante :
 
 ````commandline
-pip install -r requirements.txt
+python setup.py install
+````
+
+Le paquet sera installé dans votre environnement dans son état au moment de l'installation et restera inchangé quelles 
+que soient les modifications apportées au code. Si vous envisagez de toucher au code utiliser plutôt la commande suivante
+
+````commandline
+python setup.py develop
+````
+
+Toutes les modifications futures que vous appliquez au code seront prises en compte sur l'installation du paquet.
+
+5. Tester le bon fonctionnement du package. Pour cela, nous allons changer de dossier pour nous assurer que 
+l'intégralité du module a été installée dans l'environnement.
+
+````commandline
+cd ../
 python
 ````
+`````python
+import WindFarmPlacement
+exit()
+`````
+
+Si l'importation s'est effectuée sans erreur alors, le module a été bien installé.
 
 
 ## Récupérer des données supplémentaires
