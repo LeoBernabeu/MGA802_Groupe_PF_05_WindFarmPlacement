@@ -46,8 +46,8 @@ if __name__ == '__main__':
     turb_height = parameters['turb_height']     # Altitude of turbine in meters, for accurate results, should be equal to study_alt (either 10, 30 or 50)
     blade_length = parameters['blade_length']   # Length of turbine blades in meters
     cut_in_speed = parameters['cut_in_speed']   # Speed at which the turbine starts producing power
-    cut_out_speed = parameters['cut_out_speed'] # Speed at which the turbine stops producing power
-    turbine_spacing = parameters['turbine_spacing'] # Spacing of individual turbines in the farm, a spacing of 5 will space them by 5 times their turbine diameter
+    cut_out_speed = parameters['cut_out_speed']  # Speed at which the turbine stops producing power
+    turbine_spacing = parameters['turbine_spacing']  # Spacing of individual turbines in the farm, a spacing of 5 will space them by 5 times their turbine diameter
     print_message_console("Parameters have been acquired successfully")
 
     # Define study area and get wind history data
