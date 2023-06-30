@@ -3,3 +3,10 @@
 WindFarmPlacement/* linguist-detectable=true
 clean.py linguist-detectable=true
 data.sh linguist-detectable=true
+
+# Set files to exclude for release
+.gitattributes export-ignore
+.gitignore export-ignore
+source/ export-ignore
+make.bat export-ignore
+Makefile export-ignore
