@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: WindFarmPlacement
+Version: 1.0
+Summary: Projet spécial dans le cadre du cours MGA802
+Home-page: ''
+Author: Bernabeu Léo, Mullins Mathieu, Da Costa Dias André
+Keywords: windfarm,placement,weather_data,wind_history,topography,optimisation
+Requires-Python: >=3.7
+License-File: LICENSE.md
+
+Etude de l’optimisation du choix d’un parc éolien en fonction des besoins utilisateur.
