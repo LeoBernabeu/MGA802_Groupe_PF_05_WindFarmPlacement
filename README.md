@@ -10,9 +10,11 @@ reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.
 - [3. Utiliser un autre ensemble de données](#utiliser-un-autre-ensemble-de-données)
 - [4. Installation](#installation)
 - [5. Paramètres utilisateurs](#explication-des-paramètres)
-  - [5.1 Paramètres sur les fichiers de données](#paramètres-sur-les-fichiers-de-données)
-  - [5.2 Paramètres sur la zone d'étude](#paramètres-sur-la-zone-d'étude)
-  - [5.3 Paramètres sur le traitement des données](#paramètres-sur-le-traitement-des-données)
+  - [5.1. Paramètres sur les fichiers de données](#paramètres-sur-les-fichiers-de-données)
+  - [5.2. Paramètres sur la zone d'étude](#paramètres-sur-la-zone-d'étude)
+  - [5.3. Paramètres sur le traitement des données](#paramètres-sur-le-traitement-des-données)
+  - [5.4. Paramètres sur la récupération des données topographiques](#paramètres-sur-la-récupération-des-données-topographiques)
+  - [5.5. Paramètres sur le champ d'éolienne](#paramètres-sur-le-champ-d'éolienne)
 - [6. Ressources et références](#ressources-et-références)
   - [6.1. Ressources](#ressources)
   - [6.2. Références](#références)
@@ -206,6 +208,17 @@ du parallélisme au niveau des années pour effectuer l'ensemble du traitement d
 Attention, activer ce niveau de parallélisme supplémentaire avec beaucoup d'années à traiter va utiliser une grande
 quantité de mémoire. Il est donc nécessaire d'avoir une machine suffisamment puissante.
 
+### Paramètres sur la récupération des données topographiques
+
+Les données sur la topographie des parcelles analysées étant récupéré par l'API d'Open Elevation, un maillage
+différent est utilisé pour effectuer les requêtes de récupération des données. Un maillage trop précis, entrâinera un
+temps d'exécution très important.
+
+- `precision_lon_elevation`: Le nombre de points de coordonnées de longitude, pour le maillage de la topographie.
+Une valeur de 5 permet un traitement assez rapide.
+- `precision_lat_elevation`: Le nombre de points de coordonnées de latitude, pour le maillage de la topographie.
+Une valeur de 5 permet un traitement assez rapide.
+
 ### Paramètres sur le champ d'éolienne
 
 Nous allons maintenant aborder les paramètres qui concernent les champs d'éoliennes.
@@ -220,6 +233,9 @@ Nous allons maintenant aborder les paramètres qui concernent les champs d'éoli
 
 Ce fichier de paramètres ne permet pas d'ajouter différents types d'éoliennes à un champ de vent, mais ceci est
 réalisable si vous le souhaitez à l'aide des différentes méthodes du package (voir WindFarm).
+
+- `num_areas_interest`: Un entier représentant le nombre de parcelles de terrains permettant d'atteindre l'objectif de 
+puissance à renvoyer à l'utilisateur. On renvoie en priorité les meilleures parcelles.
 
 ## Ressources et références
 
