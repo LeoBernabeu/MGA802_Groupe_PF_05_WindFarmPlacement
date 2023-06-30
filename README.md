@@ -82,7 +82,7 @@ Vous devriez alors avoir le dossier qui suit :
 
 Exemple :
 ````commandline
-cd Desktop/*/*/
+cd Desktop/*/*/WindFarmPlacement
 ````
 
 4. Installer le package `WindFarmPlacement`. Les modules présents dans le fichier requirements.txt seront installés 
