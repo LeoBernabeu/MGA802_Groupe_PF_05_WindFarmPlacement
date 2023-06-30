@@ -1,7 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-period=($1)
-current_year=$(date | awk -F ' ' '{print $4}')
+start_year=($1)
+if [ $2 ];
+then
+  end_year=($2)
+else
+  end_year=$(date | awk -F ' ' '{print $4}')
+fi
 list_id=$(awk -F ',' '{print $4 $12 $13}' Station_Inventory_EN.csv)
 i=0
 for station in ${list_id};
@@ -11,10 +16,10 @@ do
   data=($(echo ${station} | grep -Eo "[[:digit:]]+")) # data = [id, start_year, end_year]
   if [[ -n ${data} ]];
   then
-    if [[ ${data[2]} > $((current_year-period)) ]];
+    if [[ ${data[2]} > $((end_year-start_year)) ]];
     then
       mkdir -p data/${data[0]}
-      for ((year=$((current_year-period)); year<=${data[2]}; year++))
+      for ((year=$((end_year-start_year)); year<=${data[2]}; year++))
       do
         if [[ ! (-d data/${data[0]}/${year}) ]]; # Si le dossier de l'année existe déjà c'est qu'on la déjà traité
         then

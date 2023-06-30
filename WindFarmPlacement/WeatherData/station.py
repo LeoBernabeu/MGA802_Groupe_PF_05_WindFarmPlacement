@@ -13,15 +13,12 @@ class Station:
     :type latitude: float
     :param longitude: La longitude de la station météorologique.
     :type longitude: float
-    :param elevation: L'altitude de la station météorologique.
-    :type elevation: float
     """
 
-    def __init__(self, station_id, latitude, longitude, elevation):
+    def __init__(self, station_id, latitude, longitude):
         self.id = station_id
         self.lat = latitude
         self.long = longitude
-        self.elev = elevation
         self.df_wind_data = {}  # Un dico, on associe à la df
 
     def contains_wind_measurements_month(self, year, month):

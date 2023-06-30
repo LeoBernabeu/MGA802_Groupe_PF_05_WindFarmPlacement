@@ -50,7 +50,7 @@ class WindFarmPlacement:
         long_min, long_max = self.long_array[0] - radius, self.long_array[-1] + radius
 
         # Création de la DataFrame avec les colonnes qui nous intéressent.
-        df = pd.read_csv("Station_Inventory_EN.csv", usecols=(3, 6, 7, 10), skiprows=3)
+        df = pd.read_csv("Station_Inventory_EN.csv", usecols=(3, 6, 7), skiprows=3)
 
         # Recherche des stations dont la latitude et la longitude sont comprises dans l'intervalle de recherche.
         lat_index = np.array(df.index[df["Latitude (Decimal Degrees)"].between(lat_min, lat_max)])
@@ -64,8 +64,8 @@ class WindFarmPlacement:
         else:
             stations = []
             for index in good_index:
-                station_id, lat, long, elev = df.iloc[index]
-                stations.append(Station(int(station_id), lat, long, elev))
+                station_id, lat, long = df.iloc[index]
+                stations.append(Station(int(station_id), lat, long))
         return stations
 
     def get_wind_history_data_full_threaded(self, period, altitude):
