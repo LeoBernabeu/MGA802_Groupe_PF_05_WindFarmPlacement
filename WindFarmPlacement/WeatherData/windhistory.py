@@ -25,6 +25,7 @@ class WindHistory:
         self.grid = np.meshgrid(long_array, lat_array)
         self.wind_mean = np.zeros((size_x, size_y))
         self.wind_histogram = np.zeros((size_x, size_y, 40))
+        self.weibull_factors = np.zeros((size_x, size_y, 2))
         self.altitude = altitude
         self.stations = stations
 
@@ -147,7 +148,6 @@ class WindHistory:
         """
 
         size_x, size_y = self.wind_mean.shape
-        weibull = np.zeros((size_x, size_y, 2))
         for x in range(size_x):
             for y in range(size_y):
                 # On récupère les données de l'histogramme pour la cellule étudiée
@@ -161,9 +161,7 @@ class WindHistory:
                 shape, loc, scale = sp.stats.weibull_min.fit(raw_data, floc=0)
 
                 # On les assigne dans la cellule correspondante
-                weibull[x, y] = [shape, scale]
-
-        return weibull
+                self.weibull_factors[x, y] = [shape, scale]
 
     def calculate_weibull_factors_with_moments(self, x, y):
         """Fonction qui calcul les facteurs de Weibull à partir des moments d'ordre 1 à 4.
@@ -205,11 +203,7 @@ class WindHistory:
 
         size_x, size_y = self.wind_mean.shape
 
-        weibull = np.zeros((size_x, size_y, 2))
-
         for x in range(size_x):
             for y in range(size_y):
                 # Calcul des facteurs de forme et d'échelle de Weibull
-                weibull[x, y] = self.calculate_weibull_factors_with_moments(x, y)
-
-        return weibull
+                self.weibull_factors[x, y] = self.calculate_weibull_factors_with_moments(x, y)

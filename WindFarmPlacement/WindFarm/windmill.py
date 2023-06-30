@@ -70,11 +70,11 @@ class Windmill:
 
     def theoretical_power(self, weibull):
         """Fonction qui calcule la puissance théorique du vent qu'une éolienne doit pouvoir atteindre pour chaque
-        coordonnée d'une grille en fonction des mesures du vent passées en paramètre. Les formules, méthodes et
+        coordonnée d'une grille en fonction des mesures du vent passées en paramètre. Les formules, les méthodes et les
         hypothèses proviennent de la source suivante : https://eolienne.f4jr.org/eolienne_etude_theorique
 
         :param weibull: Tableau qui contient les facteurs de forme et d'échelle des distributions de Weibull du vent
-        pour chaque couple de coordonnées longitude; latitude de la zone étudiée.
+        pour chaque couple de coordonnées de longitudes et de latitudes de la zone étudiée.
         :type weibull: numpy.ndarray
         :return: Retourne une matrice contenant la puissance théorique pouvant être produite.
         :rtype: numpy.array
@@ -102,3 +102,30 @@ class Windmill:
                 power_matrix[x, y] = np.sum(self.produced_power(winds)*proba)
 
         return power_matrix
+
+    def theorical_power_tuple_weibull_factors(self, shape, scale):
+        """Fonction qui calcule la puissance théorique du vent qu'une éolienne doit pouvoir atteindre pour des valeurs
+        particulières de facteur de forme et d'échelle d'une distribution de Weibull.
+
+        :param shape: Le facteur de forme d'une distribution de Weibull.
+        :type shape: float
+        :param scale: Le facteur d'échelle d'une distribution de Weibull.
+        :type scale: float
+        :return: La puissance théorique.
+        :rtype: float
+        """
+
+        # On calcule la distribution à l'aide des facteurs de forme et d'échelle
+        weibull_dist = sp.stats.weibull_min(shape, scale=scale)
+
+        winds = np.arange(0, 30.01, 0.01)
+        # On calcule la fonction de répartition (Cumulative Distribution Function -> cdf)
+        cdf = weibull_dist.cdf(winds)
+
+        # On calcule la probabilité d'occurrence des vitesses de vents.
+        proba = np.array([cdf[k] - cdf[k - 1] for k in range(len(winds))])
+
+        # Enfin on calcule la puissance maximale pouvant être produite
+        power = np.sum(self.produced_power(winds) * proba)
+
+        return power

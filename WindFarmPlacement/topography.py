@@ -5,7 +5,7 @@ import os
 
 
 class ElevationData:
-    """Initialise une instance de la classe ElevationData avec les paramètres spécifiés.
+    """Objet conceptuel représentant les caractéristiques topographiques d'une zone d'étude.
 
     :param lon_min: La longitude minimale de la zone d'intérêt.
     :type lon_min: float
@@ -31,7 +31,8 @@ class ElevationData:
         self.elevation_array = np.zeros((num_lat_points, num_lon_points))
 
     def retrieve_elevation_data(self):
-        """Function that uses the Open Elevation API to get elevation data points from a specified lat/long reactangular region.
+        """Fonction qui utilise l'API d'Open Elevation pour récupérer les données d'élévation de la zone pour chaque
+        couple de coordonnées de longitudes et de latitudes.
 
         :param : 
         :type :
@@ -97,7 +98,6 @@ class ElevationData:
 
         # Create a 3D figure
         ax = plt.axes(projection='3d')
-        # fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 
         # Plot the surface
         ax.plot_surface(X, Y, self.elevation_array, cmap='viridis')

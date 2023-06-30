@@ -28,7 +28,11 @@ if __name__ == '__main__':
     study_years = parameters['study_years']             # List of years that we want to study
     activate_multi_process = parameters['activate_multi_process']   # Activate multi-thread processing to decrease calculation time
     num_areas_interest = int(parameters['num_areas_interest'])      # Number of sub-areas of intesrests to further study within the study area
-    
+
+    # Elevation data
+    precision_lon_elevation = int(parameters['precision_lon_elevation'])
+    precision_lat_elevation = int(parameters['precision_lat_elevation'])
+
     # Wind farm turbine parameters
     target_power = parameters['target_power']   # Target power of the wind turbine farm in Watts
     num_windmills = parameters['num_windmills'] # Number of wind turbines in the farm
@@ -65,10 +69,10 @@ if __name__ == '__main__':
     wind_farm = WindFarm(target_power)
     for i in range(num_windmills):
         wind_farm.add_windmill(Windmill(turb_height, blade_length, cut_in_speed, cut_out_speed))
-    print_message_console("Wind wind turbine farm has been created successfully")
+    print_message_console("Wind turbine farm has been created successfully")
 
     # Calculate the power matrix produced by our wind farm within the study area and find an area of interest
-    areas_of_interest, power_matrix = study_area.find_adapted_zone(wind_farm, width=0.02, nb_area=num_areas_interest)
+    areas_of_interest, power_matrix = study_area.find_adapted_zone(wind_farm, turbine_spacing, nb_area=num_areas_interest)
     print_message_console("Power matrix and areas of interests have been calculated successfully")
 
     # Print and save power estimation figure
@@ -91,7 +95,7 @@ if __name__ == '__main__':
         # Retreive elevation data and calculate score # add for to loop through all areas of intests
         elevation_data = ElevationData(areas_of_interest[area][1][0], areas_of_interest[area][1][1],
                                        areas_of_interest[area][0][0], areas_of_interest[area][0][1],
-                                       precision_lon, precision_lat)
+                                       precision_lon_elevation, precision_lat_elevation)
         elevation_data.retrieve_elevation_data()
         elevation_data.calculate_flatness_score()
 
@@ -115,3 +119,7 @@ if __name__ == '__main__':
     windmill_coordinates = wind_farm.place_windmills(areas_of_interest[index_max_topo], turbine_spacing)
     print("\nLocation of wind turbines in the parc [lat,lon]")
     print(windmill_coordinates)
+
+    print("\nTotal power of this area of interest")
+    grid = np.meshgrid(study_area.long_array, study_area.lat_array)
+    print(wind_farm.total_precise_theorical_produced_power(study_area.wind_history.weibull_factors, grid))
