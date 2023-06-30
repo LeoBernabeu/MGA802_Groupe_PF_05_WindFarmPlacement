@@ -16,6 +16,8 @@ reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.
 
 ## Présentation
 
+...Pour décider de où placer des éoliennes il faut étudier l'histoire... bla bla
+
 
 ## Installation
 
@@ -132,7 +134,7 @@ Exemple :
 ...
 `````
 
-De plus, il vous faudra un autre fichier .csv dans lequel seront indiquées les coordonnées de longitudes et de 
+De plus, il vous faudra un fichier de référence en .csv dans lequel seront indiquées les coordonnées de longitudes et de 
 latitudes associées à chaque identifiant.
 
 `````text
@@ -143,6 +145,19 @@ latitudes associées à chaque identifiant.
 
 ## Explication des paramètres
 
+### Paramètres sur les données
+
+Dans le cas 
+
+- `path_to_data`: Le chemin relatif vers le dossier qui contient le dossier *data* et le fichier de référence à utiliser
+pour les données météorologiques. Le chemin relatif correspond au chemin à effectuer depuis le répertoire courant pour 
+atteindre le dossier cible. Par exemple, si l'on se situe dans le dossier *Documents/dossier_1* et que l'on veut 
+atteindre un dossier dans *Documents/dossier_2/sous_dossier*, le chemin sera *../dossier_2/sous_dossier*. Si ce
+paramètre est laissé vide, on utilisera par défaut *./* ce qui signifie que le dossier *data* est présent dans le 
+répertoire courant.
+- `reference_file`: Le nom du fichier de référence décrit dans la section [Utiliser un autre ensemble de données](#utiliser-un-autre-ensemble-de-données)
+lorsque vous souhaitez utiliser votre propre ensemble de données. Si ce paramètre est laissé vide, on utilisera par
+défaut le fichier *Station_Inventory_EN.csv* qui est le fichier de référence des stations de Weather Climate Canada.
 
 ## Ressources et références
 
