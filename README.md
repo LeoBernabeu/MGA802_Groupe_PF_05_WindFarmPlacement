@@ -21,8 +21,13 @@ reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.
 
 ## Présentation
 
-...Pour décider de où placer des éoliennes il faut étudier l'histoire... bla bla
-
+Le but du présent module est d'étudier l'emplacement idéal d'un parc éolien en fonction des données historiques du vent.
+Le programme principal commence par lire les données historiques annuelles de vent et les utilisent pour calculer les distributions de Weibull en fonction de la zone d'étude dans les paramètres.
+Les distributions nous permettent d'estimer la production en puissance des éoliennes au courant d'une année.
+D'après la zone étudiée, nous pouvons alors cibler des sous zones qui pourraient accueillir notre parc éolien en fonction de nos paramètres.
+Sachant qu'il est moins couteux et souvent plus avantageux d'installer des éoliennes dans un terrain moins rugueux (terrain plat), nous pouvons ensuite évaluer la rugosité des sous zones afin de choisir le terrain qui est le moins rugueux.
+Finalement, notre programme permet de placer les éoliennes sur le terrain en fonction de l'espacement voulu pour diminuer les effets de sillage des éoliennes dans un parc.
+Les résultat final est les coordonnées (lat/lon) de chaque éolienne dans notre parc.
 
 ## Installation
 

@@ -56,6 +56,37 @@ Le dossier du projet est organisé de la manière suivante :
 ...
 
 ````
+## Description des fichiers
+
+
+### WeatherData
+##### fasthistorymonthprocess: 
+Processus de calcul rapide de l'historique pour un mois spécifique.
+##### fasthistoryyearprocess: 
+Processus de calcul rapide de l'historique sur une année spécifique.
+##### station: 
+Objet représentant une station météorologique. Charge le contenu des fichiers météos et lis les données.
+##### windhistory: 
+Objet conceptuel représentant l'historique du vent dans une zone par la vitesse moyenne du vent et l'histogramme des classes de vent. Les classes de vent sont les différentes tranches de vitesse du vent : 0 m/s, 1 m/s, 2 m/s, ...
+
+
+### WindFarm
+##### windfarm:
+Objet représentant un parc éolien. Permet de construire le parc éolien en fonction des paramètres de éoliennes.
+#### windmill:
+Objet représentant une éolienne. Permet de créer les objects d'éoliennes et de calculer leur puissance théorique.
+
+
+### elevationdata:
+Objet conceptuel représentant les caractéristiques topographiques d'une zone d'étude. Permet de calculer les scores de topographies.
+
+### utils:
+Fichier contenant plusieurs fonction utilitaires au programme. Notamment les fonctions pour l'interpolation et la recherche en profondeur.
+
+### windfarmplacement:
+Objet conceptuel représentant un "gestionnaire" qui s'occupe de faire le lien entre le calcul des données du vent dans la zone étudiée et la puissance productible par des éoliennes dans cette zone, afin de trouver les meilleures parcelles où placer un champ d'éoliennes.
+
+
 
 ## Pistes d'améliorations
 
