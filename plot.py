@@ -1,4 +1,4 @@
-from WindFarmPlacement.WindFarmPlacement import WindFarmPlacement
+from WindFarmPlacement.windfarmplacement import WindFarmPlacement
 import matplotlib.pyplot as plt
 import scipy as sp
 import numpy as np

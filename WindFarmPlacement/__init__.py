@@ -1,1 +1,1 @@
-from .WindFarmPlacement import WindFarmPlacement
+from .windfarmplacement import WindFarmPlacement

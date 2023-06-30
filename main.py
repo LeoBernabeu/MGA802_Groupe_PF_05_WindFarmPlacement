@@ -1,4 +1,4 @@
-from WindFarmPlacement.WindFarmPlacement import WindFarmPlacement
+from WindFarmPlacement.windfarmplacement import WindFarmPlacement
 from WindFarmPlacement.WindFarm.windmill import Windmill
 from WindFarmPlacement.WindFarm.windfarm import WindFarm
 from WindFarmPlacement.topography import ElevationData
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     # Define study area and get wind history data
     study_area = WindFarmPlacement(lon_min, lon_max, lat_min, lat_max, precision_lat, precision_lon)
-    if activate_multi_process == True:
+    if activate_multi_process:
         study_area.get_wind_history_data_full_threaded(study_years, study_alt)
     else:
         study_area.get_wind_history_data(study_years, study_alt)
@@ -58,6 +58,7 @@ if __name__ == '__main__':
     file_name = "Average_wind_speed.png"
     figure_path = os.path.join(current_directory, "figures", file_name)
     plt.savefig(figure_path)
+
     plt.show()
     
     # Create wind farm object and add wind turbines to the wind farm
@@ -79,6 +80,7 @@ if __name__ == '__main__':
     file_name = "Power_estimate_yearly.png"
     figure_path = os.path.join(current_directory, "figures", file_name)
     plt.savefig(figure_path)
+
     plt.show()
 
     # Retrieve elevation data for all areas of interest and calculate topography score

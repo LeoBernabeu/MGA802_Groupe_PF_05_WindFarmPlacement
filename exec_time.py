@@ -1,4 +1,4 @@
-from WindFarmPlacement.WindFarmPlacement import WindFarmPlacement
+from WindFarmPlacement.windfarmplacement import WindFarmPlacement
 from WindFarmPlacement.WindFarm.windmill import Windmill
 from WindFarmPlacement.WindFarm.windfarm import WindFarm
 from WindFarmPlacement.topography import ElevationData
