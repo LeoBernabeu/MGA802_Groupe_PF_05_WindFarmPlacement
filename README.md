@@ -206,6 +206,21 @@ du parallélisme au niveau des années pour effectuer l'ensemble du traitement d
 Attention, activer ce niveau de parallélisme supplémentaire avec beaucoup d'années à traiter va utiliser une grande
 quantité de mémoire. Il est donc nécessaire d'avoir une machine suffisamment puissante.
 
+### Paramètres sur le champ d'éolienne
+
+Nous allons maintenant aborder les paramètres qui concernent les champs d'éoliennes.
+
+- `target_power`: La puissance visée par le champ d'éolienne en W par an.
+- `num_windmills`: Le nombre d'éoliennes qui compose ce champ.
+- `turb_height`: La hauteur à laquelle se situe le rotor des éoliennes.
+- `blade_length`: La longeueur des pâles des éoliennes.
+- `cut_in_speed`: La vitesse du vent minimum (en m/s) pour activer le rotor.
+- `cut_out_speed`: La vitesse du vent maximum (en m/s) pour laquelle le rotor peux fonctionner en sécurité.
+- `turbine_spacing`: Le facteur d'espacement des éoliennes par rapport à la longueur de leurs pâles.
+
+Ce fichier de paramètres ne permet pas d'ajouter différents types d'éoliennes à un champ de vent, mais ceci est
+réalisable si vous le souhaitez à l'aide des différentes méthodes du package (voir WindFarm).
+
 ## Ressources et références
 
 Voici un résumé des ressources et des références que nous avons utilisées pour ce projet :
