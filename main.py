@@ -1,7 +1,7 @@
 from WindFarmPlacement.windfarmplacement import WindFarmPlacement
 from WindFarmPlacement.WindFarm.windmill import Windmill
 from WindFarmPlacement.WindFarm.windfarm import WindFarm
-from WindFarmPlacement.topography import ElevationData
+from WindFarmPlacement.elevationdata import ElevationData
 from WindFarmPlacement.utils import print_message_console
 
 import numpy as np
