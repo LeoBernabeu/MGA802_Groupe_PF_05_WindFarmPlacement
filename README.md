@@ -7,7 +7,7 @@ reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.
 
 - [1. Présentation](#présentation)
 - [2. Récupérer des données supplémentaires](#récupérer-des-données-supplémentaires)
-- [3 Utiliser un autre ensemble de données](#utiliser-un-autre-ensemble-de-donnes)
+- [3 Utiliser un autre ensemble de données](#utiliser-un-autre-ensemble-de-données)
 - [4 Installation](#installation)
 - [5 Paramètres utilisateurs](#explication-des-paramètres)
 - [6 Ressources et références](#ressources-et-références)
@@ -15,6 +15,46 @@ reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.
   - [6.2 Références](#références)
 
 ## Présentation
+
+
+## Installation
+
+Cette section présente la démarche à suivre pour récupérer ce projet et installer les modules Python nécessaires.
+
+Prérequis : Installer [Python](https://www.python.org/downloads/) (Versions testées 3.7, 3.9.5, 3.11.3).
+
+1. Aller sur la page ["Releases"](https://github.com/LeoBernabeu/MGA802_Projet/releases) de GitHub et télécharger
+l'archive *Source code (zip)* présente dans l'onglet *Assets*.
+
+2. Décompresser l'archive obtenue dans le dossier de votre choix.
+
+Vous devriez alors avoir le dossier qui suit :
+
+````graphql
+└──nom_projet/
+  ├─ build/ - # Dossier de la documentation générée à l'aide de sphinx
+  │  └─ doctrees/
+  │  └─ html/
+  ├─ data/ - # Dossier où sont rangées les données météorologiques à utiliser
+  ├─ README.md - # Fichier README
+  ├─ README-dev.md - # Fichier README destiné aux développeurs
+  ├─ requirements.txt
+  ...
+````
+
+3. Ouvrir un terminal de commande et rendez-vous dans le dossier où vous avez décompressez l'archive.
+
+Exemple :
+````commandline
+cd Desktop/*/*/gcode_editor
+````
+
+4. Installer les modules nécessaires au programme puis lancer Python.
+
+````commandline
+pip install -r requirements.txt
+python
+````
 
 
 ## Récupérer des données supplémentaires
@@ -49,11 +89,11 @@ Exemple : On récupère toutes les données de 2013 jusqu'à 2023.
 L'ensemble des données du Canada vont être récupérées, l'exécution du script va donc prendre un certain temps.
 Nous vous conseillons d'exécuter ce script durant la nuit.
 
-4. Installer les modules `numpy` et `pandas` sur votre Python si nécessaire.
+4. Si vous n'avez pas installé précédemment les modules requis pour ce projet, effectuer l'installation avec le fichier
+`requirements.txt` certains vont être nécessaire pour l'étape suivante.
 
 ````commandline
-pip install numpy
-pip install pandas
+pip install -r requirements.txt
 ````
 
 5. Exécuter le fichier `clean.py` pour supprimer l'ensemble des fichiers inutiles.
@@ -100,8 +140,6 @@ latitudes associées à chaque identifiant.
 "1","-122.34","44.3"
 ...
 `````
-
-## Installation
 
 ## Explication des paramètres
 
