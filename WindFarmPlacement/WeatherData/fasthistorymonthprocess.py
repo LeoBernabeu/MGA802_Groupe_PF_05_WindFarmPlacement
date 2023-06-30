@@ -20,6 +20,7 @@ class FastHistoryMonthProcess(multiprocessing.Process):
     :type altitude: float
     :param queue: La file d'attente pour le résultat du processus.
     :type queue: multiprocessing.Queue
+
     """
 
     def __init__(self, grid, stations, year, month, altitude, queue):
@@ -37,6 +38,7 @@ class FastHistoryMonthProcess(multiprocessing.Process):
 
         :return:
         :rtype:
+
         """
 
         # Activer le débogage
@@ -88,6 +90,7 @@ class FastHistoryMonthProcess(multiprocessing.Process):
         :type wind: np.ndarray
         :return: Le champ de vent estimé à l'altitude spécifiée.
         :rtype: np.ndarray
+
         """
 
         altitude_measures = 10  # Les capteurs des stations sont à 10 m du sol

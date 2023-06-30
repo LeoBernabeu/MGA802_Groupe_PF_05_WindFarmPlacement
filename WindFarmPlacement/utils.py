@@ -9,6 +9,7 @@ def number_days_for_month(month):
     :type month: int
     :return: Le nombre de jours dans le mois spécifié.
     :rtype: int
+
     """
 
     days = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
@@ -25,6 +26,7 @@ def weight(point_coords, data_coords):
     :type data_coords: np.ndarray
     :return: Les poids associés à chaque donnée de référence.
     :rtype: np.ndarray
+
     """
 
     x_ij, y_ij = point_coords[0], point_coords[1]
@@ -52,6 +54,7 @@ def interp_point(x_ij, y_ij, data):
     :type data: np.ndarray
     :return: La valeur interpolée du point.
     :rtype: float
+
     """
 
     # Source méthode bis plus complexe
@@ -75,6 +78,7 @@ def interpolation(xx, yy, data):
     :type data: np.ndarray
     :return: La matrice interpolée.
     :rtype: np.ndarray
+
     """
 
     vfunc = np.vectorize(interp_point, excluded=['data'])
@@ -89,6 +93,7 @@ def gather(condition):
     :type condition: np.ndarray
     :return: Liste des groupes de points.
     :rtype: list[list[tuple[int, int]]]
+
     """
 
     groups = []
@@ -126,6 +131,7 @@ def rectangle(group, width_x, width_y):
     :type width_y: int
     :return: Liste des coordonnées des rectangles formés.
     :rtype: list[list[int, int, np.ndarray]]
+
     """
 
     array = np.array(group)
@@ -195,6 +201,7 @@ def check_consecutive_lines(x, lines, index):
     :type index: int
     :return: True si les lignes sont consécutives, False sinon.
     :rtype: bool
+
     """
 
     check_consecutive = True

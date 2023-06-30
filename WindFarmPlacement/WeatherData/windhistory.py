@@ -18,6 +18,7 @@ class WindHistory:
     :type stations: list, optional
     :param altitude: L'altitude par rapport au sol pour mesurer la vitesse.
     :type altitude: float, optional
+
     """
 
     def __init__(self, long_array, lat_array, stations=None, altitude=None):
@@ -36,6 +37,7 @@ class WindHistory:
         :type other: WindHistory
         :return: Un nouvel objet WindHistory résultant de l'addition.
         :rtype: WindHistory
+
         """
 
         xx, yy = self.grid
@@ -54,6 +56,7 @@ class WindHistory:
         :type other: WindHistory
         :return: L'objet WindHistory actuel après l'addition.
         :rtype: WindHistory
+
         """
 
         return self + other
@@ -63,6 +66,7 @@ class WindHistory:
 
         :param station: Une station météorologique.
         :type station: Station
+
         """
 
         self.stations.append(station)
@@ -74,6 +78,7 @@ class WindHistory:
 
         :param year: Année.
         :type year: int
+
         """
 
         follow_threads = []
@@ -116,6 +121,7 @@ class WindHistory:
 
         :param period: Liste d'années à utiliser pour calculer l'historique du vent.
         :type period: list
+
         """
 
         # Pourrait être un peu Refactor pour limiter le code duppliqué
@@ -145,6 +151,7 @@ class WindHistory:
 
         :return: Retourne une matrice 2D contenant les facteurs de forme et d'échelle
         :rtype: numpy.array
+
         """
 
         size_x, size_y = self.wind_mean.shape
@@ -172,6 +179,7 @@ class WindHistory:
         :type y: int
         :return: Les facteurs de forme et d'échelle de Weibull.
         :rtype: list
+
         """
 
         bin_centers = np.arange(0.5, 40.5)
@@ -199,6 +207,7 @@ class WindHistory:
 
         :return: Une matrice 2D contenant les facteurs de forme et d'échelle.
         :rtype: numpy.array
+
         """
 
         size_x, size_y = self.wind_mean.shape

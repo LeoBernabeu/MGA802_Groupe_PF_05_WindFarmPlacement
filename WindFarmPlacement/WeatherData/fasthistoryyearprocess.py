@@ -18,6 +18,7 @@ class FastHistoryYearProcess(multiprocessing.Process):
     :type altitude: float
     :param queue: La file d'attente pour le résultat du processus.
     :type queue: multiprocessing.Queue
+
     """
 
     def __init__(self, grid, stations, year, altitude, queue):
@@ -34,6 +35,7 @@ class FastHistoryYearProcess(multiprocessing.Process):
 
         :return:
         :rtype:
+
         """
 
         # Activer le débogage

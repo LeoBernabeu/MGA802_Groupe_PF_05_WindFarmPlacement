@@ -14,6 +14,7 @@ class WindFarm:
     :type windmills: list, optional
     :param topography: Topographie de la zone d'implantation du parc éolien (facultatif).
     :type topography: np.ndarray, optional
+
     """
 
     def __init__(self, target_power, windmills=None, topography=None):
@@ -29,6 +30,7 @@ class WindFarm:
 
         :param windmill: Éolienne à ajouter.
         :type windmill: Windmill
+
         """
 
         self.windmills.append(windmill)
@@ -47,6 +49,7 @@ class WindFarm:
         :type maximum_windmills: np.ndarray
         :return: Puissance théorique totale pouvant être produite par le parc éolien.
         :rtype: float
+
         """
 
         asc_sorted_keys = np.sort(list(self.blade_length.keys()))
@@ -88,6 +91,7 @@ class WindFarm:
         :type grid:
         :return:
         :rtype:
+
         """
 
         xx, yy = grid
@@ -106,6 +110,7 @@ class WindFarm:
 
         :return:
         :rtype:
+
         """
         blade_lengths = np.array([windmill.blade_length for windmill in self.windmills])
         return np.max(blade_lengths)
@@ -120,6 +125,7 @@ class WindFarm:
         :type median_latitude: float
         :return: Renvoie l'espacement théorique pour la latitude et la longitude en degrés.
         :rtype: float, float
+
         """
         rotor_diameter = self.largest_blade_in_windfarm()
         spacing = turbine_spacing * rotor_diameter
@@ -141,6 +147,7 @@ class WindFarm:
         :type width_long: float
         :return: Le nombre maximum d'éolienne
         :rtype: int
+
         """
 
         lat_spacing, long_spacing = self.calculate_theorical_spacing(turbine_spacing, median_latitude)
@@ -159,6 +166,7 @@ class WindFarm:
         :type turbine_spacing: int
         :return: Coordonnées des éoliennes du parc éolien.
         :rtype: np.ndarray
+
         """
 
         # print(area_of_interest)

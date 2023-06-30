@@ -19,6 +19,7 @@ class ElevationData:
     :type num_lon_points: int
     :param num_lat_points: Le nombre de points de latitude pour l'échantillonnage de la zone.
     :type num_lat_points: int
+
     """
 
     def __init__(self, lon_min, lon_max, lat_min, lat_max, num_lon_points, num_lat_points):
@@ -38,6 +39,7 @@ class ElevationData:
         :type :
         :return:
         :rtype :
+
         """
         lon_step = (self.lon_max - self.lon_min) / (self.num_lon_points - 1)
         lat_step = (self.lat_max - self.lat_min) / (self.num_lat_points - 1)
@@ -57,6 +59,7 @@ class ElevationData:
 
         :return: Le tableau bidimensionnel contenant les données d'élévation.
         :rtype: numpy.ndarray
+
         """
 
         return self.elevation_array
@@ -67,6 +70,7 @@ class ElevationData:
 
         :return: Le score de planéité des données d'élévation.
         :rtype: float
+
         """
 
         # Calculate the standard deviation of the elevation values
@@ -89,6 +93,7 @@ class ElevationData:
         :type :
         :return:
         :rtype :
+
         """
 
         # Create meshgrid for x and y coordinates
