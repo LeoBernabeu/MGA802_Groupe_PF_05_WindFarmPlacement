@@ -10,7 +10,8 @@ __pycache__/
 heavy_data/
 
 # Ignore figures create during tests
-figures/*.*
+figures/*
+!figures/.gitkeep
 
 # Ignore files create with package installation
 WindFarmPlacement.egg-info/
