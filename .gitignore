@@ -9,5 +9,11 @@ __pycache__/
 # Ignore dataset present on team local repo. (Too big for a commit prefer zip)
 heavy_data/
 
-# Ignore create during tests
-figures/**
+# Ignore figures create during tests
+figures/*.*
+
+# Ignore files create with package installation
+WindFarmPlacement.egg-info/
+dist/
+build/lib
+build/bdist.win-amd64
