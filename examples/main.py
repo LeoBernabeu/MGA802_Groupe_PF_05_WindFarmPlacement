@@ -77,7 +77,7 @@ if __name__ == '__main__':
     plt.ylabel("Latitude (°)")
     current_directory = os.path.dirname(os.path.abspath(__file__))
     file_name = "Average_wind_speed.png"
-    figure_path = os.path.join(current_directory, "figures", file_name)
+    figure_path = os.path.join(current_directory, "../figures", file_name)
     plt.savefig(figure_path)
 
     plt.show()
@@ -99,7 +99,7 @@ if __name__ == '__main__':
     plt.xlabel("Longitude (°)")
     plt.ylabel("Latitude (°)")
     file_name = "Power_estimate_yearly.png"
-    figure_path = os.path.join(current_directory, "figures", file_name)
+    figure_path = os.path.join(current_directory, "../figures", file_name)
     plt.savefig(figure_path)
 
     plt.show()

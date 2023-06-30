@@ -1,0 +1,39 @@
+# Enter the parameters for the calculation
+
+# Specify your personal reference file if necessary
+path_to_data:                 # Path to access 'data' folder and reference file
+reference_file:               # Reference file for 'data' folder if you use your personal set of measurements
+
+# Study area creation parameters
+lon_min: -123.10               # Min longitude of our study region
+lon_max: -123.0               # Max longitude of our study region
+lat_min: 48.75                 # Min latidute of our study region
+lat_max: 48.85                 # Max latidute of our study region
+precision_lon: 20              # Number of points to study along the longitude of our study region
+precision_lat: 20              # Number of points to study along the latitude of our study region
+
+# Data acquisition and treatments parameters
+study_years:                  # List of years that we want to study
+  - 2018
+  - 2019
+  - 2020
+  - 2021
+  - 2022
+  - 2023
+study_alt: 30.0               # Altitude at which we gather wind data in meters
+activate_multi_process:  # Activate full multi-thread processing to decrease calculation time. Warning ! It can require a lot of memory resources
+
+# Elevation Data
+precision_lon_elevation:     # Number of points in latitude to retrieve elevation data for topography
+precision_lat_elevation:     # Number of points in longitude to retrieve elevation data for topography
+
+# Wind farm turbine parameters
+target_power:         # Target power of the wind turbine farm in Watts
+num_windmills:               # Number of wind turbines in the farm
+turb_height:              # Altitude of turbine in meters, for accurate results, should be equal to study_alt (either 10, 30 or 50)
+blade_length:            # Length of turbine blades in meters
+cut_in_speed:             # Speed at which the turbine starts producing power
+cut_out_speed:           # Speed at which the turbine stops producing power
+turbine_spacing:             # Spacing of individual turbines in the farm, a spacing of 5 will space them by 5 times their turbine diameter
+
+num_areas_interest:         # Number of sub-areas of intesrests to further study within the study area

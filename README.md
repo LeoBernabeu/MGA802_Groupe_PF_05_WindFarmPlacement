@@ -181,6 +181,9 @@ latitudes associées à chaque identifiant.
 
 ## Explication des paramètres
 
+Nous allons présenter les différents paramètres utilisateurs qui peuvent être fournis dans les fichiers YAML. Quelques 
+exemples de fichier, ainsi qu'un fichier vierge sont présents dans le dossier *examples*.
+
 ### Paramètres sur les fichiers de données
 
 Dans le cas où vous souhaiteriez utiliser votre propre ensemble de données ou bien que le dossier *data* n'est pas dans
