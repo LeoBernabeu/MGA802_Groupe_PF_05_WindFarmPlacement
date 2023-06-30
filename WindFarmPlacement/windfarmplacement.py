@@ -156,10 +156,8 @@ class WindFarmPlacement:
         width_lat_grid = (self.lat_array[1] - self.lat_array[0])
         width_long_grid = (self.long_array[1] - self.long_array[0])
 
-        # On calcule les latitudes medianes de chaque cellule
-        medians = (self.lat_array[:-1:1]+self.lat_array[1::1])/2
         # On calcule le nombre d'éoliennes maximum dans chaque cellule si on les dispose en rectangle
-        maximum_windmills_in_cells = windfarm.maximum_windmills_in_rectangle_surface(turbine_spacing, medians,
+        maximum_windmills_in_cells = windfarm.maximum_windmills_in_rectangle_surface(turbine_spacing, self.lat_array,
                                                                                      width_long_grid)
 
         # On calcule ensuite la puissance maximum théorique pouvant être produite pour chaque cellule
