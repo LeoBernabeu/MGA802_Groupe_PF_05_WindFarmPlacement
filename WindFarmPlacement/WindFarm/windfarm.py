@@ -59,7 +59,6 @@ class WindFarm:
             total_theoric_power += windmill.theoretical_power(weibull_factors)
         return total_theoric_power
 
-
     def place_windmills(self, area_of_interest,turbine_spacing):
 
 
@@ -70,7 +69,6 @@ class WindFarm:
         :return: Coordonnées des éoliennes du parc éolien.
         :rtype: np.ndarray
         """
-
 
         windmill = self.windmills[0]
         rotor_diameter = windmill.blade_length  # Espacement de 5 fois le diamètre (à définir par l'utilisateur)
@@ -132,7 +130,6 @@ class WindFarm:
         plt.xlabel('Longitude (°)')
         plt.ylabel('Latitude (°)')
         plt.title('Location of wind turbines in the farm')
-        plt.show()
 
         # Save the figure to the "figures" sub-folder
         current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -140,5 +137,7 @@ class WindFarm:
         file_name = "Wind_turbines_locations.png"
         figure_path = os.path.join(current_directory, "figures", file_name)
         plt.savefig(figure_path)
+
+        plt.show()
 
         return windmill_coordinates
