@@ -182,10 +182,10 @@ class WindFarm:
         row, col = 0, 0
         dep_row, dep_col = 1, 0
         step, count = 1, 0
+        nd_dir_change = 0
         
         i = 0
         while i < num_windmills:
-            print(row, col, dep_row, dep_col, count, step)
 
             new_latitude = lat_center + row*row_spacing
             new_longitude = lon_center + col*col_spacing
@@ -203,12 +203,14 @@ class WindFarm:
             # Vérifier si on a atteint le nombre de pas requis dans la direction courante
             if count == step:
                 # Changer de direction
+                nd_dir_change += 1
                 dep_row, dep_col = -dep_col, dep_row
                 count = 0
 
-            # Augmenter le nombre de pas à effectuer dans la nouvelle direction
-            if 0 <= col == step or 0 > col == -(step-1):
-                step += 1
+                # Tous les deux changements de direction
+                if nd_dir_change == 2:
+                    step += 1
+                    nd_dir_change = 0
 
         windmill_coordinates = np.vstack((latitudes, longitudes)).T
 
