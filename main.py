@@ -13,9 +13,12 @@ import os
 
 if __name__ == '__main__':
 
+    print("Veuillez entrer le nom du fichier YAML à utiliser pour charger les paramètres d'entrées : ")
+    YAML_filename = input()
+
     # Load parameters from YAML file
-    with open('parameters.yaml', 'r') as file:
-        parameters = yaml.safe_load(file)
+    with open(YAML_filename, 'r') as file:
+        parameters = yaml.load(file, Loader=yaml.FullLoader)
 
     # Study area and data acquisition parameters definition
     lon_min = parameters['lon_min']                     # Min longitude of our study region
