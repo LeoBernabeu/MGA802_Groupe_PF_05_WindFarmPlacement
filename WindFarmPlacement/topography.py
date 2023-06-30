@@ -97,7 +97,8 @@ class ElevationData:
         X, Y = np.meshgrid(x, y)
 
         # Create a 3D figure
-        fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+        ax = plt.axes(projection='3d')
+        # fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 
         # Plot the surface
         ax.plot_surface(X, Y, self.elevation_array, cmap='viridis')
@@ -117,14 +118,14 @@ class ElevationData:
 
         ax.set_title('3D Surface Map of Elevation')
 
-        # Show the plot
-        plt.show()
-
         # Save the figure to the "figures" sub-folder
         current_directory = os.path.dirname(os.path.abspath(__file__))
         current_directory = current_directory.replace("\\WindFarmPlacement", "")
         file_name = "topography_map_" + str(area_id) + ".png"
         figure_path = os.path.join(current_directory, "figures", file_name)
         plt.savefig(figure_path)
+
+        # Show the plot
+        plt.show()
 
 
