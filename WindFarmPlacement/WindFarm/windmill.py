@@ -15,6 +15,7 @@ class Windmill:
     :type cut_in_speed: float
     :param cut_out_speed: Vitesse de coupure de l'éolienne (vitesse maximale à laquelle elle cesse de produire de l'énergie).
     :type cut_out_speed: float
+
     """
 
     def __init__(self, height, blade_length, cut_in_speed=3, cut_out_speed=25):
@@ -32,6 +33,7 @@ class Windmill:
         :type lat: float
         :param lon: Longitude de l'emplacement de l'éolienne.
         :type lon: float
+
         """
 
         self.lat = lat
@@ -44,6 +46,7 @@ class Windmill:
         :type wind: float
         :return: Puissance produite par l'éolienne.
         :rtype: float
+
         """
 
         # Dans un premier temps on simplifie en considérant les paramètres atmosphériques constants et identiques en
@@ -76,6 +79,7 @@ class Windmill:
         :type weibull: numpy.ndarray
         :return: Retourne une matrice contenant la puissance théorique pouvant être produite.
         :rtype: numpy.array
+
         """
 
         size_x, size_y = np.shape(weibull)[:-1]
@@ -111,6 +115,7 @@ class Windmill:
         :type scale: float
         :return: La puissance théorique.
         :rtype: float
+
         """
 
         # On calcule la distribution à l'aide des facteurs de forme et d'échelle

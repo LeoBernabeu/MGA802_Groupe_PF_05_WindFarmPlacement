@@ -15,6 +15,7 @@ class Station:
     :type longitude: float
     :param path_to_data: Chemin relatif pour accéder au dossier contenant les fichiers de mesure météorologiques ET le fichier de références. Par défaut, le chemin est initialisé au répertoire courant "./"
     :type path_to_data: str, optional
+
     """
 
     def __init__(self, station_id, latitude, longitude, path_to_data="./"):
@@ -33,6 +34,7 @@ class Station:
         :type month: int
         :return: Retourne un booléen qui indique si la station dispose de données liées au vent.
         :rtype: bool
+
         """
 
         check_wind = False
@@ -51,6 +53,7 @@ class Station:
         :type year: int
         :return: Retourne un booléen qui indique si la station dispose de données liées au vent.
         :rtype: bool
+
         """
 
         check_wind = False
@@ -69,6 +72,7 @@ class Station:
         :type period: list[int]
         :return: True si des données sur la température sont disponibles pour au moins une année de la période, False sinon.
         :rtype: bool
+
         """
         check_temperature = False
         for year in period:
@@ -87,6 +91,7 @@ class Station:
         :type month: int
         :return: Retourne un booléen qui indique si la station dispose de données liées à la température.
         :rtype: bool
+
         """
 
         check_wind = False
@@ -105,6 +110,7 @@ class Station:
         :type year: int
         :return: Retourne un booléen qui indique si la station dispose de données liées à la température.
         :rtype: bool
+
         """
 
         check_temperature = False
@@ -123,6 +129,7 @@ class Station:
         :type period: list[int]
         :return: True si des données sur la température sont disponibles pour au moins une année de la période, False sinon.
         :rtype: bool
+
         """
         check_temperature = False
         for year in period:
@@ -139,6 +146,7 @@ class Station:
         :param month: Le mois des données à charger
         :type month: int
         :return: None
+
         """
 
         path = f"data/{self.id}/{year}"
@@ -166,6 +174,7 @@ class Station:
         :param month: Le mois pour lequel on veut réinitialiser les données.
         :type month: int
         :return: None
+
         """
         self.df_wind_data[month] = {}
 
@@ -179,6 +188,7 @@ class Station:
         :type time_index: int
         :return: Retourne la vitesse du vent mesurée par la station
         :rtype: float
+
         """
 
         try:

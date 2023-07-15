@@ -343,7 +343,7 @@ coordonnées à celle du point d’intérêt.</p>
 <dt class="sig sig-object py" id="WindFarmPlacement.windfarmplacement.WindFarmPlacement">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WindFarmPlacement.windfarmplacement.</span></span><span class="sig-name descname"><span class="pre">WindFarmPlacement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">long_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_long</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_to_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.windfarmplacement.WindFarmPlacement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Objet conceptuel représentant un “gestionnaire” qui s’occupe de faire le lien entre le calcul des données du
+<p>Objet conceptuel creprésentant un “gestionnaire” qui s’occupe de faire le lien entre le calcul des données du
 vent dans la zone étudiée et la puissance productible par des éoliennes dans cette zone, afin de trouver les
 meilleures parcelles où placer un champ d’éoliennes.</p>
 <dl class="field-list simple">
@@ -355,12 +355,10 @@ meilleures parcelles où placer un champ d’éoliennes.</p>
 <li><p><strong>lat_max</strong> (<em>float</em>) – La latitude maximale de la zone d’étude.</p></li>
 <li><p><strong>nb_lat</strong> (<em>int</em>) – Le nombre de points en latitude pour l’échantillonnage de la zone.</p></li>
 <li><p><strong>nb_long</strong> (<em>int</em>) – Le nombre de points en longitude pour l’échantillonnage de la zone.</p></li>
-<li><p><strong>path_to_data</strong> – Chemin relatif pour accéder au dossier contenant les fichiers de mesure météorologiques ET</p></li>
+<li><p><strong>path_to_data</strong> (<em>str</em><em>, </em><em>optional</em>) – Chemin relatif pour accéder au dossier contenant les fichiers de mesure météorologiques ET le fichier de références. Par défaut, le chemin est initialisé au répertoire courant “./”</p></li>
 </ul>
 </dd>
 </dl>
-<p>le fichier de références. Par défaut, le chemin est initialisé au répertoire courant “./”
-:type path_to_data: str, optional</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="WindFarmPlacement.windfarmplacement.WindFarmPlacement.find_adapted_zone">
 <span class="sig-name descname"><span class="pre">find_adapted_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">windfarm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turbine_spacing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WindFarmPlacement.windfarmplacement.WindFarmPlacement.find_adapted_zone" title="Permalink to this definition">¶</a></dt>

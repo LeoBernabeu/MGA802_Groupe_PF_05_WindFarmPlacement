@@ -2,14 +2,13 @@ import numpy as np
 import pandas as pd
 from math import ceil
 
-from WindFarmPlacement.utils import gather, rectangle
-
-from WindFarmPlacement.WeatherData import Station
-from WindFarmPlacement.WeatherData import WindHistory
+from .utils import gather, rectangle
+from .WeatherData.station import Station
+from .WeatherData.windhistory import WindHistory
 
 
 class WindFarmPlacement:
-    """Objet conceptuel représentant un "gestionnaire" qui s'occupe de faire le lien entre le calcul des données du
+    """Objet conceptuel creprésentant un "gestionnaire" qui s'occupe de faire le lien entre le calcul des données du
     vent dans la zone étudiée et la puissance productible par des éoliennes dans cette zone, afin de trouver les
     meilleures parcelles où placer un champ d'éoliennes.
 
@@ -25,9 +24,9 @@ class WindFarmPlacement:
     :type nb_lat: int
     :param nb_long: Le nombre de points en longitude pour l'échantillonnage de la zone.
     :type nb_long: int
-    :param path_to_data: Chemin relatif pour accéder au dossier contenant les fichiers de mesure météorologiques ET
-    le fichier de références. Par défaut, le chemin est initialisé au répertoire courant "./"
+    :param path_to_data: Chemin relatif pour accéder au dossier contenant les fichiers de mesure météorologiques ET le fichier de références. Par défaut, le chemin est initialisé au répertoire courant "./"
     :type path_to_data: str, optional
+
     """
 
     def __init__(self, long_min, long_max, lat_min, lat_max, nb_lat, nb_long, path_to_data="./"):
@@ -49,6 +48,7 @@ class WindFarmPlacement:
         :type required_stations: int, optional
         :return: Retourne une liste des stations trouvées dans le rayon de recherche.
         :rtype: list[Station]
+
         """
 
         # Calcul des bornes de recherche sur la latitude et la longitude.
@@ -90,6 +90,7 @@ class WindFarmPlacement:
         :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations météorologiques.
         :type reference_file: str, optional
         :return: None
+
         """
 
         near_stations = self.find_near_stations(1, reference_file)
@@ -117,6 +118,7 @@ class WindFarmPlacement:
         :param reference_file: Nom du fichier de référence pour connaître les coordonnées et identifiants des stations météorologiques.
         :type reference_file: str, optional
         :return: None
+
         """
 
         near_stations = self.find_near_stations(1, reference_file)
@@ -146,6 +148,7 @@ class WindFarmPlacement:
         :type nb_area: int
         :return: Les coordonnées des zones intéressantes et la puissance totale produite.
         :rtype: tuple[np.ndarray, np.ndarray]
+
         """
 
         # On commence par calculer les facteurs de la distribution de Weibull

@@ -21,8 +21,16 @@ reprendre ce projet, veuillez vous référer au fichier [README-dev](README-dev.
 
 ## Présentation
 
-...Pour décider de où placer des éoliennes il faut étudier l'histoire... bla bla
-
+Le but du présent module est d'étudier l'emplacement idéal d'un parc éolien en fonction des données historiques du vent.
+Le programme principal commence par lire les données historiques annuelles de vent et les utilise pour calculer les 
+distributions de Weibull en fonction de la zone d'étude dans les paramètres. Les distributions nous permettent d'estimer
+la production en puissance des éoliennes au courant d'une année. D'après la zone étudiée, nous pouvons alors cibler des 
+parcelles qui pourraient accueillir notre parc éolien en fonction de nos paramètres. Sachant qu'il est moins coûteux et
+souvent plus avantageux d'installer des éoliennes dans un terrain moins rugueux (terrain plat), nous pouvons ensuite 
+évaluer la rugosité des parcelles afin de choisir le terrain qui est le moins rugueux. Finalement, notre programme 
+permet de placer les éoliennes sur le terrain en fonction de l'espacement voulu pour diminuer les effets de sillage des 
+éoliennes dans un parc. Les résultats finaux sont les couples de coordonnées de longitudes et latitudes de chaque 
+éolienne dans notre parc.
 
 ## Installation
 
@@ -30,7 +38,7 @@ Cette section présente la démarche à suivre pour récupérer ce projet et ins
 
 Prérequis : Installer [Python](https://www.python.org/downloads/) (Versions testées 3.7, 3.9.5, 3.11.3).
 
-1. Aller sur la page ["Releases"](https://github.com/LeoBernabeu/MGA802_Projet/releases) de GitHub et télécharger
+1. Aller sur la page ["Releases"](https://github.com/LeoBernabeu/MGA802_Groupe_PF_05_WindFarmPlacement/releases) de GitHub et télécharger
 l'archive *Source code (zip)* présente dans l'onglet *Assets*.
 
 2. Décompresser l'archive obtenue dans le dossier de votre choix.
@@ -38,30 +46,74 @@ l'archive *Source code (zip)* présente dans l'onglet *Assets*.
 Vous devriez alors avoir le dossier qui suit :
 
 ````graphql
-└──nom_projet/
+└──WindFarmPlacement/
   ├─ build/ - # Dossier de la documentation générée à l'aide de sphinx
-  │  └─ doctrees/
-  │  └─ html/
+  │  └─ html/ - # Dossier qui contient la documentation du module WindFarmPlacement sous forme de fichiers html
   ├─ data/ - # Dossier où sont rangées les données météorologiques à utiliser
+  ├─ examples/ - # Dossier qui contient des exemples d'utilisation et des fichiers de paramètres YAML
+  ├─ figures/ - # Dossier où sont enregistrés les images générées par la dernière exécution du module
+  ├─ WindFarmPlacement/ - # Module principale
+  │  ├─ WeatherData/ - # Dossier qui contient la documentation du module WindFarmPlacement sous forme de fichiers html
+  │  │   ├─ __init__.py
+  │  │   ├─ fasthistorymonthprocess.py
+  │  │   ├─ fasthistoryyearprocess.py
+  │  │   ├─ station.py
+  │  │   └─ windhistory.py
+  │  ├─ WindFarm/ - # Dossier qui contient la documentation du module WindFarmPlacement sous forme de fichiers html
+  │  │   ├─ __init__.py
+  │  │   ├─ windfarm.py
+  │  │   └─ windmill.py
+  │  ├─ __init__.py
+  │  ├─ elevationdata.py
+  │  ├─ utils.py
+  │  └─ windfarmplacement.py
+  ├─ clean.py - # Script Python pour traiter les fichiers de données téléchargées avec data.sh
+  ├─ data.sh - # Script shell pour récupérer des données supplémentaires sur Climate Weather Canada
+  ├─ LICENSE.md - # Fichier License Apache 2.0
   ├─ README.md - # Fichier README
   ├─ README-dev.md - # Fichier README destiné aux développeurs
-  ├─ requirements.txt
-  ...
+  ├─ requirements.txt - # Fichier listant les dépendances 
+  ├─ setup.cfg - # Fichier pour la configuration de l'installation du module
+  ├─ setup.py - # Fichier pour lancer l'installation du module
+  └─ Station_Inventory_EN.scv - # Fichier de référence des stations de Climate Weather Canada
 ````
 
 3. Ouvrir un terminal de commande et rendez-vous dans le dossier où vous avez décompressez l'archive.
 
 Exemple :
 ````commandline
-cd Desktop/*/*/gcode_editor
+cd Desktop/*/*/WindFarmPlacement
 ````
 
-4. Installer les modules nécessaires au programme puis lancer Python.
+4. Installer le package `WindFarmPlacement`. Les modules présents dans le fichier requirements.txt seront installés 
+automatiquement. Vous pouvez utiliser la commande suivante :
 
 ````commandline
-pip install -r requirements.txt
+python setup.py install
+````
+
+Le paquet sera installé dans votre environnement dans son état au moment de l'installation et restera inchangé quelles 
+que soient les modifications apportées au code. Si vous envisagez de toucher au code utiliser plutôt la commande suivante
+
+````commandline
+python setup.py develop
+````
+
+Toutes les modifications futures que vous appliquez au code seront prises en compte sur l'installation du paquet.
+
+5. Tester le bon fonctionnement du package. Pour cela, nous allons changer de dossier pour nous assurer que 
+l'intégralité du module a été installée dans l'environnement.
+
+````commandline
+cd ../
 python
 ````
+`````python
+import WindFarmPlacement
+exit()
+`````
+
+Si l'importation s'est effectuée sans erreur alors, le module a été bien installé.
 
 
 ## Récupérer des données supplémentaires
@@ -149,6 +201,11 @@ latitudes associées à chaque identifiant.
 `````
 
 ## Explication des paramètres
+
+Nous allons présenter les différents paramètres utilisateurs qui peuvent être fournis dans les fichiers YAML. Quelques 
+exemples de fichier, ainsi qu'un fichier vierge sont présents dans le dossier *examples*. Notamment, le fichier 
+`main.py` utiliser avec le fichier `parameters.yaml` permet d'avoir un aperçu de l'ensemble des paramètres et de leur
+utilisation.
 
 ### Paramètres sur les fichiers de données
 
